@@ -9,12 +9,12 @@
  *       Licence: MIT License
  */
 
-import React, {Component} from 'react'
+import React, { Component } from 'react';
 
-class Dashboard extends Component{
-	render(){
-		return null
-	}
+class Dashboard extends Component {
+  render() {
+    return null;
+  }
 }
 
-export default Dashboard
+export default Dashboard;

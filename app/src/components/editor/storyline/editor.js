@@ -9,21 +9,21 @@
  *       Licence: MIT License
  */
 
-import React, {Component} from 'react'
-import DragSortableList from 'react-drag-sortable'
-import API from 'SDK'
-import {on} from 'SDK/API/Events'
-import {Navigation, Fileformat} from 'SDK/API'
+import React, { Component } from 'react';
+import DragSortableList from 'react-drag-sortable';
+import API from 'SDK';
+import { on } from 'SDK/API/Events';
+import { Navigation, Fileformat } from 'SDK/API';
 
-class Editor extends Component{
-	constructor(){
-		super()
-		let text = new (API.Component.getHandler('text'))()
-		this.state = {
-			elements: [
-				text.preview
-			]
-		}
+class Editor extends Component {
+  constructor() {
+    super();
+    const text = new (API.Component.getHandler('text'))();
+    this.state = {
+      elements: [
+        text.preview
+      ]
+    };
 
 		// we should rerender when current step changes
 		// & we should rerender when current step changes
@@ -32,44 +32,43 @@ class Editor extends Component{
 		// Warning: forceUpdate(...): Can only update a mounted or mounting component.
 		// This usually means you called forceUpdate() on an unmounted component.
 		// This is a no-op. Please check the code for the Editor component.
-		on(['currentStepChanged', 'stepsComponentsChanged'], () => {
-			if(this._ismounted)
-				this.forceUpdate()
-		})
-	}
+    on(['currentStepChanged', 'stepsComponentsChanged'], () => {
+      if (this._ismounted) { this.forceUpdate(); }
+    });
+  }
 
-	componentDidMount() {
+  componentDidMount() {
 	  this._ismounted = true;
-	}
+  }
 
-	componentWillUnmount() {
+  componentWillUnmount() {
 	   this._ismounted = false;
-	}
+  }
 
-	dispatch(){
-		console.log('x');
-	}
+  dispatch() {
+    console.log('x');
+  }
 
-	onSort(list){
-		Fileformat.Steps.setStepProps(Navigation.currentUUID, {
-			components: list.map(x => x.content.key)
-		})
-	}
+  onSort(list) {
+    Fileformat.Steps.setStepProps(Navigation.currentUUID, {
+      components: list.map(x => x.content.key)
+    });
+  }
 
-	render(){
-		let currentStep = Navigation.currentUUID
-		let x = Fileformat.Steps.getStep(currentStep)
-		let coms = x.components.map(uuid => {
-			let 	C = Fileformat.Components.getComponentObject(uuid)
-				,	X = C.reactComponent
-			return {content: <X key={uuid} />}
-		})
-		return (
-			<div>
-				<DragSortableList items={coms} moveTransitionDuration={0.3} onSort={this.onSort} type="vertical"/>
-			</div>
-		)
-	}
+  render() {
+    const currentStep = Navigation.currentUUID;
+    const x = Fileformat.Steps.getStep(currentStep);
+    const coms = x.components.map(uuid => {
+      let 	C = Fileformat.Components.getComponentObject(uuid),
+        X = C.reactComponent;
+      return { content: <X key={uuid} /> };
+    });
+    return (
+      <div>
+        <DragSortableList items={coms} moveTransitionDuration={0.3} onSort={this.onSort} type="vertical" />
+      </div>
+    );
+  }
 }
 
-export default Editor
+export default Editor;

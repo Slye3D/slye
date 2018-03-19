@@ -9,9 +9,9 @@
  *       Licence: MIT License
  */
 
-import Axios from 'axios'
+import Axios from 'axios';
 
-Axios.defaults.baseURL = 'http://127.0.0.1:63985/'
-Axios.defaults.withCredentials = true
+Axios.defaults.baseURL = 'http://127.0.0.1:63985/';
+Axios.defaults.withCredentials = true;
 
-export default Axios
+export default Axios;

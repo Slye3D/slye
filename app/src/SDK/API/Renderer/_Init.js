@@ -9,6 +9,6 @@
  *       Licence: MIT License
  */
 
-import {Scene} from 'three'
+import { Scene } from 'three';
 
-global.__scene__	= new Scene()
+global.__scene__	= new Scene();

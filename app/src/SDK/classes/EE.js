@@ -9,28 +9,28 @@
  *       Licence: MIT License
  */
 
-import EventEmitter from 'eventemitter3'
+import EventEmitter from 'eventemitter3';
 
 class EE {
-	constructor(){
-		this.__EE__ = new EventEmitter()
-	}
+  constructor() {
+    this.__EE__ = new EventEmitter();
+  }
 
-	on(){
-		return this.__EE__.on(...arguments)
-	}
+  on() {
+    return this.__EE__.on(...arguments);
+  }
 
-	once(){
-		return this.__EE__.once(...arguments)
-	}
+  once() {
+    return this.__EE__.once(...arguments);
+  }
 
-	emit(){
-		return this.__EE__.emit(...arguments)
-	}
+  emit() {
+    return this.__EE__.emit(...arguments);
+  }
 
-	off(){
-		return this.__EE__.off(...arguments)
-	}
+  off() {
+    return this.__EE__.off(...arguments);
+  }
 }
 
-export default EE
+export default EE;

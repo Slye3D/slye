@@ -9,25 +9,24 @@
  *       Licence: MIT License
  */
 
-const properties	= global.__presentation__.properties
+const properties	= global.__presentation__.properties;
 
-function set(objectUUID, key, value){
-	if(!properties[objectUUID])
-		properties[objectUUID]	= {}
-	properties[objectUUID][key] = value
-	return true
+function set(objectUUID, key, value) {
+  if (!properties[objectUUID]) { properties[objectUUID]	= {}; }
+  properties[objectUUID][key] = value;
+  return true;
 }
 
-function get(objectUUID, key){
+function get(objectUUID, key) {
 	// PLANNING: write it after finishing renderer loop
 }
 
 export default {
-		set
-	,	get
-}
+  set,
+  get
+};
 
 export {
 		set
 	,	get
-}
+};

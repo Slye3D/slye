@@ -9,39 +9,37 @@
  *       Licence: MIT License
  */
 
-import EventEmitter from 'eventemitter3'
+import EventEmitter from 'eventemitter3';
 
-global.__EM__ = global.__EM__ || new EventEmitter()
+global.__EM__ = global.__EM__ || new EventEmitter();
 
-function x(name){
-	return function(...args){
-		return global.__EM__[name](...args)
-	}
+function x(name) {
+  return function (...args) {
+    return global.__EM__[name](...args);
+  };
 }
 
-const emit	= x('emit')
-	, on 	= function(event, cb){
-		if(typeof event == 'string')
-			return global.__EM__.on(event, cb)
-		if(!event.length)
-			return
-		return event.map(name => {
-			global.__EM__.on(name, cb)
-		})
-	}
-	, once	= x('once')
-	, off	= x('off')
+const emit	= x('emit'),
+	 on 	= function (event, cb) {
+   if (typeof event === 'string') { return global.__EM__.on(event, cb); }
+   if (!event.length) { return; }
+   return event.map(name => {
+     global.__EM__.on(name, cb);
+   });
+ },
+	 once	= x('once'),
+	 off	= x('off');
 
 export default {
-		emit
-	,	on
-	,	once
-	,	off
-}
+  emit,
+  on,
+  once,
+  off
+};
 
 export {
 		emit
 	,	on
 	,	once
 	,	off
-}
+};

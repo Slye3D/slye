@@ -12,7 +12,7 @@
  */
 import { app, BrowserWindow } from 'electron';
 import MenuBuilder from './menu';
-import Server from './server'
+import Server from './server';
 
 let mainWindow = null;
 
@@ -88,10 +88,10 @@ app.on('ready', async () => {
   menuBuilder.buildMenu();
 });
 
-try{
-    Server.listen(63985, '0.0.0.0', () => {
-        console.log('Server started.')
-    })
-}catch(e){
-    console.log('Can not start server')
+try {
+  Server.listen(63985, '0.0.0.0', () => {
+    console.log('Server started.');
+  });
+} catch (e) {
+  console.log('Can not start server');
 }

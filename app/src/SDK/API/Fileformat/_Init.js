@@ -10,59 +10,58 @@
  */
 
 // this file is a standard format for a Slye presentation
-function init(){
-	if(global.__presentation__)
-		return
-	global.__presentation__	= {
+function init() {
+  if (global.__presentation__) { return; }
+  global.__presentation__	= {
 		// somewhere to save presentation meta-data like author, title, ...
-		meta: {}
+    meta: {},
 
-		, steps: {
+		 steps: {
 			// uuid -> {
 			// 			position	: Vector3
 			// 		,	rotation	: Euler
 			// 		,	components	: [component (with uuid | order don't matter)]
 			// }
-		}
-		, components: {
+ },
+		 components: {
 			// uuid	-> {
 			// 		handler	: SlyeComponent name
 			// 	,	position: Vector3
 			// 	,	rotation: Euler
 			// 	,	props	: Object
 			// }
-		}
-		, path: [
+ },
+		 path: [
 			// array of steps (with uuid | order matters)
-		]
-		, configs: {
+ ],
+		 configs: {
 			// property -> value
-		}
-		, properties: {
+ },
+		 properties: {
 			// Three.js object uuid -> Object of changed properties
-		}
+ },
 		// template object
-		, template : null
+		 template: null,
 
 
 		// this values won't save in filesystem and they are just for run-time-cahce
-		, __cache__: {
+		 __cache__: {
 				// component to step
-				c2s: {}
+   c2s: {},
 				// component to SlyeComponent object
-			, 	c2o: {}
+			 	c2o: {},
 				// Steps Group (Object3D)
-			,	steps: {}
+   steps: {},
 				// Step uuid -> [Camera, Renderer]
-			,	thumbnails: {}
-		}
-	}
+   thumbnails: {}
+ }
+  };
 }
 
-init()
+init();
 
-export default init
+export default init;
 
 export {
 	init
-}
+};

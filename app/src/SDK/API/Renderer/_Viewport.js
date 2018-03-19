@@ -9,27 +9,27 @@
  *       Licence: MIT License
  */
 
-import {WebGLRenderer, PerspectiveCamera} from 'three'
+import { WebGLRenderer, PerspectiveCamera } from 'three';
 
-global.__renderer__	= new WebGLRenderer()
-global.__camera__	= new PerspectiveCamera(75, 1, 0.1, 1000)
+global.__renderer__	= new WebGLRenderer();
+global.__camera__	= new PerspectiveCamera(75, 1, 0.1, 1000);
 
-function resizeRenderer(width, height){
-	global.__renderer__.setSize(width, height)
-	global.__camera__.aspect	= width / height
-	global.__camera__.updateProjectionMatrix()
+function resizeRenderer(width, height) {
+  global.__renderer__.setSize(width, height);
+  global.__camera__.aspect	= width / height;
+  global.__camera__.updateProjectionMatrix();
 }
 
-function requestAnimationFrame(){
-	global.__renderer__.render(global.__scene__, global.__camera__)
+function requestAnimationFrame() {
+  global.__renderer__.render(global.__scene__, global.__camera__);
 }
 
-function getDom(){
-	return global.__renderer__.domElement
+function getDom() {
+  return global.__renderer__.domElement;
 }
 
-function setPlaymode(isEnable){
-	global.__isInPlayMode__	= isEnable
+function setPlaymode(isEnable) {
+  global.__isInPlayMode__	= isEnable;
 }
 
 /**
@@ -42,19 +42,19 @@ function setPlaymode(isEnable){
  * 	4. move
  * 	5. orbit
  */
-function setControl(control){
+function setControl(control) {
 
 }
 
-let renderer = global.__renderer__
+const renderer = global.__renderer__;
 
 export default {
-		resizeRenderer
-	,	requestAnimationFrame
-	,	getDom
-	,	setPlaymode
-	,	renderer
-}
+  resizeRenderer,
+  requestAnimationFrame,
+  getDom,
+  setPlaymode,
+  renderer
+};
 
 export {
 		resizeRenderer
@@ -62,4 +62,4 @@ export {
 	,	getDom
 	,	setPlaymode
 	,	renderer
-}
+};

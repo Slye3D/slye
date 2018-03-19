@@ -10,11 +10,11 @@
  */
 
 
- import getMuiTheme from 'material-ui/styles/getMuiTheme'
- import {teal200, teal500, teal700} from 'material-ui/styles/colors'
+ import getMuiTheme from 'material-ui/styles/getMuiTheme';
+ import { teal200, teal500, teal700 } from 'material-ui/styles/colors';
 
 
-export default getMuiTheme({
+ export default getMuiTheme({
    palette: {
      primary1Color: teal500,
      primary2Color: teal700,
@@ -24,4 +24,4 @@ export default getMuiTheme({
    avatar: {
      borderColor: null,
    }
- })
+ });

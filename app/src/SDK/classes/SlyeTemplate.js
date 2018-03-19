@@ -9,18 +9,18 @@
  *       Licence: MIT License
  */
 
-import SlyeBase from './SlyeBase'
+import SlyeBase from './SlyeBase';
 
-class SlyeTemplate extends SlyeBase{
-	init(){}
+class SlyeTemplate extends SlyeBase {
+  init() {}
 
-	getStepPosition(i){
-		return [100 * i, 0, 0]
-	}
+  getStepPosition(i) {
+    return [100 * i, 0, 0];
+  }
 
-	getStepRotation(i){
-		return [0, 0, 0]
-	}
+  getStepRotation(i) {
+    return [0, 0, 0];
+  }
 }
 
-export default SlyeTemplate
+export default SlyeTemplate;

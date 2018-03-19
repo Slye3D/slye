@@ -9,15 +9,15 @@
  *       Licence: MIT License
  */
 
-import API from './API'
-import Math from './Math'
-import Typer from './Typer'
-import Axios from './Axios'
-import SlyeNavIcon from './classes/SlyeNavIcon'
-import SlyeComponent from './classes/SlyeComponent'
-import SlyeTemplate from './classes/SlyeTemplate'
+import API from './API';
+import Math from './Math';
+import Typer from './Typer';
+import Axios from './Axios';
+import SlyeNavIcon from './classes/SlyeNavIcon';
+import SlyeComponent from './classes/SlyeComponent';
+import SlyeTemplate from './classes/SlyeTemplate';
 
-export default API
+export default API;
 export {
 	API,
 	Math,
@@ -25,4 +25,4 @@ export {
 	SlyeComponent,
 	SlyeTemplate,
 	Axios
-}
+};

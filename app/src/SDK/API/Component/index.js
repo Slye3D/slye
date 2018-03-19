@@ -11,22 +11,22 @@
 
 global.__ComponentHandlers__	= global.__ComponentHandlers__ || {
 	// name -> SlyeComponent
+};
+
+function registerHandler(name, SlyeComponent) {
+  global.__ComponentHandlers__[name] = SlyeComponent;
 }
 
-function registerHandler(name, SlyeComponent){
-	global.__ComponentHandlers__[name] = SlyeComponent
-}
-
-function getHandler(name){
-	return global.__ComponentHandlers__[name]
+function getHandler(name) {
+  return global.__ComponentHandlers__[name];
 }
 
 export default {
-		registerHandler
-	,	getHandler
-}
+  registerHandler,
+  getHandler
+};
 
 export {
 		registerHandler
 	,	getHandler
-}
+};

@@ -9,23 +9,23 @@
  *       Licence: MIT License
  */
 
-import Axios from 'SDK/Axios'
-import Fileformat from 'SDK/API/Fileformat'
+import Axios from 'SDK/Axios';
+import Fileformat from 'SDK/API/Fileformat';
 
-function save(fsUUID){
-	Axios.post(`/fs/${fsUUID}/save`, {
-		data: Fileformat.toJSON()
-	})
+function save(fsUUID) {
+  Axios.post(`/fs/${fsUUID}/save`, {
+    data: Fileformat.toJSON()
+  });
 }
 
-export default function(fsUUID){
-	window.addEventListener('keydown', function(event){
-		if(event.ctrlKey || event.metaKey){
-			switch (String.fromCharCode(event.which).toLowerCase()) {
-				case 's':
-					save(fsUUID)
-					break
-			}
-		}
-	})
+export default function (fsUUID) {
+  window.addEventListener('keydown', (event) => {
+    if (event.ctrlKey || event.metaKey) {
+      switch (String.fromCharCode(event.which).toLowerCase()) {
+        case 's':
+          save(fsUUID);
+          break;
+      }
+    }
+  });
 }

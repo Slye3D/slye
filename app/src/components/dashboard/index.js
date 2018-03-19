@@ -9,65 +9,65 @@
  *       Licence: MIT License
  */
 
-import React, {Component} from 'react'
+import React, { Component } from 'react';
 import {
 	BottomNavigation,
 	BottomNavigationItem,
 	Paper,
 	FontIcon,
 	FlatButton
-} from 'material-ui'
+} from 'material-ui';
 
-import 'src/css/Dashboard.css'
+import 'src/css/Dashboard.css';
 
-import Create from './create/index'
+import Create from './create/index';
 
-const	settingsIcon	= <FontIcon className="material-icons">settings</FontIcon>
-,		createIcon		= <FontIcon className="material-icons">create_new_folder</FontIcon>
-,		recentIcon		= <FontIcon className="material-icons">alarm</FontIcon>
+const	settingsIcon	= <FontIcon className="material-icons">settings</FontIcon>,
+  createIcon		= <FontIcon className="material-icons">create_new_folder</FontIcon>,
+  recentIcon		= <FontIcon className="material-icons">alarm</FontIcon>;
 
-class Dashboard extends Component{
-	state={
-		page: 'create'
-	}
+class Dashboard extends Component {
+  state={
+    page: 'create'
+  }
 
-	constructor(props){
-		super()
-		this.pages = {
-			create: <Create history={props.history} />
-		}
-	}
+  constructor(props) {
+    super();
+    this.pages = {
+      create: <Create history={props.history} />
+    };
+  }
 
-	select = (page) => this.setState({page: page})
+  select = (page) => this.setState({ page })
 
-	render(){
-		let isSelected = (page) => this.state.page == page ? 'selected' : ''
-		return (
-			<div>
-				<Paper id='dashboard-nav'>
-					<FlatButton
-					  icon={createIcon}
-					  label={''}
-					  className={isSelected('create')}
-					  onClick={this.select.bind(this, 'create')}
-					/>
-					<FlatButton
-					  icon={recentIcon}
-					  label={''}
-					  className={isSelected('recent')}
-					  onClick={this.select.bind(this, 'recent')}
-					/>
-					<FlatButton
-					  icon={settingsIcon}
-					  label={''}
-					  className={isSelected('settings')}
-					  onClick={this.select.bind(this, 'settings')}
-					/>
-				</Paper>
-				{this.pages[this.state.page] ? this.pages[this.state.page] : null}
-			</div>
-		)
-	}
+  render() {
+    const isSelected = (page) => this.state.page == page ? 'selected' : '';
+    return (
+      <div>
+        <Paper id="dashboard-nav">
+          <FlatButton
+            icon={createIcon}
+            label={''}
+            className={isSelected('create')}
+            onClick={this.select.bind(this, 'create')}
+          />
+          <FlatButton
+            icon={recentIcon}
+            label={''}
+            className={isSelected('recent')}
+            onClick={this.select.bind(this, 'recent')}
+          />
+          <FlatButton
+            icon={settingsIcon}
+            label={''}
+            className={isSelected('settings')}
+            onClick={this.select.bind(this, 'settings')}
+          />
+        </Paper>
+        {this.pages[this.state.page] ? this.pages[this.state.page] : null}
+      </div>
+    );
+  }
 }
 
-export default Dashboard
+export default Dashboard;

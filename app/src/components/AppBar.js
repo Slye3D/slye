@@ -9,14 +9,12 @@
  *       Licence: MIT License
  */
 
-import React from 'react'
-import AppBar from 'material-ui/AppBar'
+import React from 'react';
+import AppBar from 'material-ui/AppBar';
 
-export default (props) => {
-	return (
-		<AppBar
-	 		title="Slye"
-	 		showMenuIconButton={false}
-	 	/>
-	)
-}
+export default () => (
+  <AppBar
+    title="Slye"
+    showMenuIconButton={false}
+  />
+);

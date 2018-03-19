@@ -9,29 +9,29 @@
  *       Licence: MIT License
  */
 
-import Component from './Component'
-import Events from './Events'
-import Fileformat from './Fileformat'
-import Navigation from './Navigation'
-import Renderer from './Renderer'
-import Story from './Story'
-import Template from './Template'
+import Component from './Component';
+import Events from './Events';
+import Fileformat from './Fileformat';
+import Navigation from './Navigation';
+import Renderer from './Renderer';
+import Story from './Story';
+import Template from './Template';
 
 export default {
-		Component
-	,	Events
-	,	Fileformat
-	,	Navigation
-	,	Renderer
-	,	Story
-	,	Template
-}
+  Component,
+  Events,
+  Fileformat,
+  Navigation,
+  Renderer,
+  Story,
+  Template
+};
 export {
-		Component
-	,	Events
-	,	Fileformat
-	,	Navigation
-	,	Renderer
-	,	Story
-	,	Template
-}
+Component
+, Events
+, Fileformat
+, Navigation
+, Renderer
+, Story
+, Template
+};

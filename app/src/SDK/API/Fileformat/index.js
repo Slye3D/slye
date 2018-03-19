@@ -9,36 +9,36 @@
  *       Licence: MIT License
  */
 
-import init from './_Init'
+import init from './_Init';
 
 // Component related functions
-import * as Components from './_Components'
+import * as Components from './_Components';
 
 // This API helps developers to work with presentation global configs
 // such as font, color and etc...
-import * as Configs from './_Configs'
+import * as Configs from './_Configs';
 
 // Used to manage presentation's path (A.K.A Order of steps)
-import * as Path from './_Path'
+import * as Path from './_Path';
 
 // An interface to reset Object3Ds properties
-import * as Properties from './_Properties'
+import * as Properties from './_Properties';
 
 // Use this API to work with steps
-import * as Steps from './_Steps'
+import * as Steps from './_Steps';
 
-import {toJSON, fromJSON} from './_Loader'
+import { toJSON, fromJSON } from './_Loader';
 
 export default {
-		Components
-	,	Configs
-	,	Path
-	,	Properties
-	,	Steps
-	,	init
-	,	toJSON
-	,	fromJSON
-}
+  Components,
+  Configs,
+  Path,
+  Properties,
+  Steps,
+  init,
+  toJSON,
+  fromJSON
+};
 export {
 		Components
 	,	Configs
@@ -48,4 +48,4 @@ export {
 	,	init
 	,	toJSON
 	,	fromJSON
-}
+};
