@@ -1,0 +1,39 @@
+@keyframes showControlsList {
+	from {
+		left: -300px;
+	}
+	to {
+		left: -230px;
+	}
+}
+
+#controls-list{
+	position: fixed;
+	background-color: #fff;
+	top: calc(50% - 150px);
+	width: 300px;
+	height: 300px;
+	left: -230px;
+	border-radius: 360px !important;
+	background-color: transparent !important;
+	border: 2px solid rgba(255,255,255,0.5);
+	animation: 250ms cubic-bezier(.25,.8,.25,1) 0s alternate showControlsList;
+}
+
+#controls-transform{
+	position: absolute !important;
+	left: 230px;
+	top: 25px;
+}
+
+#controls-rotation{
+	position: absolute !important;
+	left: 272px;
+	top: 122px;
+}
+
+#controls-scale{
+	position: absolute !important;
+	left: 230px;
+	top: 219px;
+}
