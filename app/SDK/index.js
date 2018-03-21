@@ -19,10 +19,10 @@ import SlyeTemplate from './classes/SlyeTemplate';
 
 export default API;
 export {
-	API,
-	Math,
-	SlyeNavIcon,
-	SlyeComponent,
-	SlyeTemplate,
-	Axios
+  API,
+  Math,
+  SlyeNavIcon,
+  SlyeComponent,
+  SlyeTemplate,
+  Axios,
 };
