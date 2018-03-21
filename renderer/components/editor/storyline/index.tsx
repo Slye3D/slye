@@ -9,26 +9,26 @@
  *       Licence: MIT License
  */
 
-import React, { Component } from 'react';
-import { Paper, RaisedButton } from 'material-ui';
-// import styles
-import 'src/css/Story.css';
-// import components for this page
-import Editor from './editor';
+import { Paper, RaisedButton } from "material-ui";
+import React, { Component } from "react";
 // import SDK
-import { Story, Events } from 'SDK/API';
+import { Events, Story } from "../../../../SDK/API";
+// import styles
+import "../../../css/Story.css";
+// import components for this page
+import Editor from "./editor";
 
 class StoryCom extends Component {
   constructor() {
     super();
     this.editor = <Editor />;
-    Events.on('renderStoryNavbar', () => {
+    Events.on("renderStoryNavbar", () => {
       this.forceUpdate();
     });
   }
 
   render() {
-		// TODO: cache 'RaisedButton's and bind all DOM events
+    // TODO: cache 'RaisedButton's and bind all DOM events
     const pureIicons	= Story.getIcons();
     const Icons		= [];
     let uuid;
@@ -38,9 +38,9 @@ class StoryCom extends Component {
           label={pureIicons[uuid].title}
           icon={pureIicons[uuid].icon}
           key={uuid}
-          onClick={(...x) => pureIicons[uuid].emit('click', ...x)}
+          onClick={(...x) => pureIicons[uuid].emit("click", ...x)}
         />
-			);
+      );
     }
     return (
       <div className="page">

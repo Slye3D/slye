@@ -9,7 +9,7 @@
  *       Licence: MIT License
  */
 
-import { WebGLRenderer, PerspectiveCamera } from 'three';
+import { PerspectiveCamera, WebGLRenderer } from "three";
 
 global.__renderer__	= new WebGLRenderer();
 global.__camera__	= new PerspectiveCamera(75, 1, 0.1, 1000);
@@ -57,9 +57,9 @@ export default {
 };
 
 export {
-		resizeRenderer
-	,	requestAnimationFrame
-	,	getDom
-	,	setPlaymode
-	,	renderer
+    resizeRenderer
+  ,	requestAnimationFrame
+  ,	getDom
+  ,	setPlaymode
+  ,	renderer
 };

@@ -9,44 +9,44 @@
  *       Licence: MIT License
  */
 
-import React, { Component } from 'react';
-import DragSortableList from 'react-drag-sortable';
-import API from 'SDK';
-import { on } from 'SDK/API/Events';
-import { Navigation, Fileformat } from 'SDK/API';
+import React, { Component } from "react";
+import DragSortableList from "react-drag-sortable";
+import API from "../../../../SDK";
+import { Fileformat, Navigation } from "../../../../SDK/API";
+import { on } from "../../../../SDK/API/Events";
 
 class Editor extends Component {
   constructor() {
     super();
-    const text = new (API.Component.getHandler('text'))();
+    const text = new (API.Component.getHandler("text"))();
     this.state = {
       elements: [
         text.preview
       ]
     };
 
-		// we should rerender when current step changes
-		// & we should rerender when current step changes
-		//
-		// BUG: Error when user opens Editor section and close it and then open it again
-		// Warning: forceUpdate(...): Can only update a mounted or mounting component.
-		// This usually means you called forceUpdate() on an unmounted component.
-		// This is a no-op. Please check the code for the Editor component.
-    on(['currentStepChanged', 'stepsComponentsChanged'], () => {
+    // we should rerender when current step changes
+    // & we should rerender when current step changes
+    //
+    // BUG: Error when user opens Editor section and close it and then open it again
+    // Warning: forceUpdate(...): Can only update a mounted or mounting component.
+    // This usually means you called forceUpdate() on an unmounted component.
+    // This is a no-op. Please check the code for the Editor component.
+    on(["currentStepChanged", "stepsComponentsChanged"], () => {
       if (this._ismounted) { this.forceUpdate(); }
     });
   }
 
   componentDidMount() {
-	  this._ismounted = true;
+    this._ismounted = true;
   }
 
   componentWillUnmount() {
-	   this._ismounted = false;
+     this._ismounted = false;
   }
 
   dispatch() {
-    console.log('x');
+    console.log("x");
   }
 
   onSort(list) {
@@ -59,7 +59,7 @@ class Editor extends Component {
     const currentStep = Navigation.currentUUID;
     const x = Fileformat.Steps.getStep(currentStep);
     const coms = x.components.map(uuid => {
-      let 	C = Fileformat.Components.getComponentObject(uuid),
+      const 	C = Fileformat.Components.getComponentObject(uuid),
         X = C.reactComponent;
       return { content: <X key={uuid} /> };
     });

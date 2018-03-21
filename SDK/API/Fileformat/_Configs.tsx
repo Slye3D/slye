@@ -18,7 +18,7 @@ function set(key, value) {
 }
 
 function get(key, def) {
-  let 	val = presentation.configs[key] || String(def),
+  const 	val = presentation.configs[key] || String(def),
     x	= parseFloat(val);
   if (isNaN(x)) { return val; }
   return x;
@@ -49,9 +49,9 @@ export default {
 };
 
 export {
-		set
-	,	get
-	,	remove
-	,	incrBy
-	,	incr
+    set
+  ,	get
+  ,	remove
+  ,	incrBy
+  ,	incr
 };

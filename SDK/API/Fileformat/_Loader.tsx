@@ -9,9 +9,9 @@
  *       Licence: MIT License
  */
 
-import { Vector3, Euler } from 'three';
-import Template from '../Template';
-import Events from '../Events';
+import { Euler, Vector3 } from "three";
+import Events from "../Events";
+import Template from "../Template";
 
 function fromJSON(data) {
   global.__presentation__.meta	= data.meta;
@@ -21,13 +21,13 @@ function fromJSON(data) {
 
   for (const key in data.steps) {
     data.steps[key].position	= new Vector3(...data.steps[key].position);
-    data.steps[key].rotation	= new Euler(...data.steps[key].rotation, 'XYZ');
+    data.steps[key].rotation	= new Euler(...data.steps[key].rotation, "XYZ");
   }
   global.__presentation__.steps = data.steps;
 
   for (const key in data.components) {
     data.components[key].position	= new Vector3(...data.components[key]);
-    data.components[key].rotation	= new Euler(...data.components[key], 'XYZ');
+    data.components[key].rotation	= new Euler(...data.components[key], "XYZ");
     const Com							= getHandler(data.components[key].handler);
     global.__presentation__.__cache__.c2o[key] = new Com(data.components[key].props, key);
   }
@@ -35,7 +35,7 @@ function fromJSON(data) {
 
   Template.load(data.template.name, data.template.props);
 
-  Events.emit('pathChanged');
+  Events.emit("pathChanged");
 }
 
 function toJSON() {
@@ -92,6 +92,6 @@ export default {
 };
 
 export {
-	toJSON
+  toJSON
 ,	fromJSON
 };

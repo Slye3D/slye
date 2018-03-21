@@ -9,19 +9,19 @@
  *       Licence: MIT License
  */
 
-import React from 'react';
-import { SlyeComponent } from 'SDK';
-import { Card } from 'SDK/API/Story/UI';
-import * as THREE from 'three';
-import { TextField } from 'material-ui';
-import Typer from 'src/SDK/Typer';
+import { TextField } from "material-ui";
+import React from "react";
+import * as THREE from "three";
+import { SlyeComponent } from "../../../SDK";
+import { Card } from "../../../SDK/API/Story/UI";
+import Typer from "../../../SDK/Typer";
 
 class TextElement extends SlyeComponent {
   goldenMaterial = new THREE.MeshPhongMaterial({
     emissive: 0xe51041,
     side: THREE.DoubleSide,
     shading: THREE.FlatShading
-  })
+  });
 
   constructor() {
     super();
@@ -41,19 +41,19 @@ class TextElement extends SlyeComponent {
   render() {
     if (!this.font) { return; }
     const geometry = new THREE.TextGeometry(
-			Typer(
-				this.props.text,
-				'rtl'
-			)
-			, {
+      Typer(
+        this.props.text,
+        "rtl"
+      )
+      , {
   font: this.font,
   size: 2,
   height: 0.1,
-			// curveSegments: 12,
-			// bevelEnabled: true,
-			// bevelThickness: 10,
-			// bevelSize: 8,
-			// bevelSegments: 5
+      // curveSegments: 12,
+      // bevelEnabled: true,
+      // bevelThickness: 10,
+      // bevelSize: 8,
+      // bevelSegments: 5
 });
     const mesh = new THREE.Mesh(geometry, this.goldenMaterial);
     return mesh;

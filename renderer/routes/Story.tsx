@@ -9,12 +9,12 @@
  *       Licence: MIT License
  */
 
-import React, { Component } from 'react';
-import Paper from 'material-ui/Paper';
-import RaisedButton from 'material-ui/RaisedButton';
-import Editor from 'src/components/Editor';
-import { Story } from 'SDK/API';
-import 'src/css/Story.css';
+import { Story } from ",,/../SDK/API";
+import Paper from "material-ui/Paper";
+import RaisedButton from "material-ui/RaisedButton";
+import React, { Component } from "react";
+import Editor from "src/components/Editor";
+import "../css/Story.css";
 
 // Profile -> [profile, change profile photo, my files]
 // Settings
@@ -46,9 +46,9 @@ class StoryComponent extends Component {
           label={pureIicons[uuid].title}
           icon={pureIicons[uuid].icon}
           key={uuid}
-          onClick={(...x) => pureIicons[uuid].emit('click', ...x)}
+          onClick={(...x) => pureIicons[uuid].emit("click", ...x)}
         />
-			);
+      );
     }
     return (
       <div className="page">

@@ -1,4 +1,4 @@
- /**
+/**
  *    _____ __
  *   / ___// /_  _____
  *   \__ \/ / / / / _ \
@@ -9,14 +9,14 @@
  *       Licence: MIT License
  */
 
-import React, { Component } from 'react';
-import { findDOMNode } from 'react-dom';
-import Fontkit from 'fontkit';
-import Colors from 'nice-color-palettes/500';
-import $ from 'jquery';
-import 'jquery.nicescroll';
-import 'src/css/Design.css';
-import { Configs } from 'SDK/API/Fileformat';
+import Fontkit from "fontkit";
+import $ from "jquery";
+import "jquery.nicescroll";
+import Colors from "nice-color-palettes/500";
+import React, { Component } from "react";
+import { findDOMNode } from "react-dom";
+import "src/css/Design.css";
+import { Configs } from "../../../../SDK/API/Fileformat";
 
 let h;
 
@@ -46,20 +46,20 @@ class Palette extends Component {
 
   constructor() {
     super();
-    window.addEventListener('resize', () => {
+    window.addEventListener("resize", () => {
       if (this._ismounted) { this.forceUpdate(); }
     });
   }
 
   onClick = () => {
-    Configs.set('palette', this.props.colors);
+    Configs.set("palette", this.props.colors);
     h && h();
   }
 
   render() {
     const s = (window.innerWidth - 200 - 4 * 15) / 15;
     return (
-      <div className={`design-palette${this.props.isSelected ? ' selected' : ''}`} onClick={this.onClick}>
+      <div className={`design-palette${this.props.isSelected ? " selected" : ""}`} onClick={this.onClick}>
         {this.props.colors.map((x, k) => <Color size={s} color={x} key={k} />)}
       </div>
     );
@@ -77,25 +77,25 @@ class Design extends Component {
     function fkOpenFont(fkFontPath) {
       return new Promise(resolve => {
         const xhr = new XMLHttpRequest();
-        xhr.open('GET', fkFontPath, true);
-        xhr.responseType = 'arraybuffer';
-        xhr.onload = function (e) {
-				  if (this.status == 200) {
-					  resolve(Fontkit.create(new Buffer(this.response)));
-				  }
+        xhr.open("GET", fkFontPath, true);
+        xhr.responseType = "arraybuffer";
+        xhr.onload = function(e) {
+          if (this.status == 200) {
+            resolve(Fontkit.create(new Buffer(this.response)));
+          }
         };
         xhr.send();
       });
     }
 
     fkOpenFont(`${__dirname}/public/fonts/NotoKufiArabic-Bold.ttf`).then(font => {
-      const run = font.layout('سلام');
+      const run = font.layout("سلام");
       console.log(run);
     });
   }
 
   getSelectedId() {
-    const palette = Configs.get('palette');
+    const palette = Configs.get("palette");
     if (!palette) { return null; }
     for (let i = 0; i < Colors.length; i++) {
       if (Colors[i] == palette) {

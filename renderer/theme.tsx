@@ -9,10 +9,8 @@
  *       Licence: MIT License
  */
 
-
- import getMuiTheme from 'material-ui/styles/getMuiTheme';
- import { teal200, teal500, teal700 } from 'material-ui/styles/colors';
-
+import { teal200, teal500, teal700 } from "material-ui/styles/colors";
+import getMuiTheme from "material-ui/styles/getMuiTheme";
 
  export default getMuiTheme({
    palette: {

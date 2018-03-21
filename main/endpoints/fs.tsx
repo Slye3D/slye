@@ -9,17 +9,16 @@
  *       Licence: MIT License
  */
 
-import Express from 'express';
-import Fileformat from 'SDK/API/Fileformat';
-import SlyeTemplate from 'SDK/classes/SlyeTemplate';
-import tmp from 'tmp';
-import tar from 'tar';
-import mkdirp from 'mkdirp';
-import path from 'path';
-import fs from 'fs';
-import fstream from 'fstream';
-import UUID from 'uuid/v4';
-import { dialog } from 'electron';
+import { dialog } from "electron";
+import Express from "express";
+import fs from "fs";
+import mkdirp from "mkdirp";
+import path from "path";
+import tar from "tar";
+import tmp from "tmp";
+import UUID from "uuid/v4";
+import Fileformat from "../../SDK/API/Fileformat";
+import SlyeTemplate from "../../SDK/classes/SlyeTemplate";
 
 const Router = Express.Router();
 
@@ -29,8 +28,8 @@ const UUID2TMP	= {};
 
 const template	= new SlyeTemplate();
 
-Router.post('/create', (req, res, next) => {
-	// create an empty presentation
+Router.post("/create", (req, res, next) => {
+  // create an empty presentation
   Fileformat.init();
 
   global.__presentation__.template		= template;
@@ -40,7 +39,7 @@ Router.post('/create', (req, res, next) => {
     title: req.body.title,
     description: req.body.description
   };
-  global.__presentation__.configs.palette = '#69d2e7,#a7dbd8,#e0e4cc,#f38630,#fa6900';
+  global.__presentation__.configs.palette = "#69d2e7,#a7dbd8,#e0e4cc,#f38630,#fa6900";
 
   const stepUUID = Fileformat.Steps.createStep();
   Fileformat.Path.add2Path(stepUUID);
@@ -48,11 +47,11 @@ Router.post('/create', (req, res, next) => {
   const data = Fileformat.toJSON();
   global.__presentation__	= null;
 
-	// creat a temp directory
-  const tmpDir	= tmp.dirSync({ prefix: 'slye_' }).name;
-  mkdirp(path.resolve(tmpDir, 'assets'));
+  // creat a temp directory
+  const tmpDir	= tmp.dirSync({ prefix: "slye_" }).name;
+  mkdirp(path.resolve(tmpDir, "assets"));
 
-  fs.writeFile(path.resolve(tmpDir, 'slye.json'), data, () => {
+  fs.writeFile(path.resolve(tmpDir, "slye.json"), data, () => {
     const uuid = UUID();
     UUID2TMP[uuid] = tmpDir;
     console.log(tmpDir);
@@ -62,8 +61,8 @@ Router.post('/create', (req, res, next) => {
   });
 });
 
-Router.post('/open', (req, res, next) => {
-	// req.body.path
+Router.post("/open", (req, res, next) => {
+  // req.body.path
 });
 
 function save(dir, fileName) {
@@ -71,30 +70,30 @@ function save(dir, fileName) {
   tar.c({
     gzip: true,
     cwd: dir
-  }, ['assets', 'slye.json']).pipe(dist);
+  }, ["assets", "slye.json"]).pipe(dist);
 }
 
-Router.post('/:uuid/save', (req, res, next) => {
+Router.post("/:uuid/save", (req, res, next) => {
   const uuid	= req.params.uuid;
   const data	= JSON.parse(req.body.data);
-  fs.writeFile(path.resolve(UUID2TMP[uuid], 'slye.json'), req.body.data, () => {
+  fs.writeFile(path.resolve(UUID2TMP[uuid], "slye.json"), req.body.data, () => {
     if (!TMP2File[UUID2TMP[uuid]]) {
       dialog.showSaveDialog({
         title: `Save - ${data.meta.title}`,
-        defaultPath: data.meta.title.toLowerCase().replace(/^\s+|\s+$/g, '').replace(/\s+/g, '-'),
+        defaultPath: data.meta.title.toLowerCase().replace(/^\s+|\s+$/g, "").replace(/\s+/g, "-"),
         filters: [
-					{ name: 'Slye presentation file', extensions: ['sly'] },
+          { name: "Slye presentation file", extensions: ["sly"] },
         ]
       }, (filepath) => {
         if (filepath) {
           TMP2File[UUID2TMP[uuid]] = filepath;
 
-          const a = req.configs.get('history') || [];
+          const a = req.configs.get("history") || [];
           a.push({
             file: filepath,
             uuid
           });
-          req.configs.set('history', a);
+          req.configs.set("history", a);
 
           save(UUID2TMP[uuid], TMP2File[UUID2TMP[uuid]]);
         }
@@ -103,28 +102,28 @@ Router.post('/:uuid/save', (req, res, next) => {
       save(UUID2TMP[uuid], TMP2File[UUID2TMP[uuid]]);
     }
   });
-  res.send({ status: 'code' });
+  res.send({ status: "code" });
 });
 
-Router.post('/:uuid/template', (req, res, next) => {
+Router.post("/:uuid/template", (req, res, next) => {
 
 });
 
-Router.get('/:uuid/slye.json', (req, res, next) => {
+Router.get("/:uuid/slye.json", (req, res, next) => {
   fs.createReadStream(
-		path.resolve(UUID2TMP[req.params.uuid], 'slye.json')
-	).pipe(res);
+    path.resolve(UUID2TMP[req.params.uuid], "slye.json")
+  ).pipe(res);
 });
 
-Router.post('/:uuid/thumb', (req, res, next) => {
-
-});
-
-Router.post('/:uuid/upload', (req, res, next) => {
+Router.post("/:uuid/thumb", (req, res, next) => {
 
 });
 
-Router.get('/:uuid/assets/:fileUUID', (req, res, next) => {
+Router.post("/:uuid/upload", (req, res, next) => {
+
+});
+
+Router.get("/:uuid/assets/:fileUUID", (req, res, next) => {
 
 });
 

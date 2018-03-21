@@ -9,10 +9,10 @@
  *       Licence: MIT License
  */
 
-import EventEmitter from './EE';
+import EventEmitter from "./EE";
 
 class SlyeNavIcon extends EventEmitter {
-  constructor(icon, title = '') {
+  constructor(icon, title = "") {
     super();
     this.title		= title;
     this.icon		= icon;
@@ -22,16 +22,16 @@ class SlyeNavIcon extends EventEmitter {
   show() {
     const o = this.isVisible;
     this.isVisible	= true;
-    this.emit('show', o);
-    global.__EM__.emit('renderStoryNavbar');
+    this.emit("show", o);
+    global.__EM__.emit("renderStoryNavbar");
     return this;
   }
 
   hide() {
     const o = this.isVisible;
     this.isVisible	= false;
-    this.emit('hide', o);
-    global.__EM__.emit('renderStoryNavbar');
+    this.emit("hide", o);
+    global.__EM__.emit("renderStoryNavbar");
     return this;
   }
 

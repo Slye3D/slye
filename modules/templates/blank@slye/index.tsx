@@ -9,17 +9,17 @@
  *       Licence: MIT License
  */
 
-import API, { SlyeTemplate } from 'SDK';
-import { Scene, Viewport } from 'SDK/API/Renderer';
-import { registerTemplate } from 'SDK/API/Template';
-import * as THREE from 'three';
+import * as THREE from "three";
+import API, { SlyeTemplate } from "../../../SDK";
+import { Scene, Viewport } from "../../../SDK/API/Renderer";
+import { registerTemplate } from "../../../SDK/API/Template";
 
 class Blank extends SlyeTemplate {
   init() {
     Scene.fog = new THREE.FogExp2(0xffffff, 0.001);
     let bulbLight,
       hemiLight;
-		// lights
+    // lights
     bulbLight = new THREE.PointLight(0xffee88, 1, 100, 2);
     bulbLight.power = 50000;
     bulbLight.position.set(0, 50, -50);
@@ -47,7 +47,6 @@ class Blank extends SlyeTemplate {
     bulbLight.castShadow = true;
     Scene.add(bulbLight);
 
-
     hemiLight = new THREE.HemisphereLight(0xddeeff, 0x0f0e0d, 0.02);
     Scene.add(hemiLight);
 
@@ -63,4 +62,4 @@ class Blank extends SlyeTemplate {
   }
 }
 
-registerTemplate('blank@slye', 'Blank', Blank);
+registerTemplate("blank@slye", "Blank", Blank);

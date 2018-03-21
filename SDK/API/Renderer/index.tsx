@@ -9,14 +9,14 @@
  *       Licence: MIT License
  */
 
-import './_Init';
-import Thumbnails from './_Thumbnails';
-import Viewport from './_Viewport';
-import { getTemplate } from '../Template';
-import { Steps, Components } from '../Fileformat';
-import Navigation from '../Navigation';
-import * as THREE from 'three';
-import Events from '../Events';
+import * as THREE from "three";
+import Events from "../Events";
+import { Components, Steps } from "../Fileformat";
+import Navigation from "../Navigation";
+import { getTemplate } from "../Template";
+import "./_Init";
+import Thumbnails from "./_Thumbnails";
+import Viewport from "./_Viewport";
 
 const Scene = global.__scene__;
 
@@ -24,7 +24,7 @@ global.__renderCallNum__	= 0;
 global.__isInPlayMode__		= false;
 
 function stepRequestAnimationFrame(stepUUID) {
-	// Call requestAnimationFrame of all components in the step
+  // Call requestAnimationFrame of all components in the step
   Steps.getStep(stepUUID).components.map(uuid => {
     Components.getComponentObject(uuid).requestAnimationFrame();
   });
@@ -34,10 +34,10 @@ function requestAnimationFrame() {
   global.__renderCallNum__++;
   global.__renderCallNum__ %= 60;
 
-	// Render thumbnails (60 / 2 = 30 FPS)
-	// if(global.__renderCallNum__ % 2 == 0){
+  // Render thumbnails (60 / 2 = 30 FPS)
+  // if(global.__renderCallNum__ % 2 == 0){
   Thumbnails.requestAnimationFrame();
-	// }
+  // }
 
   if (global.__isInPlayMode__) {
     getTemplate().requestAnimationFrame();
@@ -47,7 +47,7 @@ function requestAnimationFrame() {
     for (let i = a; i < stepUUIDs.length; i += 4) {
       stepRequestAnimationFrame(stepUUIDs[i]);
     }
-		// Render current step at 60 FPS
+    // Render current step at 60 FPS
     if (((current - a) % 4) > 0) {
       stepRequestAnimationFrame(stepUUIDs[current]);
     }
@@ -70,13 +70,13 @@ function hardRender(stepUUID) {
     obj.rotation.set(tmp.x, tmp.y, tmp.z);
     group.add(obj);
   }
-	// todo add a flag to empty components
+  // todo add a flag to empty components
   tmp = Steps.getStep(stepUUID).position;
   group.position.set(tmp.x, tmp.y, tmp.z);
   tmp = Steps.getStep(stepUUID).rotation;
   group.rotation.set(tmp.x, tmp.y, tmp.z);
 
-	// replace new group with old one
+  // replace new group with old one
   const oldGroup = global.__presentation__.__cache__.steps[stepUUID];
   if (oldGroup) {
     global.__scene__.remove(oldGroup);
@@ -86,7 +86,7 @@ function hardRender(stepUUID) {
   global.__scene__.add(group);
 }
 
-Events.on('stepsComponentsChanged', hardRender);
+Events.on("stepsComponentsChanged", hardRender);
 
 export default {
   Scene,
@@ -97,9 +97,9 @@ export default {
 };
 
 export {
-		Scene
-	,	Thumbnails
-	,	Viewport
-	,	requestAnimationFrame
-	,	hardRender
+    Scene
+  ,	Thumbnails
+  ,	Viewport
+  ,	requestAnimationFrame
+  ,	hardRender
 };

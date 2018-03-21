@@ -9,20 +9,20 @@
  *       Licence: MIT License
  */
 
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 class Card extends Component {
   componentDidMount() {
-	  this._ismounted = true;
+    this._ismounted = true;
   }
 
   componentWillUnmount() {
-	   this._ismounted = false;
+     this._ismounted = false;
   }
 
   constructor() {
     super();
-    window.addEventListener('resize', () => {
+    window.addEventListener("resize", () => {
       if (this._ismounted) { this.forceUpdate(); }
     });
   }
@@ -30,10 +30,10 @@ class Card extends Component {
   render() {
     return (
       <div style={{
-        backgroundColor: '#fff',
-        padding: '10px',
-        boxShadow: 'rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px',
-        margin: '5px',
+        backgroundColor: "#fff",
+        padding: "10px",
+        boxShadow: "rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px",
+        margin: "5px",
         width: window.innerWidth - 514
       }}
       >

@@ -9,25 +9,25 @@
  *       Licence: MIT License
  */
 
-import electron from 'electron'
-import './window.css'
+import electron from "electron";
+import "./window.css";
 
 // import plugins & templates
-import './plugins/Text'
-import './templates/blank@slye'
+import "./plugins/Text";
+import "./templates/blank@slye";
 
 // load application
-import './src'
+import "./src";
 
 const remote = electron.remote;
 
 function init() {
-    document.getElementById("min-btn").addEventListener("click", function (e) {
+    document.getElementById("min-btn").addEventListener("click", function(e) {
         const window = remote.getCurrentWindow();
         window.minimize();
     });
 
-    document.getElementById("max-btn").addEventListener("click", function (e) {
+    document.getElementById("max-btn").addEventListener("click", function(e) {
         const window = remote.getCurrentWindow();
         if (!window.isMaximized()) {
             window.maximize();
@@ -36,14 +36,14 @@ function init() {
         }
     });
 
-    document.getElementById("close-btn").addEventListener("click", function (e) {
+    document.getElementById("close-btn").addEventListener("click", function(e) {
         const window = remote.getCurrentWindow();
         window.close();
     });
 }
 
-document.onreadystatechange = function () {
+document.onreadystatechange = function() {
     if (document.readyState == "complete") {
         init();
     }
-}
+};

@@ -9,7 +9,7 @@
  *       Licence: MIT License
  */
 
-import EventEmitter from 'eventemitter3';
+import EventEmitter from "eventemitter3";
 
 class EE {
   constructor() {

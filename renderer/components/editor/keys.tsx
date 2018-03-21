@@ -9,8 +9,8 @@
  *       Licence: MIT License
  */
 
-import Axios from 'SDK/Axios';
-import Fileformat from 'SDK/API/Fileformat';
+import Fileformat from "../../../SDK/API/Fileformat";
+import Axios from "../../../SDK/Axios";
 
 function save(fsUUID) {
   Axios.post(`/fs/${fsUUID}/save`, {
@@ -18,11 +18,11 @@ function save(fsUUID) {
   });
 }
 
-export default function (fsUUID) {
-  window.addEventListener('keydown', (event) => {
+export default function(fsUUID) {
+  window.addEventListener("keydown", (event) => {
     if (event.ctrlKey || event.metaKey) {
       switch (String.fromCharCode(event.which).toLowerCase()) {
-        case 's':
+        case "s":
           save(fsUUID);
           break;
       }

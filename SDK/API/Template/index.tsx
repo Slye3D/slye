@@ -9,14 +9,14 @@
  *       Licence: MIT License
  */
 
-import SlyeTemplate from '../../classes/SlyeTemplate';
+import SlyeTemplate from "../../classes/SlyeTemplate";
 
 global.__presentation__.template		= new SlyeTemplate();
 global.__presentation__.template.name	= null;
 global.__templates__	= {};
 
 function load(name, props) {
-	// TODO: remove 3D elements of previous template form scene
+  // TODO: remove 3D elements of previous template form scene
   const templateClass	= global.__templates__[name].obj;
   global.__presentation__.template = new templateClass(props);
   global.__presentation__.template.name	= name;
@@ -51,9 +51,9 @@ export default {
 };
 
 export {
-		load
-	,	getStepPosition
-	,	getStepRotation
-	,	getTemplate
-	,	registerTemplate
+    load
+  ,	getStepPosition
+  ,	getStepRotation
+  ,	getTemplate
+  ,	registerTemplate
 };

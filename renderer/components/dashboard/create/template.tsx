@@ -9,7 +9,7 @@
  *       Licence: MIT License
  */
 
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 class Template extends Component {
   render() {
@@ -17,7 +17,7 @@ class Template extends Component {
     const isSelected = this.props.isSelected;
     return (
       <div
-        className={`dashboard-template-box${isSelected ? ' selected' : ''}`}
+        className={`dashboard-template-box${isSelected ? " selected" : ""}`}
         onClick={this.props.onClick}
       >
         <img src={`${__dirname}/templates/${name}/thumbnail.png`} alt={name} />

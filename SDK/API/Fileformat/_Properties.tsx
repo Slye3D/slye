@@ -18,7 +18,7 @@ function set(objectUUID, key, value) {
 }
 
 function get(objectUUID, key) {
-	// PLANNING: write it after finishing renderer loop
+  // PLANNING: write it after finishing renderer loop
 }
 
 export default {
@@ -27,6 +27,6 @@ export default {
 };
 
 export {
-		set
-	,	get
+  set,
+  get
 };

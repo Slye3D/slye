@@ -9,7 +9,7 @@
  *       Licence: MIT License
  */
 
-import * as THREE from 'three/build/three.module';
+import * as THREE from "three/build/three.module";
 
 if (!global.__scene__) {
   global.__scene__		=	new THREE.Scene();
@@ -56,11 +56,11 @@ export default {
     return global.__renderers__[name].renderer.domElement;
   },
   intersects(name, event, element, width) {
-		// TODO:30 rewrite with respect to elements and steps
+    // TODO:30 rewrite with respect to elements and steps
     if (!global.__renderers__[name]) { return; }
-    let mouse		= new THREE.Vector2(),
-			 raycaster = new THREE.Raycaster(),
-			 { camera }	= global.__renderers__[name];
+    const mouse		= new THREE.Vector2(),
+       raycaster = new THREE.Raycaster(),
+       { camera }	= global.__renderers__[name];
     element = element || document.body;
     width	= width || element.offsetWidth;
     const	{ offsetLeft, offsetTop } = element;
@@ -72,6 +72,6 @@ export default {
     return intersects[0].object;
   },
   getObjectByUUID(uuid) {
-    return global.__scene__.getObjectByProperty('uuid', uuid);
+    return global.__scene__.getObjectByProperty("uuid", uuid);
   }
 };

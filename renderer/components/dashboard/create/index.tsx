@@ -9,20 +9,20 @@
  *       Licence: MIT License
  */
 
-import React, { Component } from 'react';
-import { Paper, TextField, RaisedButton } from 'material-ui';
-import Template from './template';
-import Axios from 'SDK/Axios';
+import { Paper, RaisedButton, TextField } from "material-ui";
+import React, { Component } from "react";
+import Axios from "SDK/Axios";
+import Template from "./template";
 
 let send = false;
 class Create extends Component {
-  state={
+  state= {
     template: Object.keys(global.__templates__)[0],
-    title: '',
-    description: ''
-  }
+    title: "",
+    description: ""
+  };
 
-  create = () => !send && Axios.post('/fs/create', {
+  create = () => !send && Axios.post("/fs/create", {
     template: this.state.template,
     title: this.state.title,
     description: this.state.description
@@ -66,7 +66,7 @@ class Create extends Component {
               isSelected={name == this.state.template}
               onClick={() => this.setState({ name })}
             />)
-					)}
+          )}
         </div>
       </div>
 

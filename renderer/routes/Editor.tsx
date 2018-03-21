@@ -9,24 +9,24 @@
  *       Licence: MIT License
  */
 
-import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom';
 import {
-		Paper
-	,	BottomNavigation
-	,	BottomNavigationItem
-	,	FontIcon
-} from 'material-ui';
+    BottomNavigation
+  ,	BottomNavigationItem
+  ,	FontIcon
+  ,	Paper
+} from "material-ui";
+import React, { Component } from "react";
+import { Link, Route } from "react-router-dom";
 
-import 'src/css/Editor.css';
-import Story from './Story';
-import Preview from './Preview';
-import ProfileAvatar from 'src/components/ProfileAvatar';
-import Thumbnails from 'src/components/Thumbnails';
-import Presentation from './Presentation';
-import Controls from './Controls';
+import "src/css/Editor.css";
+import Thumbnails from "../components/editor/thumbnails";
+import ProfileAvatar from "../components/ProfileAvatar";
+import Controls from "./Controls";
+import Presentation from "./Presentation";
+import Preview from "./Preview";
+import Story from "./Story";
 
-import { Fileformat, Renderer } from 'SDK/API';
+import { Fileformat, Renderer } from "SDK/API";
 
 const	previewIcon	= <FontIcon className="material-icons">3d_rotation</FontIcon>,
   storyIcon	= <FontIcon className="material-icons">format_list_numbered</FontIcon>,
@@ -39,10 +39,10 @@ Fileformat.Path.add2Path(stepUUID);
 
 class Editor extends Component {
   state = {
-	    selectedIndex: 0,
-  }
+      selectedIndex: 0,
+  };
 
-  select = (index) => this.setState({ selectedIndex: index })
+  select = (index) => this.setState({ selectedIndex: index });
 
   constructor() {
     super(...arguments);
@@ -65,13 +65,13 @@ class Editor extends Component {
 
   render() {
     return (
-      <div className={['full-height', `page-${([
-        'preview',
-        'story',
-        'design',
-        'play'
+      <div className={["full-height", `page-${([
+        "preview",
+        "story",
+        "design",
+        "play"
       ])[this.state.selectedIndex]}`
-      ].join(' ')}
+      ].join(" ")}
       >
         <Preview />
 
@@ -80,7 +80,7 @@ class Editor extends Component {
 
         <Thumbnails />
 
-        <Paper zDepth={2} id="navbar" className={this.state.selectedIndex == 0 ? 'x' : 'selected'}>
+        <Paper zDepth={2} id="navbar" className={this.state.selectedIndex == 0 ? "x" : "selected"}>
           <BottomNavigation selectedIndex={this.state.selectedIndex}>
             <Link to="3d" onClick={() => this.select(0)}>
               <BottomNavigationItem
@@ -116,7 +116,7 @@ class Editor extends Component {
           className="story-toolbox story-right"
           zDepth={3}
           style={{
-            boxShadow: 'rgba(0, 0, 0, 0.19) -10px 0 30px, rgba(0, 0, 0, 0.23) -6px 0 10px'
+            boxShadow: "rgba(0, 0, 0, 0.19) -10px 0 30px, rgba(0, 0, 0, 0.23) -6px 0 10px"
           }}
         >
           <ProfileAvatar />

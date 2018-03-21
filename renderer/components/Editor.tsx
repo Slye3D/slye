@@ -9,16 +9,16 @@
  *       Licence: MIT License
  */
 
-import React, { Component } from 'react';
-import DragSortableList from 'react-drag-sortable';
-import API from 'SDK';
-import { on } from 'SDK/API/Events';
-import { Navigation, Fileformat } from 'SDK/API';
+import React, { Component } from "react";
+import DragSortableList from "react-drag-sortable";
+import API from "SDK";
+import { on } from "SDK/API/Events";
+import { Fileformat, Navigation } from "../../SDK/API";
 
 class Editor extends Component {
   constructor() {
     super();
-    const text = new (API.Component.getHandler('text'))();
+    const text = new (API.Component.getHandler("text"))();
     this.state = {
       elements: [
         text.preview
@@ -32,13 +32,13 @@ class Editor extends Component {
     // Warning: forceUpdate(...): Can only update a mounted or mounting component.
     // This usually means you called forceUpdate() on an unmounted component.
     // This is a no-op. Please check the code for the Editor component.
-    on(['currentStepChanged', 'stepsComponentsChanged'], () => {
+    on(["currentStepChanged", "stepsComponentsChanged"], () => {
       this.forceUpdate();
     });
   }
 
   dispatch() {
-    console.log('x');
+    console.log("x");
   }
 
   onSort(list) {

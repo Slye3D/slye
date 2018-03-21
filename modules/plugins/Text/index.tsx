@@ -9,19 +9,19 @@
  *       Licence: MIT License
  */
 
-import React from 'react';
-import FontIcon from 'material-ui/FontIcon';
-import API, { SlyeNavIcon } from 'src/SDK';
-import { Component, Story, Fileformat, Navigation } from 'src/SDK/API';
-import TextElement from './Element';
+import FontIcon from "material-ui/FontIcon";
+import React from "react";
+import API, { SlyeNavIcon } from "../../../SDK";
+import { Component, Fileformat, Navigation, Story } from "../../../SDK/API";
+import TextElement from "./Element";
 
-Component.registerHandler('text', TextElement);
+Component.registerHandler("text", TextElement);
 
-const btn = new SlyeNavIcon(<FontIcon className="material-icons">text_fields</FontIcon>, 'Header');
-btn.on('click', () => {
-  const componentUUID = Fileformat.Components.createComponent('text', {
-    text: 'Sample text...',
-    type: 'head'
+const btn = new SlyeNavIcon(<FontIcon className="material-icons">text_fields</FontIcon>, "Header");
+btn.on("click", () => {
+  const componentUUID = Fileformat.Components.createComponent("text", {
+    text: "Sample text...",
+    type: "head"
   });
   Fileformat.Steps.addComponentToStep(Navigation.currentUUID, componentUUID);
 });

@@ -9,15 +9,15 @@
  *       Licence: MIT License
  */
 
-import Express from 'express';
+import Express from "express";
 
 const Router = Express.Router();
 
-Router.get('/list', (req, res, next) => {
+Router.get("/list", (req, res, next) => {
 
 });
 
-Router.get('/:uuid/thumbnail.png', (req, res, next) => {
+Router.get("/:uuid/thumbnail.png", (req, res, next) => {
 
 });
 

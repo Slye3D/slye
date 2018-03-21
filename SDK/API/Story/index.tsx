@@ -9,9 +9,9 @@
  *       Licence: MIT License
  */
 
-import { generateUUID } from '../../Math';
-import { emit } from '../Events';
-import UI from './UI';
+import { generateUUID } from "../../Math";
+import { emit } from "../Events";
+import UI from "./UI";
 
 global.__storyIcons__	= {};
 const storyIcons		= global.__storyIcons__;
@@ -25,14 +25,14 @@ function registerIcon(SlyeNavIcon) {
 function hideIcon(uuid) {
   if (!storyIcons[uuid]) { return; }
   storyIcons[uuid].isVisible = false;
-  emit('rerender_story_navbar');
+  emit("rerender_story_navbar");
   return true;
 }
 
 function showIcon(uuid) {
   if (!storyIcons[uuid]) { return; }
   storyIcons[uuid].isVisible = true;
-  emit('rerender_story_navbar');
+  emit("rerender_story_navbar");
   return true;
 }
 
@@ -56,10 +56,10 @@ export default {
 };
 
 export {
-		registerIcon
-	,	hideIcon
-	,	showIcon
-	,	toggleIcon
-	,	getIcons
-	,	UI
+  registerIcon,
+  hideIcon,
+  showIcon,
+  toggleIcon,
+  getIcons,
+  UI
 };

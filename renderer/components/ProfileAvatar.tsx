@@ -9,11 +9,11 @@
  *       Licence: MIT License
  */
 
-import React, { Component } from 'react';
-import Avatar from 'material-ui/Avatar';
-import Popover from 'material-ui/Popover';
-import Menu from 'material-ui/Menu';
-import MenuItem from 'material-ui/MenuItem';
+import Avatar from "material-ui/Avatar";
+import Menu from "material-ui/Menu";
+import MenuItem from "material-ui/MenuItem";
+import Popover from "material-ui/Popover";
+import React, { Component } from "react";
 
 class ProfileAvatar extends Component {
   constructor() {
@@ -49,8 +49,8 @@ class ProfileAvatar extends Component {
         <Popover
           open={this.state.open}
           anchorEl={this.state.anchorEl}
-          anchorOrigin={{ horizontal: 'left', vertical: 'center' }}
-          targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+          anchorOrigin={{ horizontal: "left", vertical: "center" }}
+          targetOrigin={{ horizontal: "right", vertical: "top" }}
           onRequestClose={this.handleRequestClose}
         >
           <Menu>

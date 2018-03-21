@@ -9,14 +9,14 @@
  *       Licence: MIT License
  */
 
-import React, { Component } from 'react';
-import { findDOMNode } from 'react-dom';
-import $ from 'jquery';
-import 'jquery.nicescroll';
-import Paper from 'material-ui/Paper';
-import { Renderer, Navigation, Events, Fileformat } from 'SDK/API';
+import $ from "jquery";
+import "jquery.nicescroll";
+import Paper from "material-ui/Paper";
+import React, { Component } from "react";
+import { findDOMNode } from "react-dom";
+import { Events, Fileformat, Navigation, Renderer } from "../../../SDK/API";
 
-import 'src/css/Thumbnail.css';
+import "src/css/Thumbnail.css";
 
 const thumbnailsCache	= {};
 global.__thumbnailsCache__ = thumbnailsCache;
@@ -41,7 +41,7 @@ class Thumbnail extends Component {
     this.state = {
       selectedStep: Navigation.current
     };
-    Events.on(['currentStepChanged', 'pathChanged'], () => {
+    Events.on(["currentStepChanged", "pathChanged"], () => {
       if (!this._ismounted) { return; }
       this.setState({
         selectedStep: Navigation.current
@@ -57,7 +57,7 @@ class Thumbnail extends Component {
 
   render() {
     const id = Fileformat.Path.getPath().indexOf(this.props.uuid);
-    const className = ['thumbnail', id === this.state.selectedStep ? 'selected' : ''].join(' ');
+    const className = ["thumbnail", id === this.state.selectedStep ? "selected" : ""].join(" ");
     return (
       <div
         className={className}
@@ -77,7 +77,7 @@ class Thumbnail extends Component {
 class Thumbnails extends Component {
   state = {
     isThumbnailsOpen: false
-  }
+  };
 
   toggleThumbnails = () => {
     const newState = !this.state.isThumbnailsOpen;
@@ -101,17 +101,17 @@ class Thumbnails extends Component {
 
   setSize = () => {
     if (!this.wrapper) { return; }
-    let width	= this.wrapper.offsetWidth,
+    const width	= this.wrapper.offsetWidth,
       height	= this.wrapper.offsetHeight;
     Renderer.Thumbnails.setWrapperSize(width, height);
   }
 
   constructor() {
     super();
-    Events.on('pathChanged', () => {
+    Events.on("pathChanged", () => {
       this.forceUpdate();
     });
-    window.addEventListener('resize', this.setSize);
+    window.addEventListener("resize", this.setSize);
   }
 
   render() {
@@ -123,11 +123,11 @@ class Thumbnails extends Component {
     const Canvas	= Renderer.Thumbnails.getThumbnailCanvas();
     return (
       <Paper
-        className={this.state.isThumbnailsOpen ? 'open' : 'close'}
+        className={this.state.isThumbnailsOpen ? "open" : "close"}
         id="thumbnails-wrapper"
         zDepth={3}
         style={{
-          boxShadow: 'rgba(0, 0, 0, 0.19) 0px -10px 30px, rgba(0, 0, 0, 0.23) 0px -6px 10px'
+          boxShadow: "rgba(0, 0, 0, 0.19) 0px -10px 30px, rgba(0, 0, 0, 0.23) 0px -6px 10px"
         }}
         onMouseEnter={() => Renderer.Thumbnails.enableRenderer()}
         onMouseLeave={() => !this.state.isThumbnailsOpen && Renderer.Thumbnails.disableRenderer()}

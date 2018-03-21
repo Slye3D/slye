@@ -9,7 +9,7 @@
  *       Licence: MIT License
  */
 
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 class Dashboard extends Component {
   render() {

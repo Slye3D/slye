@@ -9,9 +9,9 @@
  *       Licence: MIT License
  */
 
-import EventEmitter from './EE';
-import * as THREE from 'three';
-import { generateUUID } from '../Math';
+import * as THREE from "three";
+import { generateUUID } from "../Math";
+import EventEmitter from "./EE";
 
 class SlyeBase extends EventEmitter {
   constructor(props, uuid) {
@@ -22,7 +22,7 @@ class SlyeBase extends EventEmitter {
     if (!this.props._uuids_) { this.props._uuids_	= {}; }
     this._randomOffset_	= {};
     this._uuidOffset_	= {};
-    this.__scopeName__	= 'default';
+    this.__scopeName__	= "default";
   }
 
   requestAnimationFrame() {}
@@ -67,7 +67,7 @@ class SlyeBase extends EventEmitter {
     return r;
   }
 
-	// Audio
+  // Audio
   AudioListener() {
     return this._return_(new THREE.AudioListener(...arguments));
   }
@@ -88,7 +88,7 @@ class SlyeBase extends EventEmitter {
     return this._return_(new THREE.PositionalAudio(...arguments));
   }
 
-	// Camera
+  // Camera
   PerspectiveCamera(fov, aspect, near, far) {
     return this._return_(new THREE.PerspectiveCamera(...arguments));
   }
@@ -96,7 +96,6 @@ class SlyeBase extends EventEmitter {
   OrthographicCamera(left, right, top, bottom, near, far) {
     return this._return_(new THREE.OrthographicCamera(...arguments));
   }
-
 
 }
 

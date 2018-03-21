@@ -9,19 +9,19 @@
  *       Licence: MIT License
  */
 
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import * as THREE from 'three/build/three.module';
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
+import * as THREE from "three/build/three.module";
 
-import DDSLoader from 'src/three_plugins/loaders/DDSLoader';
-import MTLLoader from 'src/three_plugins/loaders/MTLLoader';
-import OBJLoader from 'src/three_plugins/loaders/OBJLoader';
-import OrbitControls from 'src/three_plugins/controls/OrbitControls';
 // import FirstPersonControls from 'src/three_plugins/controls/FirstPersonControls'
-import Mirror from 'src/three_plugins/Mirror';
-import Typer from 'src/SDK/Typer';
+import Mirror from "src/three_plugins/Mirror";
+import Typer from "../../SDK/Typer";
+import OrbitControls from "../three_plugins/controls/OrbitControls";
+import DDSLoader from "../three_plugins/loaders/DDSLoader";
+import MTLLoader from "../three_plugins/loaders/MTLLoader";
+import OBJLoader from "../three_plugins/loaders/OBJLoader";
 
-import { Tween, Easing, update } from 'es6-tween';
+import { Easing, Tween, update } from "es6-tween";
 
 const TweenUpdate = update;
 class Presentation extends Component {
@@ -30,12 +30,12 @@ class Presentation extends Component {
     const v = (x, y, z) => new THREE.Vector3(x, y, z);
 
     const steps = [
-				[v(27.93, 0.43, 1), v(-0.41, 1.53, 0.41), v(r * Math.cos(1.25664 * 5), 0, r * Math.sin(1.25664 * 5))],
-				[v(-3.93, 0.79, 2.4), v(-3.11, 0.86, 3.12), v(r * Math.cos(1.25664 * 2), 4, r * Math.sin(1.25664 * 2))],
-				[v(1.82, 3.26, 2.47), v(-0.02, 0.86, 0.18), v(r * Math.cos(1.25664 * 3), 4, r * Math.sin(1.25664 * 3))],
-				[v(4.5855, 1.10, 14.99), v(-3.12, -0.34, -3.13), v(r * Math.cos(1.25664 * 4), 4, r * Math.sin(1.25664 * 4))],
-				[v(10.38, 8.31, 8.68), v(-0.76, 0.71, 0.59), v(0, 0, 0)],
-				[v(9.43, 2.82, -4.88), v(-0.10, 0.16, 0.16), v(0, 0, 0)]
+        [v(27.93, 0.43, 1), v(-0.41, 1.53, 0.41), v(r * Math.cos(1.25664 * 5), 0, r * Math.sin(1.25664 * 5))],
+        [v(-3.93, 0.79, 2.4), v(-3.11, 0.86, 3.12), v(r * Math.cos(1.25664 * 2), 4, r * Math.sin(1.25664 * 2))],
+        [v(1.82, 3.26, 2.47), v(-0.02, 0.86, 0.18), v(r * Math.cos(1.25664 * 3), 4, r * Math.sin(1.25664 * 3))],
+        [v(4.5855, 1.10, 14.99), v(-3.12, -0.34, -3.13), v(r * Math.cos(1.25664 * 4), 4, r * Math.sin(1.25664 * 4))],
+        [v(10.38, 8.31, 8.68), v(-0.76, 0.71, 0.59), v(0, 0, 0)],
+        [v(9.43, 2.82, -4.88), v(-0.10, 0.16, 0.16), v(0, 0, 0)]
     ];
     let current = -1;
     function next() {
@@ -55,33 +55,33 @@ class Presentation extends Component {
         z: steps[id][0].z,
       };
       const tween1 = new Tween(global.camera.position)
-	        .to(pos, 1500)
-	        .easing(Easing.Quadratic.In)
-	        .start();
+          .to(pos, 1500)
+          .easing(Easing.Quadratic.In)
+          .start();
 
       const rot = {
         x: steps[id][1].x,
         y: steps[id][1].y,
         z: steps[id][1].z,
       };
-	        const tween2 = new Tween(global.camera.rotation)
-	        .to(rot, 1500)
-	        .easing(Easing.Quadratic.In)
-	        .start();
+          const tween2 = new Tween(global.camera.rotation)
+          .to(rot, 1500)
+          .easing(Easing.Quadratic.In)
+          .start();
 
-			// global.controls.target = steps[id][2]
-			// global.controls.update()
+      // global.controls.target = steps[id][2]
+      // global.controls.update()
 
       console.log(camera.position);
       console.log(pos, rot);
     }
 
-    document.addEventListener('keydown', (event) => {
+    document.addEventListener("keydown", (event) => {
       if (event.keyCode === 9 || (event.keyCode >= 32 && event.keyCode <= 34) || (event.keyCode >= 37 && event.keyCode <= 40)) {
         event.preventDefault();
       }
     }, false);
-    document.addEventListener('keyup', (event) => {
+    document.addEventListener("keyup", (event) => {
       if (event.keyCode === 9 || (event.keyCode >= 32 && event.keyCode <= 34) || (event.keyCode >= 37 && event.keyCode <= 40)) {
         switch (event.keyCode) {
           case 33: // pg up
@@ -100,7 +100,7 @@ class Presentation extends Component {
         event.preventDefault();
       }
     }, false);
-    document.addEventListener('touchstart', (event) => {
+    document.addEventListener("touchstart", (event) => {
       if (event.touches.length === 1) {
         let x = event.touches[0].clientX,
           width = window.innerWidth * 0.3,
@@ -116,8 +116,7 @@ class Presentation extends Component {
       }
     }, false);
 
-
-    let r = 20;
+    const r = 20;
 
     let camera,
       scene,
@@ -133,31 +132,31 @@ class Presentation extends Component {
       hemiLight;
     const that = this;
 
-			// ref for lumens: http://www.power-sure.com/lumens.htm
+      // ref for lumens: http://www.power-sure.com/lumens.htm
     const bulbLuminousPowers = {
-      '110000 lm (1000W)': 110000,
-      '3500 lm (300W)': 3500,
-      '1700 lm (100W)': 1700,
-      '800 lm (60W)': 800,
-      '400 lm (40W)': 400,
-      '180 lm (25W)': 180,
-      '20 lm (4W)': 20,
+      "110000 lm (1000W)": 110000,
+      "3500 lm (300W)": 3500,
+      "1700 lm (100W)": 1700,
+      "800 lm (60W)": 800,
+      "400 lm (40W)": 400,
+      "180 lm (25W)": 180,
+      "20 lm (4W)": 20,
       Off: 0
     };
 
-			// ref for solar irradiances: https://en.wikipedia.org/wiki/Lux
+      // ref for solar irradiances: https://en.wikipedia.org/wiki/Lux
     const hemiLuminousIrradiances = {
-      '0.0001 lx (Moonless Night)': 0.0001,
-      '0.002 lx (Night Airglow)': 0.002,
-      '0.5 lx (Full Moon)': 0.5,
-      '3.4 lx (City Twilight)': 3.4,
-      '50 lx (Living Room)': 50,
-      '100 lx (Very Overcast)': 100,
-      '350 lx (Office Room)': 350,
-      '400 lx (Sunrise/Sunset)': 400,
-      '1000 lx (Overcast)': 1000,
-      '18000 lx (Daylight)': 18000,
-      '50000 lx (Direct Sun)': 50000
+      "0.0001 lx (Moonless Night)": 0.0001,
+      "0.002 lx (Night Airglow)": 0.002,
+      "0.5 lx (Full Moon)": 0.5,
+      "3.4 lx (City Twilight)": 3.4,
+      "50 lx (Living Room)": 50,
+      "100 lx (Very Overcast)": 100,
+      "350 lx (Office Room)": 350,
+      "400 lx (Sunrise/Sunset)": 400,
+      "1000 lx (Overcast)": 1000,
+      "18000 lx (Daylight)": 18000,
+      "50000 lx (Direct Sun)": 50000
     };
 
     const params = {
@@ -166,7 +165,6 @@ class Presentation extends Component {
       bulbPower: Object.keys(bulbLuminousPowers)[4],
       hemiIrradiance: Object.keys(hemiLuminousIrradiances)[0]
     };
-
 
     const clock = new THREE.Clock();
 
@@ -183,11 +181,10 @@ class Presentation extends Component {
       global.scene = scene;
       scene.fog = new THREE.FogExp2(0xffffff, 0.001);
 
-				// var light = new THREE.AmbientLight( 0xcccccc ); // soft white light
-				// scene.add( light );
+        // var light = new THREE.AmbientLight( 0xcccccc ); // soft white light
+        // scene.add( light );
 
-
-				// lights
+        // lights
 
       bulbLight = new THREE.PointLight(0xffee88, 1, 100, 2);
       bulbLight.power = 50000;
@@ -217,7 +214,6 @@ class Presentation extends Component {
       bulbLight.castShadow = true;
       scene.add(bulbLight);
 
-
       hemiLight = new THREE.HemisphereLight(0xddeeff, 0x0f0e0d, 0.02);
       scene.add(hemiLight);
 
@@ -228,7 +224,7 @@ class Presentation extends Component {
         bumpScale: 0.0005
       });
       const textureLoader = new THREE.TextureLoader();
-      textureLoader.load('textures/hardwood2_diffuse.jpg', (map) => {
+      textureLoader.load("textures/hardwood2_diffuse.jpg", (map) => {
         map.wrapS = THREE.RepeatWrapping;
         map.wrapT = THREE.RepeatWrapping;
         map.anisotropy = 4;
@@ -236,7 +232,7 @@ class Presentation extends Component {
         floorMat.map = map;
         floorMat.needsUpdate = true;
       });
-      textureLoader.load('textures/hardwood2_bump.jpg', (map) => {
+      textureLoader.load("textures/hardwood2_bump.jpg", (map) => {
         map.wrapS = THREE.RepeatWrapping;
         map.wrapT = THREE.RepeatWrapping;
         map.anisotropy = 4;
@@ -244,7 +240,7 @@ class Presentation extends Component {
         floorMat.bumpMap = map;
         floorMat.needsUpdate = true;
       });
-      textureLoader.load('textures/hardwood2_roughness.jpg', (map) => {
+      textureLoader.load("textures/hardwood2_roughness.jpg", (map) => {
         map.wrapS = THREE.RepeatWrapping;
         map.wrapT = THREE.RepeatWrapping;
         map.anisotropy = 4;
@@ -259,7 +255,7 @@ class Presentation extends Component {
         bumpScale: 0.002,
         metalness: 0.2
       });
-      textureLoader.load('textures/brick_diffuse.jpg', (map) => {
+      textureLoader.load("textures/brick_diffuse.jpg", (map) => {
         map.wrapS = THREE.RepeatWrapping;
         map.wrapT = THREE.RepeatWrapping;
         map.anisotropy = 4;
@@ -267,7 +263,7 @@ class Presentation extends Component {
         cubeMat.map = map;
         cubeMat.needsUpdate = true;
       });
-      textureLoader.load('textures/brick_bump.jpg', (map) => {
+      textureLoader.load("textures/brick_bump.jpg", (map) => {
         map.wrapS = THREE.RepeatWrapping;
         map.wrapT = THREE.RepeatWrapping;
         map.anisotropy = 4;
@@ -281,12 +277,12 @@ class Presentation extends Component {
         roughness: 0.5,
         metalness: 1.0
       });
-      textureLoader.load('textures/planets/earth_atmos_2048.jpg', (map) => {
+      textureLoader.load("textures/planets/earth_atmos_2048.jpg", (map) => {
         map.anisotropy = 4;
         ballMat.map = map;
         ballMat.needsUpdate = true;
       });
-      textureLoader.load('textures/planets/earth_specular_2048.jpg', (map) => {
+      textureLoader.load("textures/planets/earth_specular_2048.jpg", (map) => {
         map.anisotropy = 4;
         ballMat.metalnessMap = map;
         ballMat.needsUpdate = true;
@@ -294,11 +290,11 @@ class Presentation extends Component {
 
       const floorGeometry = new THREE.PlaneBufferGeometry(2000, 2000);
       const floorMesh = new THREE.Mesh(floorGeometry, new THREE.MeshBasicMaterial({
-					 color: 0x000000,
-					 opacity: 0.8,
-					 transparent: true
-				 }));
-				// var floorMesh = new THREE.Mesh( floorGeometry, floorMat);
+           color: 0x000000,
+           opacity: 0.8,
+           transparent: true
+         }));
+        // var floorMesh = new THREE.Mesh( floorGeometry, floorMat);
       floorMesh.receiveShadow = true;
       floorMesh.rotation.x = -Math.PI / 2.0;
       scene.add(floorMesh);
@@ -321,7 +317,6 @@ class Presentation extends Component {
       that.renderer.setPixelRatio(window.devicePixelRatio * 2);
       that.renderer.setSize(window.innerWidth, window.innerHeight);
 
-
       const controls = new OrbitControls(camera, that.renderer.domElement);
       controls.target.set(0, 0, 0);
       controls.enablePan = false;
@@ -329,34 +324,34 @@ class Presentation extends Component {
       controls.maxDistance = 5000.0;
       controls.maxPolarAngle = Math.PI * 0.495;
       global.controls = controls;
-				// controls.target.set( 0, 500, 0 );
+        // controls.target.set( 0, 500, 0 );
 
-				// controls.update();
+        // controls.update();
 
-      window.addEventListener('resize', onWindowResize, false);
+      window.addEventListener("resize", onWindowResize, false);
 
-				// my codes
+        // my codes
 
-				// Load Slye logo
+        // Load Slye logo
 
-      const onProgress = function (xhr) {
+      const onProgress = function(xhr) {
         if (xhr.lengthComputable) {
           const percentComplete = xhr.loaded / xhr.total * 100;
           console.log(`${Math.round(percentComplete, 2)}% downloaded`);
         }
       };
 
-      const onError = function (xhr) { };
+      const onError = function(xhr) { };
 
       THREE.Loader.Handlers.add(/\.dds$/i, new DDSLoader());
 
       const objLoader = new OBJLoader();
-				// objLoader.setMaterials( materials );
-      objLoader.setPath('3d/');
-      objLoader.load('Logo/Slye.obj', (object) => {
+        // objLoader.setMaterials( materials );
+      objLoader.setPath("3d/");
+      objLoader.load("Logo/Slye.obj", (object) => {
         global.logo = object;
 
-					// y material
+          // y material
         const blackMaterial = new THREE.MeshPhongMaterial({ color: 0x191919 });
         object.children[0].material = blackMaterial;
         object.children[2].material = blackMaterial;
@@ -373,36 +368,36 @@ class Presentation extends Component {
         object.position.x = 0;
 
         object.scale.x =
-						object.scale.y =
-						object.scale.z = 0.2;
+            object.scale.y =
+            object.scale.z = 0.2;
 
         scene.add(object);
       }, onProgress, onError);
 
-				// load VR headset
-      objLoader.load('vr/V3.obj', (object) => {
-					// var loader = new THREE.TextureLoader()
-					// loader.setPath('3d/vr/textures/')
-					//
-					// loader.load('base.png', function(map){
-					// 	object.children[0].material[0].map = map
-					// })
-					//
-					// loader.load('logo.png', function(map){
-					// 	object.children[0].material = new
-					// })
+        // load VR headset
+      objLoader.load("vr/V3.obj", (object) => {
+          // var loader = new THREE.TextureLoader()
+          // loader.setPath('3d/vr/textures/')
+          //
+          // loader.load('base.png', function(map){
+          // 	object.children[0].material[0].map = map
+          // })
+          //
+          // loader.load('logo.png', function(map){
+          // 	object.children[0].material = new
+          // })
 
         const blackMaterial = new THREE.MeshPhongMaterial({ color: 0x191919 });
         object.children[0].material = blackMaterial;
 
         global.vr = object;
         object.scale.x =
-						object.scale.y =
-						object.scale.z = 0.2;
+            object.scale.y =
+            object.scale.z = 0.2;
         object.position.y = 1;
         object.position.z = 20;
-					// controls.target.set(0, 1, 20)
-					// controls.update()
+          // controls.target.set(0, 1, 20)
+          // controls.update()
         object.rotation.y = Math.PI / 4;
         object.material;
 
@@ -413,12 +408,12 @@ class Presentation extends Component {
         scene.add(object);
       }, onProgress, onError);
 
-				// load
-      objLoader.load('Monitor.obj', (object) => {
+        // load
+      objLoader.load("Monitor.obj", (object) => {
         global._monitor = object;
         object.scale.x =
-					object.scale.y =
-					object.scale.z = 0.5;
+          object.scale.y =
+          object.scale.z = 0.5;
 
         object.position.y = 0.6;
         object.position.z = r * Math.sin(1.25664 * 5);
@@ -428,16 +423,16 @@ class Presentation extends Component {
         scene.add(object);
       });
 
-				// load powerpoint logo
+        // load powerpoint logo
       const pw_geometry = new THREE.PlaneGeometry(11.0 / 5, 10.8 / 5);
       const pw_material = new THREE.MeshBasicMaterial({
         transparent: true,
-					// opacity: 0.8,
-					// alphaTest: 0.5,
+          // opacity: 0.8,
+          // alphaTest: 0.5,
         depthWrite: false,
         color: 0xcb4a32,
         side: THREE.DoubleSide,
-        map: THREE.ImageUtils.loadTexture('images/powerpoint.png')
+        map: THREE.ImageUtils.loadTexture("images/powerpoint.png")
       });
       const pw_mesh = new THREE.Mesh(pw_geometry, pw_material);
       pw_mesh.position.y = 4;
@@ -449,19 +444,17 @@ class Presentation extends Component {
       pw_mesh.position.x = r * Math.cos(1.25664 * 2);
       pw_mesh.rotation.y = 1.25664 * 2;
 
-
       scene.add(pw_mesh);
-
 
       const pr_geometry = new THREE.PlaneGeometry(98.6 / 10, 36.0 / 10);
       const pr_material = new THREE.MeshBasicMaterial({
         transparent: true,
-					// opacity: 0.7,
+          // opacity: 0.7,
         color: 0x0081ff,
         side: THREE.DoubleSide,
-					// alphaTest: 0.5,
+          // alphaTest: 0.5,
         depthWrite: false,
-        map: THREE.ImageUtils.loadTexture('images/prezi.png')
+        map: THREE.ImageUtils.loadTexture("images/prezi.png")
       });
       const pr_mesh = new THREE.Mesh(pr_geometry, pr_material);
       pr_mesh.position.y = 5;
@@ -469,17 +462,16 @@ class Presentation extends Component {
       pr_mesh.position.z = 10;
       global.pr_mesh = pr_mesh;
 
-
       pr_mesh.position.z = r * Math.sin(1.25664 * 3);
       pr_mesh.position.x = r * Math.cos(1.25664 * 3);
       pr_mesh.rotation.y = 1.25664 * 3 + Math.PI;
 
       scene.add(pr_mesh);
 
-				// Type texts
+        // Type texts
 
       const fontLoader = new THREE.FontLoader();
-      fontLoader.load('fonts/a.json', (font) => {
+      fontLoader.load("fonts/a.json", (font) => {
         const blackMaterial = new THREE.MeshPhongMaterial({
           color: 0x191919,
           emissive: 0x072534,
@@ -496,7 +488,7 @@ class Presentation extends Component {
         goldenMaterial.color.b = 0x01;
         let geometry,
           mesh;
-        geometry = new THREE.TextGeometry('Modern', {
+        geometry = new THREE.TextGeometry("Modern", {
           font,
           size: 0.5,
           height: 0.025
@@ -508,8 +500,7 @@ class Presentation extends Component {
         mesh.rotation.y = 1.25664 * 5;
         scene.add(mesh);
 
-
-        geometry = new THREE.TextGeometry('Attractive', {
+        geometry = new THREE.TextGeometry("Attractive", {
           font,
           size: 0.5,
           height: 0.025
@@ -521,8 +512,7 @@ class Presentation extends Component {
         mesh.rotation.y = 1.25664 * 5;
         scene.add(mesh);
 
-
-        geometry = new THREE.TextGeometry('3D', {
+        geometry = new THREE.TextGeometry("3D", {
           font,
           size: 0.5,
           height: 0.025
@@ -534,7 +524,7 @@ class Presentation extends Component {
         mesh.rotation.y = 1.25664 * 5;
         scene.add(mesh);
 
-        geometry = new THREE.TextGeometry('Impressive', {
+        geometry = new THREE.TextGeometry("Impressive", {
           font,
           size: 0.5,
           height: 0.025
@@ -546,8 +536,7 @@ class Presentation extends Component {
         mesh.rotation.y = 1.25664 * 5;
         scene.add(mesh);
 
-
-        geometry = new THREE.TextGeometry('Easy to use!', {
+        geometry = new THREE.TextGeometry("Easy to use!", {
           font,
           size: 0.5,
           height: 0.025
@@ -559,7 +548,7 @@ class Presentation extends Component {
         mesh.rotation.y = 1.25664 * 5;
         scene.add(mesh);
 
-        geometry = new THREE.TextGeometry('Different', {
+        geometry = new THREE.TextGeometry("Different", {
           font,
           size: 0.5,
           height: 0.025
@@ -571,9 +560,9 @@ class Presentation extends Component {
         mesh.rotation.y = 1.25664 * 5;
         scene.add(mesh);
       });
-				// glyphs
-      fontLoader.load('fonts/x.json', (font) => {
-        fontLoader.load('fonts/font.typeface.json', (font0) => {
+        // glyphs
+      fontLoader.load("fonts/x.json", (font) => {
+        fontLoader.load("fonts/font.typeface.json", (font0) => {
           for (const key in font0.data.glyphs) {
             font.data.glyphs[key] = font0.data.glyphs[key];
           }
@@ -596,21 +585,21 @@ class Presentation extends Component {
           let geometry,
             mesh;
 
-						// Slye text
+            // Slye text
           geometry = new THREE.TextGeometry(
-							Typer(
-								'”اسلای“',
-								'rtl'
-							)
-							, {
+              Typer(
+                "”اسلای“",
+                "rtl"
+              )
+              , {
   font,
   size: 2,
   height: 0.1,
-							// curveSegments: 12,
-							// bevelEnabled: true,
-							// bevelThickness: 10,
-							// bevelSize: 8,
-							// bevelSegments: 5
+              // curveSegments: 12,
+              // bevelEnabled: true,
+              // bevelThickness: 10,
+              // bevelSize: 8,
+              // bevelSegments: 5
 });
           global.text = geometry;
           mesh = new THREE.Mesh(geometry, goldenMaterial);
@@ -629,7 +618,7 @@ class Presentation extends Component {
       that.renderer.setSize(window.innerWidth, window.innerHeight);
     }
 
-			//
+      //
 
     function animate(time) {
       requestAnimationFrame(animate);
@@ -643,7 +632,6 @@ class Presentation extends Component {
 
     requestAnimationFrame(animate);
   }
-
 
   render() {
     const Canvas = this.renderer.domElement;

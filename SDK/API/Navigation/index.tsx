@@ -9,13 +9,13 @@
  *       Licence: MIT License
  */
 
-import { Path } from '../Fileformat';
-import { emit } from '../Events';
+import { emit } from "../Events";
+import { Path } from "../Fileformat";
 
 global.__current__	= 0;
 
 function goTo(stepUUID) {
-	// TODO:10 finish after rendering loop
+  // TODO:10 finish after rendering loop
 }
 
 function goToPathId(pathId) {
@@ -23,7 +23,7 @@ function goToPathId(pathId) {
   const stepUUID		= Path.getPoint(pathId);
   global.__current__	= pathId;
   goTo(stepUUID);
-  emit('currentStepChanged');
+  emit("currentStepChanged");
 }
 
 function next() {
@@ -57,10 +57,9 @@ export default {
   }
 };
 
-
 export {
-		goTo
-	,	goToPathId
-	,	next
-	,	prev
+    goTo
+  ,	goToPathId
+  ,	next
+  ,	prev
 };

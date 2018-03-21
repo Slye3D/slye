@@ -9,10 +9,10 @@
  *       Licence: MIT License
  */
 
-import { WebGLRenderer, PerspectiveCamera } from 'three';
-import { calculateDistance, findCameraPosition } from '../../Math';
-import { getStep } from '../Fileformat/_Steps';
-import { Path } from '../Fileformat';
+import { PerspectiveCamera, WebGLRenderer } from "three";
+import { calculateDistance, findCameraPosition } from "../../Math";
+import { Path } from "../Fileformat";
+import { getStep } from "../Fileformat/_Steps";
 
 global.__thumbnailsRenderer__ 	= new WebGLRenderer({ alpha: true });
 global.__renderThumbnails__		= false;
@@ -34,7 +34,7 @@ function init(stepUUID) {
   thumbnails[stepUUID] = [camera, null];
   updateCamera(stepUUID);
 
-	// TODO: Effect events like onStepRemoved and etc...
+  // TODO: Effect events like onStepRemoved and etc...
 }
 
 function enableRenderer() {
@@ -58,14 +58,14 @@ function setThumbnailsSize(width, height, margin) {
   global.__tH__	= height;
   global.__tM__	= margin;
   distance	= calculateDistance(
-	   		global.__tW__
-	   ,	global.__tH__
-	   ,	900
-	   ,	700
+         global.__tW__
+     ,	global.__tH__
+     ,	900
+     ,	700
    );
   const n = Object.keys(thumbnails).length;
   for (const key in thumbnails) {
-	   if (thumbnails[key])	   	{ updateCamera(key); }
+     if (thumbnails[key])	   	{ updateCamera(key); }
   }
 }
 
@@ -103,7 +103,6 @@ function requestAnimationFrame() {
   }
 }
 
-
 export default {
   setThumbnailsSize,
   init,
@@ -117,14 +116,14 @@ export default {
   setWrapperSize
 };
 export {
-		setThumbnailsSize
-	,	init
-	,	getThumbnailCanvas
-	,	updateCamera
-	,	enableRenderer
-	,	disableRenderer
-	,	requestAnimationFrame
-	,	setDom
-	,	setWrapperDom
-	,	setWrapperSize
+    setThumbnailsSize
+  ,	init
+  ,	getThumbnailCanvas
+  ,	updateCamera
+  ,	enableRenderer
+  ,	disableRenderer
+  ,	requestAnimationFrame
+  ,	setDom
+  ,	setWrapperDom
+  ,	setWrapperSize
 };

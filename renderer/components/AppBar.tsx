@@ -9,8 +9,8 @@
  *       Licence: MIT License
  */
 
-import React from 'react';
-import AppBar from 'material-ui/AppBar';
+import AppBar from "material-ui/AppBar";
+import React from "react";
 
 export default () => (
   <AppBar

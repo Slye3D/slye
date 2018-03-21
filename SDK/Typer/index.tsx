@@ -14,178 +14,178 @@ const checkRtl = x => rtlRegex.test(x);
 
 const persian4Kind = {
   ئ: [
-    'ئ',
-    'ﺋ',
-    'ﺊ',
-    'ﺌ'
+    "ئ",
+    "ﺋ",
+    "ﺊ",
+    "ﺌ"
   ],
   ب: [
-    'ب',
-    'ﺑ',
-    'ﺐ',
-    'ﺒ'
+    "ب",
+    "ﺑ",
+    "ﺐ",
+    "ﺒ"
   ],
   پ: [
-    'پ',
-    'ﭘ',
-    'ﭗ',
-    'ﭙ'
+    "پ",
+    "ﭘ",
+    "ﭗ",
+    "ﭙ"
   ],
   ت: [
-    'ت',
-    'ﺗ',
-    'ﺖ',
-    'ﺘ'
+    "ت",
+    "ﺗ",
+    "ﺖ",
+    "ﺘ"
   ],
   ث: [
-    'ث',
-    'ﺛ',
-    'ﺚ',
-    'ﺜ'
+    "ث",
+    "ﺛ",
+    "ﺚ",
+    "ﺜ"
   ],
   ج: [
-    'ج',
-    'ﺟ',
-    'ﺞ',
-    'ﺠ'
+    "ج",
+    "ﺟ",
+    "ﺞ",
+    "ﺠ"
   ],
   چ: [
-    'چ',
-    'ﭼ',
-    'ﭻ',
-    'ﭽ'
+    "چ",
+    "ﭼ",
+    "ﭻ",
+    "ﭽ"
   ],
   ح: [
-    'ح',
-    'ﺣ',
-    'ﺢ',
-    'ﺤ'
+    "ح",
+    "ﺣ",
+    "ﺢ",
+    "ﺤ"
   ],
   خ: [
-    'خ',
-    'ﺧ',
-    'ﺦ',
-    'ﺨ'
+    "خ",
+    "ﺧ",
+    "ﺦ",
+    "ﺨ"
   ],
   س: [
-    'س',
-    'ﺳ',
-    'ﺲ',
-    'ﺴ'
+    "س",
+    "ﺳ",
+    "ﺲ",
+    "ﺴ"
   ],
   ش: [
-    'ش',
-    'ﺷ',
-    'ﺶ',
-    'ﺸ'
+    "ش",
+    "ﺷ",
+    "ﺶ",
+    "ﺸ"
   ],
   ص: [
-    'ص',
-    'ﺻ',
-    'ﺺ',
-    'ﺼ'
+    "ص",
+    "ﺻ",
+    "ﺺ",
+    "ﺼ"
   ],
   ض: [
-    'ض',
-    'ﺿ',
-    'ﺾ',
-    'ﻀ'
+    "ض",
+    "ﺿ",
+    "ﺾ",
+    "ﻀ"
   ],
   ط: [
-    'ط',
-    'ﻃ',
-    'ﻂ',
-    'ﻄ'
+    "ط",
+    "ﻃ",
+    "ﻂ",
+    "ﻄ"
   ],
   ظ: [
-    'ظ',
-    'ﻇ',
-    'ﻆ',
-    'ﻈ'
+    "ظ",
+    "ﻇ",
+    "ﻆ",
+    "ﻈ"
   ],
   ع: [
-    'ع',
-    'ﻋ',
-    'ﻊ',
-    'ﻌ'
+    "ع",
+    "ﻋ",
+    "ﻊ",
+    "ﻌ"
   ],
   غ: [
-    'غ',
-    'ﻏ',
-    'ﻎ',
-    'ﻐ'
+    "غ",
+    "ﻏ",
+    "ﻎ",
+    "ﻐ"
   ],
   ف: [
-    'ف',
-    'ﻓ',
-    'ﻒ',
-    'ﻔ'
+    "ف",
+    "ﻓ",
+    "ﻒ",
+    "ﻔ"
   ],
   ق: [
-    'ق',
-    'ﻗ',
-    'ﻖ',
-    'ﻘ'
+    "ق",
+    "ﻗ",
+    "ﻖ",
+    "ﻘ"
   ],
   ک: [
-    'ک',
-    'ﮐ',
-    'ﮏ',
-    'ﮑ'
+    "ک",
+    "ﮐ",
+    "ﮏ",
+    "ﮑ"
   ],
   ك: [
-    'ك',
-    'ﮐ',
-    'ﮏ',
-    'ﮑ'
+    "ك",
+    "ﮐ",
+    "ﮏ",
+    "ﮑ"
   ],
   گ: [
-    'گ',
-    'ﮔ',
-    'ﮓ',
-    'ﮕ'
+    "گ",
+    "ﮔ",
+    "ﮓ",
+    "ﮕ"
   ],
   ل: [
-    'ل',
-    'ﻟ',
-    'ﻞ',
-    'ﻠ'
+    "ل",
+    "ﻟ",
+    "ﻞ",
+    "ﻠ"
   ],
   م: [
-    'م',
-    'ﻣ',
-    'ﻢ',
-    'ﻤ'
+    "م",
+    "ﻣ",
+    "ﻢ",
+    "ﻤ"
   ],
   ن: [
-    'ن',
-    'ﻧ',
-    'ﻦ',
-    'ﻨ'
+    "ن",
+    "ﻧ",
+    "ﻦ",
+    "ﻨ"
   ],
   ه: [
-    'ه',
-    'ﻫ',
-    'ﻪ',
-    'ﻬ'
+    "ه",
+    "ﻫ",
+    "ﻪ",
+    "ﻬ"
   ],
   ي: [
-    'ي',
-    'ﯾ',
-    'ﯽ',
-    'ﯿ'
+    "ي",
+    "ﯾ",
+    "ﯽ",
+    "ﯿ"
   ],
   ی: [
-    'ى',
-    'ﯾ',
-    'ﯽ',
-    'ﯿ'
+    "ى",
+    "ﯾ",
+    "ﯽ",
+    "ﯿ"
   ],
   ى: [
-    'ى',
-    'ﯾ',
-    'ﯽ',
-    'ﯿ'
+    "ى",
+    "ﯾ",
+    "ﯽ",
+    "ﯿ"
   ]
 };
 
@@ -202,40 +202,39 @@ function fixPersianText(t) {
       return [
         undefined,
         null,
-        ' ',
-        'آ',
-        'أ',
-        'إ',
-        'ا',
-        'ؤ',
-        'و',
-        'د',
-        'ذ',
-        'ر',
-        'ز',
-        'ژ',
-        'ة'
+        " ",
+        "آ",
+        "أ",
+        "إ",
+        "ا",
+        "ؤ",
+        "و",
+        "د",
+        "ذ",
+        "ر",
+        "ز",
+        "ژ",
+        "ة"
       ].indexOf(t[i]) > -1;
     }
 
     if ([
-      'x',
-      'آ',
-      'أ',
-      'إ',
-      'ا',
-      'ؤ',
-      'و',
-      'د',
-      'ذ',
-      'ر',
-      'ز',
-      'ژ',
-      'ة'
+      "x",
+      "آ",
+      "أ",
+      "إ",
+      "ا",
+      "ؤ",
+      "و",
+      "د",
+      "ذ",
+      "ر",
+      "ز",
+      "ژ",
+      "ة"
     ].indexOf(t[i]) > -1) { return false; }
     return persian4Kind[t[i]] == undefined;
   };
-
 
   const full = (isPrevBlank, isNextBlank, a, b, c, d) => {
     if (!isPrevBlank && isNextBlank) {
@@ -252,38 +251,38 @@ function fixPersianText(t) {
     }
   };
 
-	// س
-	// ل i - 1
-	// ا i
-	// م i + 1
-	//
-	// ی
-	// ه
-	//
-	// ق
-	// و
-	// م
+  // س
+  // ل i - 1
+  // ا i
+  // م i + 1
+  //
+  // ی
+  // ه
+  //
+  // ق
+  // و
+  // م
   for (i = t.length - 1; i > -1; i--) {
-    if (t[i] == 'x') { continue; }
-    if (t[i - 1] == 'ل') {
-      if (t[i] == 'آ') {
-        if (isBlank(i - 2)) { re.psuh('ﻵ'); } else					{ re.push('ﻶ'); }
-        t[i - 1] = 'x';
+    if (t[i] == "x") { continue; }
+    if (t[i - 1] == "ل") {
+      if (t[i] == "آ") {
+        if (isBlank(i - 2)) { re.psuh("ﻵ"); } else					{ re.push("ﻶ"); }
+        t[i - 1] = "x";
         continue;
       }
-      if (t[i] == 'أ') {
-        if (isBlank(i - 2)) { re.psuh('ﻷ'); } else					{ re.push('ﻸ'); }
-        t[i - 1] = 'x';
+      if (t[i] == "أ") {
+        if (isBlank(i - 2)) { re.psuh("ﻷ"); } else					{ re.push("ﻸ"); }
+        t[i - 1] = "x";
         continue;
       }
-      if (t[i] == 'إ') {
-        if (isBlank(i - 2)) { re.psuh('ﻹ'); } else					{ re.push('ﻺ'); }
-        t[i - 1] = 'x';
+      if (t[i] == "إ") {
+        if (isBlank(i - 2)) { re.psuh("ﻹ"); } else					{ re.push("ﻺ"); }
+        t[i - 1] = "x";
         continue;
       }
-      if (t[i] == 'ا') {
-        if (isBlank(i - 2)) { re.psuh('ﻻ'); } else					{ re.push('ﻼ'); }
-        t[i - 1] = 'x';
+      if (t[i] == "ا") {
+        if (isBlank(i - 2)) { re.psuh("ﻻ"); } else					{ re.push("ﻼ"); }
+        t[i - 1] = "x";
         continue;
       }
     }
@@ -291,52 +290,52 @@ function fixPersianText(t) {
     const isPrevBlank	= isBlank(i - 1);
     const isNextBlank = isBlank(i + 1, true);
 
-    if (t[i] == 'آ' && !isPrevBlank) {
-      re.push('ﺂ');
+    if (t[i] == "آ" && !isPrevBlank) {
+      re.push("ﺂ");
       continue;
     }
-    if (t[i] == 'أ' && !isPrevBlank) {
-      re.push('ﺄ');
+    if (t[i] == "أ" && !isPrevBlank) {
+      re.push("ﺄ");
       continue;
     }
-    if (t[i] == 'إ' && !isPrevBlank) {
-      re.push('ﺈ');
+    if (t[i] == "إ" && !isPrevBlank) {
+      re.push("ﺈ");
       continue;
     }
-    if (t[i] == 'ا' && !isPrevBlank) {
-      re.push('ﺎ');
+    if (t[i] == "ا" && !isPrevBlank) {
+      re.push("ﺎ");
       continue;
     }
-    if (t[i] == 'ؤ' && !isPrevBlank) {
-      re.push('ﺆ');
+    if (t[i] == "ؤ" && !isPrevBlank) {
+      re.push("ﺆ");
       continue;
     }
-    if (t[i] == 'و' && !isPrevBlank) {
-      re.push('ﻮ');
+    if (t[i] == "و" && !isPrevBlank) {
+      re.push("ﻮ");
       continue;
     }
-    if (t[i] == 'د' && !isPrevBlank) {
-      re.push('ﺪ');
+    if (t[i] == "د" && !isPrevBlank) {
+      re.push("ﺪ");
       continue;
     }
-    if (t[i] == 'ذ' && !isPrevBlank) {
-      re.push('ﺬ');
+    if (t[i] == "ذ" && !isPrevBlank) {
+      re.push("ﺬ");
       continue;
     }
-    if (t[i] == 'ر' && !isPrevBlank) {
-      re.push('ﺮ');
+    if (t[i] == "ر" && !isPrevBlank) {
+      re.push("ﺮ");
       continue;
     }
-    if (t[i] == 'ز' && !isPrevBlank) {
-      re.push('ﺰ');
+    if (t[i] == "ز" && !isPrevBlank) {
+      re.push("ﺰ");
       continue;
     }
-    if (t[i] == 'ژ' && !isPrevBlank) {
-      re.push('ﮋ');
+    if (t[i] == "ژ" && !isPrevBlank) {
+      re.push("ﮋ");
       continue;
     }
-    if (t[i] == 'ة' && !isPrevBlank) {
-      re.push('ﮥ');
+    if (t[i] == "ة" && !isPrevBlank) {
+      re.push("ﮥ");
       continue;
     }
 
@@ -349,9 +348,9 @@ function fixPersianText(t) {
   return re;
 }
 
-function fixLine(text, dir = 'ltr') {
-  text = text.split('');
-  if (text.length < 2) { return text.join(''); }
+function fixLine(text, dir = "ltr") {
+  text = text.split("");
+  if (text.length < 2) { return text.join(""); }
   const words	= [];
   let isRtl	= checkRtl(text[0]);
   let word	= [];
@@ -368,7 +367,7 @@ function fixLine(text, dir = 'ltr') {
   words.push(word);
 
   const re = [];
-  if (dir.toLowerCase() == 'rtl') {
+  if (dir.toLowerCase() == "rtl") {
     for (let i = words.length - 1; i > -1; i--) {
       word = words[i];
       for (let j = 0; j < word.length; j++) {
@@ -383,12 +382,12 @@ function fixLine(text, dir = 'ltr') {
       }
     }
   }
-	// console.log(words, re);
-  return re.join('');
+  // console.log(words, re);
+  return re.join("");
 }
 
-function typer(text, dir = 'ltr') {
-  return String(text).split(/\r?\n/).map(x => fixLine(x, dir)).join('\n');
+function typer(text, dir = "ltr") {
+  return String(text).split(/\r?\n/).map(x => fixLine(x, dir)).join("\n");
 }
 
 export default typer;

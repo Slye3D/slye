@@ -9,7 +9,7 @@
  *       Licence: MIT License
  */
 
-import SlyeBase from './SlyeBase';
+import SlyeBase from "./SlyeBase";
 
 class SlyeTemplate extends SlyeBase {
   init() {}

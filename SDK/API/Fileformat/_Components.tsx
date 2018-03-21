@@ -9,30 +9,30 @@
  *       Licence: MIT License
  */
 
-import { getHandler } from '../Component';
-import { generateUUID } from '../../Math';
-import { Vector3, Euler } from 'three';
-import { removeComponentFromStep } from './_Steps';
-import { emit } from '../Events';
+import { Euler, Vector3 } from "three";
+import { generateUUID } from "../../Math";
+import { getHandler } from "../Component";
+import { emit } from "../Events";
+import { removeComponentFromStep } from "./_Steps";
 
 const presentation = global.__presentation__;
 
 function removeComponent(componentUUID) {
   if (!presentation.components[componentUUID]) { return false; }
-	// Remove component from owner step
+  // Remove component from owner step
   const stepUUID = presentation.__cache__.c2s[componentUUID];
   if (stepUUID) { removeComponentFromStep(stepUUID, componentUUID); }
 
-	// Send kill signal to component
-  presentation.__cache__.c2o[componentUUID].emit('dispatch');
+  // Send kill signal to component
+  presentation.__cache__.c2o[componentUUID].emit("dispatch");
 
-	// Hard-delete everything related to the component after 750ms
+  // Hard-delete everything related to the component after 750ms
   setTimeout(() => {
     delete presentation.__cache__.c2o[componentUUID];
     delete presentation.__cache__.c2s[componentUUID];
     delete presentation.components[componentUUID];
   }, 750);
-  emit('componentRemoved', componentUUID);
+  emit("componentRemoved", componentUUID);
   return true;
 }
 
@@ -44,10 +44,10 @@ function createComponent(handler, props) {
     handler,
     props,
     position: new Vector3(0, 0, 0),
-    rotation: new Euler(0, 0, 0, 'XYZ')
+    rotation: new Euler(0, 0, 0, "XYZ")
   };
   presentation.__cache__.c2o[uuid] = new Com(props, uuid);
-  emit('componentCreated', uuid);
+  emit("componentCreated", uuid);
   return uuid;
 }
 
@@ -74,9 +74,9 @@ export default {
 };
 
 export {
-		removeComponent
-	,	createComponent
-	,	setComponentProps
-	,	getComponentObject
-	,	getComponent
+    removeComponent
+  ,	createComponent
+  ,	setComponentProps
+  ,	getComponentObject
+  ,	getComponent
 };

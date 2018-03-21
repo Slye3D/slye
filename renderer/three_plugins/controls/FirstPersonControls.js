@@ -1,4 +1,4 @@
-import * as THREE from 'three/build/three.module';
+import * as THREE from "three/build/three.module";
 
 /**
  * @author mrdoob / http://mrdoob.com/
@@ -6,7 +6,7 @@ import * as THREE from 'three/build/three.module';
  * @author paulirish / http://paulirish.com/
  */
 
-const FirstPersonControls = function (object, domElement) {
+const FirstPersonControls = function(object, domElement) {
   this.object = object;
   this.target = new THREE.Vector3(0, 0, 0);
 
@@ -52,12 +52,12 @@ const FirstPersonControls = function (object, domElement) {
   this.viewHalfY = 0;
 
   if (this.domElement !== document) {
-    this.domElement.setAttribute('tabindex', -1);
+    this.domElement.setAttribute("tabindex", -1);
   }
 
-	//
+  //
 
-  this.handleResize = function () {
+  this.handleResize = function() {
     if (this.domElement === document) {
       this.viewHalfX = window.innerWidth / 2;
       this.viewHalfY = window.innerHeight / 2;
@@ -67,7 +67,7 @@ const FirstPersonControls = function (object, domElement) {
     }
   };
 
-  this.onMouseDown = function (event) {
+  this.onMouseDown = function(event) {
     if (this.domElement !== document) {
       this.domElement.focus();
     }
@@ -87,7 +87,7 @@ const FirstPersonControls = function (object, domElement) {
     this.mouseDragOn = true;
   };
 
-  this.onMouseUp = function (event) {
+  this.onMouseUp = function(event) {
     event.preventDefault();
     event.stopPropagation();
 
@@ -103,7 +103,7 @@ const FirstPersonControls = function (object, domElement) {
     this.mouseDragOn = false;
   };
 
-  this.onMouseMove = function (event) {
+  this.onMouseMove = function(event) {
     if (this.domElement === document) {
       this.mouseX = event.pageX - this.viewHalfX;
       this.mouseY = event.pageY - this.viewHalfY;
@@ -113,8 +113,8 @@ const FirstPersonControls = function (object, domElement) {
     }
   };
 
-  this.onKeyDown = function (event) {
-		// event.preventDefault();
+  this.onKeyDown = function(event) {
+    // event.preventDefault();
 
     switch (event.keyCode) {
 
@@ -136,7 +136,7 @@ const FirstPersonControls = function (object, domElement) {
     }
   };
 
-  this.onKeyUp = function (event) {
+  this.onKeyUp = function(event) {
     switch (event.keyCode) {
 
       case 38: /* up */
@@ -157,7 +157,7 @@ const FirstPersonControls = function (object, domElement) {
     }
   };
 
-  this.update = function (delta) {
+  this.update = function(delta) {
     if (this.enabled === false) return;
 
     if (this.heightSpeed) {
@@ -204,7 +204,7 @@ const FirstPersonControls = function (object, domElement) {
       this.phi = THREE.Math.mapLinear(this.phi, 0, Math.PI, this.verticalMin, this.verticalMax);
     }
 
-    let targetPosition = this.target,
+    const targetPosition = this.target,
       position = this.object.position;
 
     targetPosition.x = position.x + 100 * Math.sin(this.phi) * Math.cos(this.theta);
@@ -218,32 +218,32 @@ const FirstPersonControls = function (object, domElement) {
     event.preventDefault();
   }
 
-  this.dispose = function () {
-    this.domElement.removeEventListener('contextmenu', contextmenu, false);
-    this.domElement.removeEventListener('mousedown', _onMouseDown, false);
-    this.domElement.removeEventListener('mousemove', _onMouseMove, false);
-    this.domElement.removeEventListener('mouseup', _onMouseUp, false);
+  this.dispose = function() {
+    this.domElement.removeEventListener("contextmenu", contextmenu, false);
+    this.domElement.removeEventListener("mousedown", _onMouseDown, false);
+    this.domElement.removeEventListener("mousemove", _onMouseMove, false);
+    this.domElement.removeEventListener("mouseup", _onMouseUp, false);
 
-    window.removeEventListener('keydown', _onKeyDown, false);
-    window.removeEventListener('keyup', _onKeyUp, false);
+    window.removeEventListener("keydown", _onKeyDown, false);
+    window.removeEventListener("keyup", _onKeyUp, false);
   };
 
-  var _onMouseMove = bind(this, this.onMouseMove);
-  var _onMouseDown = bind(this, this.onMouseDown);
-  var _onMouseUp = bind(this, this.onMouseUp);
-  var _onKeyDown = bind(this, this.onKeyDown);
-  var _onKeyUp = bind(this, this.onKeyUp);
+  const _onMouseMove = bind(this, this.onMouseMove);
+  const _onMouseDown = bind(this, this.onMouseDown);
+  const _onMouseUp = bind(this, this.onMouseUp);
+  const _onKeyDown = bind(this, this.onKeyDown);
+  const _onKeyUp = bind(this, this.onKeyUp);
 
-  this.domElement.addEventListener('contextmenu', contextmenu, false);
-  this.domElement.addEventListener('mousemove', _onMouseMove, false);
-  this.domElement.addEventListener('mousedown', _onMouseDown, false);
-  this.domElement.addEventListener('mouseup', _onMouseUp, false);
+  this.domElement.addEventListener("contextmenu", contextmenu, false);
+  this.domElement.addEventListener("mousemove", _onMouseMove, false);
+  this.domElement.addEventListener("mousedown", _onMouseDown, false);
+  this.domElement.addEventListener("mouseup", _onMouseUp, false);
 
-  window.addEventListener('keydown', _onKeyDown, false);
-  window.addEventListener('keyup', _onKeyUp, false);
+  window.addEventListener("keydown", _onKeyDown, false);
+  window.addEventListener("keyup", _onKeyUp, false);
 
   function bind(scope, fn) {
-    return function () {
+    return function() {
       fn.apply(scope, arguments);
     };
   }

@@ -9,18 +9,18 @@
  *       Licence: MIT License
  */
 
-import { emit } from '../Events';
+import { emit } from "../Events";
 
 const presentation	= global.__presentation__;
 
 function add2Path(stepUUID, index) {
-	// FIXME: rewrite this using a better algorithm
+  // FIXME: rewrite this using a better algorithm
   const len	= presentation.path.length;
   index	= index == undefined ? len : index;
   index	= Math.max(0, index);
   if (len == 0 || index >= len) {
     presentation.path.push(stepUUID);
-    emit('pathChanged');
+    emit("pathChanged");
     return presentation.path;
   }
   const tmp = [];
@@ -30,15 +30,15 @@ function add2Path(stepUUID, index) {
   }
   if (global.__current__ > index) { global.__current__++; }
   presentation.path = tmp;
-  emit('pathChanged');
+  emit("pathChanged");
   return presentation.path;
 }
 
 function removePathPoint(i) {
   presentation.path	= presentation.slice(0, i - 1).concat(
-		presentation.slice(i + 1)
-	);
-  if (!arguments[1]) { emit('pathChanged'); }
+    presentation.slice(i + 1)
+  );
+  if (!arguments[1]) { emit("pathChanged"); }
   return presentation.path;
 }
 
@@ -47,7 +47,7 @@ function removeStepFromPath(stepUUID) {
   while ((x = presentation.path.indexOf(stepUUID)) > -1) {
     removePathPoint(x, true);
   }
-  emit('pathChanged');
+  emit("pathChanged");
   return presentation.path;
 }
 
@@ -73,10 +73,10 @@ export default {
 };
 
 export {
-		add2Path
-	,	getPath
-	,	getPoint
-	,	len
-	,	removePathPoint
-	,	removeStepFromPath
+  add2Path,
+  getPath,
+  getPoint,
+  len,
+  removePathPoint,
+  removeStepFromPath
 };

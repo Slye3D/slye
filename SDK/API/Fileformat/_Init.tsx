@@ -13,46 +13,45 @@
 function init() {
   if (global.__presentation__) { return; }
   global.__presentation__	= {
-		// somewhere to save presentation meta-data like author, title, ...
+    // somewhere to save presentation meta-data like author, title, ...
     meta: {},
 
-		 steps: {
-			// uuid -> {
-			// 			position	: Vector3
-			// 		,	rotation	: Euler
-			// 		,	components	: [component (with uuid | order don't matter)]
-			// }
+     steps: {
+      // uuid -> {
+      // 			position	: Vector3
+      // 		,	rotation	: Euler
+      // 		,	components	: [component (with uuid | order don't matter)]
+      // }
  },
-		 components: {
-			// uuid	-> {
-			// 		handler	: SlyeComponent name
-			// 	,	position: Vector3
-			// 	,	rotation: Euler
-			// 	,	props	: Object
-			// }
+     components: {
+      // uuid	-> {
+      // 		handler	: SlyeComponent name
+      // 	,	position: Vector3
+      // 	,	rotation: Euler
+      // 	,	props	: Object
+      // }
  },
-		 path: [
-			// array of steps (with uuid | order matters)
+     path: [
+      // array of steps (with uuid | order matters)
  ],
-		 configs: {
-			// property -> value
+     configs: {
+      // property -> value
  },
-		 properties: {
-			// Three.js object uuid -> Object of changed properties
+     properties: {
+      // Three.js object uuid -> Object of changed properties
  },
-		// template object
-		 template: null,
+    // template object
+     template: null,
 
-
-		// this values won't save in filesystem and they are just for run-time-cahce
-		 __cache__: {
-				// component to step
+    // this values won't save in filesystem and they are just for run-time-cahce
+     __cache__: {
+        // component to step
    c2s: {},
-				// component to SlyeComponent object
-			 	c2o: {},
-				// Steps Group (Object3D)
+        // component to SlyeComponent object
+         c2o: {},
+        // Steps Group (Object3D)
    steps: {},
-				// Step uuid -> [Camera, Renderer]
+        // Step uuid -> [Camera, Renderer]
    thumbnails: {}
  }
   };
@@ -63,5 +62,5 @@ init();
 export default init;
 
 export {
-	init
+  init
 };

@@ -9,11 +9,11 @@
  *       Licence: MIT License
  */
 
-import React, { Component } from 'react';
-import { Paper, FloatingActionButton, FontIcon } from 'material-ui';
-import TransformIcon from 'material-ui/svg-icons/action/open-with';
+import { FloatingActionButton, FontIcon, Paper } from "material-ui";
+import TransformIcon from "material-ui/svg-icons/action/open-with";
+import React, { Component } from "react";
 
-import 'src/css/Controls.css';
+import "src/css/Controls.css";
 
 class Controls extends Component {
   render() {

@@ -10,7 +10,7 @@
  */
 
 global.__ComponentHandlers__	= global.__ComponentHandlers__ || {
-	// name -> SlyeComponent
+  // name -> SlyeComponent
 };
 
 function registerHandler(name, SlyeComponent) {
@@ -27,6 +27,6 @@ export default {
 };
 
 export {
-		registerHandler
-	,	getHandler
+    registerHandler
+  ,	getHandler
 };

@@ -9,11 +9,11 @@
  *       Licence: MIT License
  */
 
-import SlyeBase from './SlyeBase';
-import { Object3D } from 'three';
-import { hardRender } from 'SDK/API/Renderer';
-import Events from 'SDK/API/Events';
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import Events from "SDK/API/Events";
+import { hardRender } from "SDK/API/Renderer";
+import { Object3D } from "three";
+import SlyeBase from "./SlyeBase";
 
 function reactComponent(render, that, state, cb, l) {
   return class X extends Component {
@@ -34,12 +34,12 @@ function reactComponent(render, that, state, cb, l) {
     render() {
       return render.call(that);
     }
-	};
+  };
 }
 
 class SlyeComponent extends SlyeBase {
-	// this is result of render() function
-  __three__ = null
+  // this is result of render() function
+  __three__ = null;
 
   constructor(props) {
     super(...arguments);
@@ -57,7 +57,7 @@ class SlyeComponent extends SlyeBase {
   forceRerender() {
     if (!this.owner) { return; }
     const tmp	= this.render();
-		// TODO: Bug tracker for plugins and 3-rd parties
+    // TODO: Bug tracker for plugins and 3-rd parties
     if (!(tmp === null || tmp instanceof Object3D)) { return; }
     this.__three__ = tmp;
     hardRender(this.owner);
@@ -75,19 +75,19 @@ class SlyeComponent extends SlyeBase {
   }
 
   setProps(partialProps, callback) {
-		// update __presentation__.components[this.uuid].props
+    // update __presentation__.components[this.uuid].props
     for (const key in partialProps) {
       this.props[key] = partialProps[key];
     }
 
-		// I know x is not defined
-		// todo fix this funcking bug with React
+    // I know x is not defined
+    // todo fix this funcking bug with React
     if (this._rs_) { this._r_.setState(partialProps); }
     this.forceRerender();
   }
 
-	// Should return a Three.js object
-	// We use the result in `sence.add()` function
+  // Should return a Three.js object
+  // We use the result in `sence.add()` function
   render() {}
 }
 
