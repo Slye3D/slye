@@ -4,13 +4,8 @@
     "alwaysStrict": true,
     "declaration": true,
     "diagnostics": false,
-    "lib": [
-      "es5",
-      "dom",
-      "es2015",
-      "es2017"
-    ],
-    "module": "esnext",
+    "lib": ["es5", "dom", "es2017"],
+    "module": "commonjs",
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,
     "noImplicitReturns": true,
@@ -20,18 +15,10 @@
     "preserveConstEnums": true,
     "pretty": true,
     "sourceMap": true,
-    "target": "es6",
-    "moduleResolution": "node",
-    "strict": true,
-    "inlineSources": true,
+    "target": "es2017",
     "allowSyntheticDefaultImports": true,
-    "experimentalDecorators": true,
-    "newLine": "lf",
-    "noEmitOnError": true,
-    "jsx": "react"
+    "esModuleInterop": true
   },
-  "exclude": [
-    "dist",
-    "node_modules"
-  ]
+  "exclude": ["build", "node_modules"]
 }
+
