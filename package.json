@@ -6,7 +6,10 @@
   "description": "Slye is an open-source 3D presentation software",
   "scripts": {
     "lint": "tslint --project .",
-    "build": "parcel src/app.html"
+    "build": "rm -rf build && npm run build:main && npm run build:renderer",
+    "build:renderer": "parcel build src/renderer/app.html -d ./build/renderer --public-url ./",
+    "build:main": "tsc --outDir build --p './tsconfig.json'",
+    "start": "electron build/main.js"
   },
   "repository": {
     "type": "git",
@@ -24,7 +27,8 @@
     "ts-node": "^5.0.1",
     "tslint": "^5.9.1",
     "typescript": "^2.7.2",
-    "webpack": "^3.11.0"
+    "webpack": "^3.11.0",
+    "parcel-bundler": "^1.6.2"
   },
   "dependencies": {
     "es6-tween": "^5.1.0",
@@ -34,7 +38,6 @@
     "material-ui": "^0.20.0",
     "mkdirp": "^0.5.1",
     "nice-color-palettes": "^2.0.0",
-    "parcel-bundler": "^1.6.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-drag-sortable": "^1.0.6",
