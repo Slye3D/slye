@@ -13,7 +13,7 @@ export { Template } from "./template";
 
 export { Component } from "./component";
 
-export { Action, AttatchAction, DetachAction,
+export { Action, AttachAction, DetachAction,
          Presentation } from "./presentation";
 
 export { Step } from "./step";

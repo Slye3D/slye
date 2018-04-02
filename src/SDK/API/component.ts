@@ -9,12 +9,6 @@
  *       Licence: MIT License
  */
 
-import uuid from "uuid/v4";
+import { Extension } from "./extension";
 
-export class Component {
-  uuid: string;
-
-  constructor() {
-    this.uuid = uuid();
-  }
-}
+export abstract class Component extends Extension {}

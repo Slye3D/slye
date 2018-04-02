@@ -9,7 +9,6 @@
  *       Licence: MIT License
  */
 
-export abstract class Template {
-  async detach() {}
-  async attach() {}
-}
+import { Extension } from "./extension";
+
+export abstract class Template extends Extension {}
