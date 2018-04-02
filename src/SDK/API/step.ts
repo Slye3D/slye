@@ -13,15 +13,41 @@ import uuid from "uuid/v4";
 import { Component } from "./component";
 import { Action } from "./presentation";
 
+/**
+ * In Slye we use `step` to represent `slide`
+ * Each presentation has a some steps and each step has components inside it,
+ * by having this class we would be able to manage step configs later
+ * For example allowing each step to have a diffrent font, color and more,,,
+ */
 export class Step {
+  /**
+   * Each step has a uuid so we can change steps order just by changing an
+   * array (`Presentation.path`)
+   */
   readonly uuid: string;
+
+  /**
+   * We plug steps to the presentaion using this function,
+   * it does the same thing as `Presentaion.push2stack`.
+   */
   stack: (action: Action<any, Step>) => void;
+
+  /**
+   * List of components
+   */
   private components: Map<string, Component> = new Map();
 
+  /**
+   * Initilize current step.
+   */
   constructor() {
     this.uuid = uuid();
   }
 
+  /**
+   * Manage action stack.
+   * @see Presentaion.push2stack
+   */
   push2stack<T>(action: Action<T, Step>) {
     // TODO for now we need to do `step.stack = sth` to set this var
     // so it should be done before anything...
@@ -34,6 +60,9 @@ export class Step {
     this.stack(action);
   }
 
+  /**
+   * Adds a component to step.
+   */
   addComponent(component: Component) {
     if (!component) return;
     this.push2stack<string>({
