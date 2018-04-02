@@ -9,7 +9,12 @@
  *       Licence: MIT License
  */
 
-export abstract class Template {
-  async detach() {}
-  async attach() {}
+import uuid from "uuid/v4";
+
+export class Component {
+  uuid: string;
+
+  constructor() {
+    this.uuid = uuid();
+  }
 }

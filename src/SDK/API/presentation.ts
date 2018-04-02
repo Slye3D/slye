@@ -27,6 +27,7 @@ import { Template } from "./template";
 export interface Action<T, context = Presentation> {
   attach: AttachAction<T, context>;
   detach: DetachAction<T, context>;
+  context?: context;
 }
 export type AttachAction<T, context> = (this: context, save: (object: T) => void) => Promise<void>;
 export type DetachAction<T, context> = (this: context, data: T) => Promise<void>;
@@ -101,12 +102,13 @@ export class Presentation {
     this.changeHeadQueue = true;
     if (newHead > this.head) {
       for (let i = this.head + 1; i <= newHead; ++i) {
-        await this.actions[i].attach.call(this, (data) => this.saves.set(i, data));
+        await this.actions[i].attach.call(this.actions[i].context || this,
+                                          (data) => this.saves.set(i, data));
       }
     } else {
       for (let i = this.head; i >= newHead; --i) {
         const data = this.saves.get(i);
-        await this.actions[i].detach.call(this, data);
+        await this.actions[i].detach.call(this.actions[i].context || this, data);
       }
     }
     this.head = newHead;
@@ -132,6 +134,8 @@ export class Presentation {
         if (this.steps.get(step.uuid)) return;
         save(step.uuid);
         this.steps.set(step.uuid, step);
+        // Set step's stack, so it can notify us about changes in its stack.
+        step.stack = this.push2stack.bind(this);
         if (!offset) {
           this.path.push(step.uuid);
         } else {
@@ -139,6 +143,8 @@ export class Presentation {
         }
       },
       async detach(uuid) {
+        // Detach action stack by setting it to null.
+        this.steps.get(uuid).stack = null;
         this.steps.delete(uuid);
         this.path = this.path.filter(x => x !== uuid);
       }
