@@ -19,6 +19,6 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true
   },
-  "exclude": ["build", "node_modules", "src/renderer"]
+  "exclude": ["build", "node_modules", "app/UI", "SDK"]
 }
 

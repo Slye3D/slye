@@ -7,7 +7,7 @@
   "scripts": {
     "lint": "tslint --project .",
     "build": "rm -rf build && npm run build:main && npm run build:renderer",
-    "build:renderer": "parcel build src/renderer/app.html -d ./build/renderer --public-url ./",
+    "build:renderer": "parcel build app/UI/app.html -d ./build/UI --public-url ./",
     "build:main": "tsc --outDir build --p './tsconfig.json'",
     "start": "electron build/main.js"
   },
@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@types/three": "^0.91.3",
+    "babel-polyfill": "^6.26.0",
     "three": "^0.91.0",
     "uuid": "^3.2.1"
   },
