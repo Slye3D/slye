@@ -18,3 +18,7 @@ const width = window.innerWidth;
 const height = window.innerHeight;
 const renderer = new SDK.WebGLRenderer(pr, width, height);
 document.body.appendChild(renderer.renderer.domElement);
+window.addEventListener("resize", () => {
+  renderer.width = window.innerWidth;
+  renderer.height = window.innerHeight;
+});
