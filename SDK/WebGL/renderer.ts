@@ -12,7 +12,7 @@
 import * as THREE from "three";
 
 export function renderer(width, height) {
-  const renderer = new THREE.WebGLRenderer();
+  const renderer = new THREE.WebGLRenderer({ alpha: true });
   renderer.setSize(width, height);
   return renderer;
 }
