@@ -41,32 +41,31 @@ export type DetachAction<T, context> = (this: context, data: T) => Promise<void>
  */
 export class Presentation {
   private steps: Map<string, Step> = new Map();
-  private path: string[];
+  private path: string[] = [];
   private template: Template = null;
-  private changeHeadQueue: number | boolean = false;
+  private changeHeadQueue: string | boolean = false;
 
   /**
    * We don't modify anything directly.
    * Instead we push all actions into this array
    * and will execute the sequnce whenever needed.
-   * @type {Array.<Action>} Array of actions
    * @memberof Presentation
    */
-  actions: Array<Action<any>> = [];
+  private actions: Map<string, Action<any>> = new Map();
 
   /**
    * Save current action (would be used for undo and redo)
    */
-  private head: number;
+  private head: string;
 
   /**
    * This private property is used to hold backward data
    *
    * @private
-   * @type {Map<number, any>}
+   * @type {Map<string, any>}
    * @memberof Presentation
    */
-  private saves: Map<number, any> = new Map();
+  private saves: Map<string, any> = new Map();
 
   /**
    * push2stack is a private API to push an action into history array.
@@ -77,11 +76,16 @@ export class Presentation {
    * @memberof Presentation
    */
   private push2stack<T>(action: Action<T>) {
-    this.actions.splice(this.head + 1, Infinity, action);
-    for (let i = this.head + 1; i < this.actions.length; ++i) {
-      this.saves.delete(i);
+    const keys = Array.from(this.actions.keys());
+    const currentHead = keys.indexOf(this.head);
+    const id = Math.floor(Math.random() * (1 << 32)).toString(16);
+    // We don't need this data any more.
+    for (let i = currentHead + 1; i < keys.length; ++i) {
+      this.saves.delete(keys[i]);
+      this.actions.delete(keys[i]);
     }
-    this.changeHead(this.actions.length - 1);
+    this.actions.set(id, action);
+    this.changeHead(id);
   }
 
   /**
@@ -92,29 +96,35 @@ export class Presentation {
    * @returns
    * @memberof Presentation
    */
-  private async changeHead(newHead: number) {
+  private async changeHead(newHead: string) {
     if ( this.changeHeadQueue ) {
       this.changeHeadQueue = newHead;
       return;
     }
     if (newHead === this.head) return;
-    if (newHead > this.actions.length - 1) return;
+    if (!this.actions.has(newHead)) return;
     this.changeHeadQueue = true;
-    if (newHead > this.head) {
-      for (let i = this.head + 1; i <= newHead; ++i) {
-        await this.actions[i].attach.call(this.actions[i].context || this,
-                                          (data) => this.saves.set(i, data));
+    const keys = Array.from(this.actions.keys());
+    const newHeadIndex = keys.indexOf(newHead);
+    const currentHeadIndex = keys.indexOf(this.head);
+    if (newHeadIndex > currentHeadIndex) {
+      for (let i = currentHeadIndex + 1; i <= newHeadIndex; ++i) {
+        const action = this.actions.get(keys[i]);
+        await action.attach.call(action.context || this,
+                                 (data) => this.saves.set(keys[i], data));
       }
     } else {
-      for (let i = this.head; i >= newHead; --i) {
-        const data = this.saves.get(i);
-        await this.actions[i].detach.call(this.actions[i].context || this, data);
+      for (let i = currentHeadIndex;i >= newHeadIndex; --i) {
+        const key = keys[i];
+        const data = this.saves.get(key);
+        const action = this.actions.get(key);
+        await action.detach.call(action.context || this, data);
       }
     }
     this.head = newHead;
     const nextHead = this.changeHeadQueue;
     this.changeHeadQueue = false;
-    if (typeof nextHead === "number") {
+    if (typeof nextHead === "string") {
       this.changeHead(nextHead);
     }
   }
