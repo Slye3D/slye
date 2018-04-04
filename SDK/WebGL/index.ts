@@ -26,9 +26,17 @@ export class WebGLRenderer {
     this.onWindowResize();
   }
 
+  get width(): number {
+    return this.cWidth;
+  }
+
   set height(height: number) {
     this.cHeight = height;
     this.onWindowResize();
+  }
+
+  get height(): number {
+    return this.cHeight;
   }
 
   private onWindowResize(): void {
