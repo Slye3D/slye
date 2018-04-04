@@ -49,11 +49,7 @@ export class Step {
    * @see Presentaion.push2stack
    */
   push2stack<T>(action: Action<T, Step>) {
-    // TODO for now we need to do `step.stack = sth` to set this var
-    // so it should be done before anything...
-    // and user would not be able to do any stuff with unmounted step.
-    // SOLUTION using a queue to capute events when it's unmounted.
-    if (!this.stack) return;
+    if (!this.stack) return action.attach.call(this, () => undefined);
     Object.assign(action, {
       context: this.uuid
     });
