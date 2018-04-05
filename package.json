@@ -6,9 +6,10 @@
   "description": "Slye is an open-source 3D presentation software",
   "scripts": {
     "lint": "tslint --project .",
-    "build": "rm -rf build && npm run build:main && npm run build:renderer",
+    "build": "rm -rf build && npm run build:main && npm run build:renderer && npm run build:assets",
     "build:renderer": "parcel build app/UI/app.html -d ./build/app/UI --public-url ./",
     "build:main": "tsc --outDir build --p './tsconfig.json'",
+    "build:assets": "cp -r assets ./build/app",
     "start": "electron build/app/main.js"
   },
   "repository": {

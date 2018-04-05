@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, nativeImage } from "electron";
 import path from "path";
 import url from "url";
 
@@ -12,6 +12,11 @@ function createWindow() {
     protocol: "file:",
     slashes: true
   }));
+  win.setTitle("Slye");
+  win.setMenu(null);
+  // TODO set icon for mac
+  const image = nativeImage.createFromPath(__dirname + "/assets/logo.png");
+  win.setIcon(image);
 }
 
 app.on("ready", createWindow);
