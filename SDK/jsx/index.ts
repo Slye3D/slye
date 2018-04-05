@@ -25,3 +25,4 @@ export function S(element: Element, props: object, ...childrens) {
 }
 
 export * from "./geometries";
+export * from "./lights";

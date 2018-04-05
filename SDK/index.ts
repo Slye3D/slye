@@ -13,3 +13,4 @@ import * as API from "./API";
 
 export { API };
 export { WebGLRenderer } from "./WebGL";
+export * from "./jsx";
