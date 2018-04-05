@@ -11,7 +11,7 @@
 
 import * as THREE from "three";
 
-export type Element = (props: object) => null | THREE.Mesh;
+export type Element = (props: object) => null | THREE.Object3D;
 
 export function S(element: Element, props: object, ...childrens) {
   const mesh = element(props);
@@ -23,3 +23,5 @@ export function S(element: Element, props: object, ...childrens) {
   }
   return mesh;
 }
+
+export * from "./geometries";
