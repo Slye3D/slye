@@ -17,6 +17,7 @@ function createWindow() {
   // TODO set icon for mac
   const image = nativeImage.createFromPath(__dirname + "/assets/logo.png");
   win.setIcon(image);
+  win.webContents.openDevTools();
 }
 
 app.on("ready", createWindow);
