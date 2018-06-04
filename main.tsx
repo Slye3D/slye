@@ -1,10 +1,23 @@
 import React, { Component } from "react";
 import ReactDom from "react-dom";
 
+class Step extends Component<{}, {}> {
+  render() {
+    return (
+      <div className="step">
+        <input type="text" placeholder="Text..." />
+      </div>
+    );
+  }
+}
+
 class App extends Component<{}, {}> {
   render() {
     return (
-      <div>Hello World!</div>
+      <div className="steps-list" >
+        <Step />
+        <Step />
+      </div>
     );
   }
 }
