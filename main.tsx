@@ -29,6 +29,7 @@ class App extends Component<{}, {}> {
       <div className="steps-list" >
         <Step />
         <Step />
+        <button className="new-step" />
       </div>
     );
   }

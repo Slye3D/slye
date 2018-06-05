@@ -17,6 +17,24 @@ body {
   display: flex;
   justify-content: center;
   flex-flow: column;
+  .new-step {
+    height: 45px;
+    width: 45px;
+    border-radius: 22.5px;
+    align-self: center;
+    border: none;
+    background: $dark;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    cursor: pointer;
+    font-size: 25px;
+    &:focus {
+      outline: none;
+    }
+    &::after {
+      content: "+";
+      color: $primary;
+    }
+  }
 }
 
 .step {
