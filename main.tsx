@@ -6,6 +6,18 @@ class Step extends Component<{}, {}> {
     return (
       <div className="step">
         <input type="text" placeholder="Text..." />
+        Position:
+        <div className="position">
+          <input type="number" placeholder="X" />
+          <input type="number" placeholder="Y" />
+          <input type="number" placeholder="Z" />
+        </div>
+        Orientation:
+        <div className="orientation">
+          <input type="number" placeholder="X" />
+          <input type="number" placeholder="Y" />
+          <input type="number" placeholder="Z" />
+        </div>
       </div>
     );
   }

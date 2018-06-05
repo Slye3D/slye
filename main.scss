@@ -21,12 +21,16 @@ body {
 
 .step {
   background: $dark;
+  color: $primary;
   width: 70vw;
   align-self: center;
   min-height: 200px;
   margin-bottom: 40px;
   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
   border-radius: 0 0 25px 25px;
+  .position, .orientation {
+    display: flex;
+  }
 }
 
 input {
