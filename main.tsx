@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ReactDom from "react-dom";
+import * as types from "./types";
 
 class Step extends Component<{}, {}> {
   render() {
@@ -23,13 +24,34 @@ class Step extends Component<{}, {}> {
   }
 }
 
-class App extends Component<{}, {}> {
+interface AppState {
+  steps: types.Step[]
+}
+
+class App extends Component<{}, AppState> {
+  state = {
+    steps: []
+  };
+
+  handleNewStep = () => {
+    const newStep: types.Step = {
+      text: "",
+      position: { x: 0, y: 0, z: 0 },
+      orientation: { x: 0, y: 0, z: 0 }
+    };
+    this.setState(s => {
+      s.steps.push(newStep);
+      return s;
+    });
+  }
+
   render() {
+    console.log(this.state);
     return (
       <div className="steps-list" >
         <Step />
         <Step />
-        <button className="new-step" />
+        <button className="new-step" onClick={ this.handleNewStep } />
       </div>
     );
   }

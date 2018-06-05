@@ -1,7 +1,11 @@
-import { Vector3 } from "three";
+export interface Vec3 {
+  x: number;
+  y: number;
+  z: number;
+}
 
 export interface Step {
   text: string;
-  position: Vector3;
-  orientation: Vector3;
+  position: Vec3;
+  orientation: Vec3;
 }
