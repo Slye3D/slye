@@ -2,22 +2,57 @@ import React, { Component } from "react";
 import ReactDom from "react-dom";
 import * as types from "./types";
 
-class Step extends Component<{}, {}> {
+interface StepProps {
+  step: types.Step,
+  onChange: (newStep: types.Step) => void;
+}
+
+class Step extends Component<StepProps, {}> {
+  handleTextChange = (event) => {
+    const newStep: types.Step = { ...this.props.step };
+    newStep["text"] = event.currentTarget.value;
+    this.props.onChange(newStep);
+  };
+
+  handleVec3Change = (field: types.StepVec3Props, axis: types.Axis, e) => {
+    const newStep: types.Step = { ...this.props.step };
+    newStep[field][axis] = Number(e.currentTarget.value);
+    this.props.onChange(newStep);
+  }
+
   render() {
     return (
       <div className="step">
-        <input type="text" placeholder="Text..." />
+        <input type="text" placeholder="Text..." onChange={ this.handleTextChange }/>
         Position:
         <div className="position">
-          <input type="number" placeholder="X" />
-          <input type="number" placeholder="Y" />
-          <input type="number" placeholder="Z" />
+          <input
+            type="number"
+            placeholder="X"
+            onChange={ this.handleVec3Change.bind(this, "position", "x") } />
+          <input
+            type="number"
+            placeholder="Y"
+            onChange={ this.handleVec3Change.bind(this, "position", "y") } />
+          <input
+            type="number"
+            placeholder="Z"
+            onChange={ this.handleVec3Change.bind(this, "position", "z") } />
         </div>
         Orientation:
         <div className="orientation">
-          <input type="number" placeholder="X" />
-          <input type="number" placeholder="Y" />
-          <input type="number" placeholder="Z" />
+          <input
+            type="number"
+            placeholder="X"
+            onChange={ this.handleVec3Change.bind(this, "orientation", "x") } />
+          <input
+            type="number"
+            placeholder="Y"
+            onChange={ this.handleVec3Change.bind(this, "orientation", "y") } />
+          <input
+            type="number"
+            placeholder="Z"
+            onChange={ this.handleVec3Change.bind(this, "orientation", "z") } />
         </div>
       </div>
     );
@@ -45,12 +80,22 @@ class App extends Component<{}, AppState> {
     });
   }
 
+  handleStepChange = (i: number, newStep: types.Step) => {
+    this.setState(s => {
+      s[i] = newStep;
+      return s;
+    });
+  };
+
   render() {
-    console.log(this.state);
     return (
       <div className="steps-list" >
-        <Step />
-        <Step />
+        { this.state.steps.map((s, i) => (
+          <Step
+            key={ "step" + i }
+            step={ s }
+            onChange={ this.handleStepChange.bind(this, i) } />
+        )) }
         <button className="new-step" onClick={ this.handleNewStep } />
       </div>
     );

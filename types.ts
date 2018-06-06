@@ -9,3 +9,7 @@ export interface Step {
   position: Vec3;
   orientation: Vec3;
 }
+
+export type Axis = "x" | "y" | "z";
+
+export type StepVec3Props = "position" | "orientation";
