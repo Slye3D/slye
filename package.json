@@ -10,6 +10,9 @@
   "devDependencies": {
     "@types/react": "^16.3.16",
     "@types/three": "^0.92.3",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-runtime": "^6.26.0",
     "node-sass": "^4.9.0",
     "parcel-bundler": "^1.8.1",
     "rimraf": "^2.6.2",

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import * as THREE from "three";
 import * as types from "./types";
+import { loadFontAsync } from "./util";
 
 // Constants
 export const NEAR = 1;
@@ -131,14 +132,62 @@ export class Player extends Component<PlayerProps, {}> {
     // TODO Go to previous step
   }
 
-  init() {
+  init = () => {
     this.scene = new THREE.Scene();
     const { offsetWidth, offsetHeight } = this.playerDiv;
     this.camera = new THREE.PerspectiveCamera(FOV, offsetWidth / offsetHeight, NEAR, FAR);
-
+    this.camera.position.z = 30;
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize( window.innerWidth, window.innerHeight );
     this.playerDiv.appendChild(this.renderer.domElement);
+    // Lights
+    const lights = [];
+    lights[ 0 ] = new THREE.PointLight( 0xffffff, 1, 0 );
+    lights[ 1 ] = new THREE.PointLight( 0xffffff, 1, 0 );
+    lights[ 2 ] = new THREE.PointLight( 0xffffff, 1, 0 );
+
+    lights[ 0 ].position.set( 0, 200, 0 );
+    lights[ 1 ].position.set( 100, 200, 100 );
+    lights[ 2 ].position.set( - 100, - 200, - 100 );
+
+    this.scene.add( lights[ 0 ] );
+    this.scene.add( lights[ 1 ] );
+    this.scene.add( lights[ 2 ] );
+
+    this.threeRender();
+  }
+
+  threeRender = () => {
+    this.renderer.render(this.scene, this.camera);
+    if (this.playerDiv) requestAnimationFrame(this.threeRender);
+  }
+
+  async drawSteps() {
+    const { steps } = this.props;
+    const font = await loadFontAsync("assets/optimer_regular.typeface.json");
+    for (let i = 0; i < steps.length;++i) {
+      const step = steps[i];
+      const geometry = new THREE.TextGeometry(step.text, {
+        font,
+        size: 80,
+        height: 5,
+        curveSegments: 12,
+        bevelEnabled: true,
+        bevelThickness: 10,
+        bevelSize: 8,
+        bevelSegments: 5
+      });
+      const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+      const mesh = new THREE.Mesh(geometry, material);
+      mesh.position.x = step.position.x;
+      mesh.position.y = step.position.y;
+      mesh.position.z = step.position.z;
+      mesh.rotation.x = step.orientation.x;
+      mesh.rotation.y = step.orientation.y;
+      mesh.rotation.z = step.orientation.z;
+      console.log(mesh);
+      this.scene.add(mesh);
+    }
   }
 
   handleRef = (player) => {
@@ -146,6 +195,7 @@ export class Player extends Component<PlayerProps, {}> {
     if (player) {
       this.setDistance();
       this.init();
+      this.drawSteps();
     }
   }
 
