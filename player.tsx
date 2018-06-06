@@ -118,7 +118,9 @@ export class Player extends Component<PlayerProps, {}> {
 
   handleRef = (player) => {
     this.playerDiv = player;
-    this.setDistance();
+    if (player) {
+      this.setDistance();
+    }
   }
 
   render() {
