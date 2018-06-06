@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import * as types from "./types";
 
 export interface PlayerProps {
-  onExit(): void;
+  onClose(): void;
   steps: types.Step[]
 }
 
@@ -20,14 +20,17 @@ export class Player extends Component<PlayerProps, {}> {
       case 33: // pg up
       case 37: // left
       case 38: // up
-        // TODO call prev
+        this.handlePrev();
         break;
       case 9:  // tab
       case 32: // space
       case 34: // pg down
       case 39: // right
       case 40: // down
-        // TODO call next
+        this.handleNext();
+        break;
+      case 27: // esc
+        this.handleClose();
         break;
     }
     this.keydown(event);
@@ -38,9 +41,9 @@ export class Player extends Component<PlayerProps, {}> {
       const x = event.touches[0].clientX;
       const width = window.innerWidth * 0.3;
       if ( x < width ) {
-        // TODO call prev
+        this.handlePrev();
       } else if (x > window.innerWidth - width) {
-        // TODO call next
+        this.handleNext();
       }
       //if (result) {
         //event.preventDefault();
@@ -58,6 +61,23 @@ export class Player extends Component<PlayerProps, {}> {
     document.removeEventListener("keydown", this.keydown.bind(this));
     document.removeEventListener("keyup", this.keyup.bind(this));
     document.removeEventListener("touchstart", this.touchstart.bind(this));
+  }
+
+  shouldComponentUpdate() {
+    // No need to update component at this point.
+    return false;
+  }
+
+  handleClose() {
+    this.props.onClose();
+  }
+
+  handleNext() {
+    // TODO Go to next step
+  }
+
+  handlePrev() {
+    // TODO Go to previous step
   }
 
   render() {
