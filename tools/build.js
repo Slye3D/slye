@@ -2,11 +2,13 @@
 
 const Bundler = require("parcel-bundler");
 const fs = require("fs");
+const path = require("path");
 const util = require("./util");
 
-const outDir = "dist";
+const outDir = path.join(__dirname, "../dist");
 util.rmrf(outDir);
-fs.mkdir(outDir);
+fs.mkdirSync(outDir);
+fs.symlinkSync(path.join(__dirname, "../assets"), path.join(outDir, "assets"));
 
 const options = {
   autoinstall: false,
