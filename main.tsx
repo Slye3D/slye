@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ReactDom from "react-dom";
 import * as types from "./types";
+import { Player } from "./player";
 
 interface StepProps {
   step: types.Step,
@@ -60,12 +61,14 @@ class Step extends Component<StepProps, {}> {
 }
 
 interface AppState {
-  steps: types.Step[]
+  steps: types.Step[];
+  isPlaying: boolean;
 }
 
 class App extends Component<{}, AppState> {
   state = {
-    steps: []
+    steps: [],
+    isPlaying: false
   };
 
   handleNewStep = () => {
@@ -87,7 +90,18 @@ class App extends Component<{}, AppState> {
     });
   };
 
+  togglePlayer = () => {
+    this.setState({
+      isPlaying: !this.state.isPlaying
+    });
+  };
+
   render() {
+    if (this.state.isPlaying) {
+      return (
+        <Player steps={ this.state.steps } onClose={ this.togglePlayer } />
+      );
+    }
     return (
       <div className="steps-list" >
         { this.state.steps.map((s, i) => (
@@ -97,7 +111,7 @@ class App extends Component<{}, AppState> {
             onChange={ this.handleStepChange.bind(this, i) } />
         )) }
         <button className="btn-icon new-step" onClick={ this.handleNewStep } />
-        <button className="btn-icon play" />
+        <button className="btn-icon play" onClick={ this.togglePlayer } />
       </div>
     );
   }

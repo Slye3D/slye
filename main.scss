@@ -49,6 +49,12 @@ body {
   }
 }
 
+#player {
+  width: 100vw;
+  height: 100vh;
+  background: $dark;
+}
+
 input {
   margin: 0 10px;
   width: calc(100% - 20px);

@@ -15,7 +15,7 @@ export class Player extends Component<PlayerProps, {}> {
     }
   }
 
-  keyup(event) {
+  keyup = (event) => {
     switch (event.keyCode) {
       case 33: // pg up
       case 37: // left
@@ -36,7 +36,7 @@ export class Player extends Component<PlayerProps, {}> {
     this.keydown(event);
   }
 
-  touchstart(event) {
+  touchstart = (event) => {
     if (event.touches.length === 1) {
       const x = event.touches[0].clientX;
       const width = window.innerWidth * 0.3;
@@ -52,15 +52,15 @@ export class Player extends Component<PlayerProps, {}> {
   }
 
   componentWillMount() {
-    document.addEventListener("keydown", this.keydown.bind(this));
-    document.addEventListener("keyup", this.keyup.bind(this));
-    document.addEventListener("touchstart", this.touchstart.bind(this));
+    document.addEventListener("keydown", this.keydown);
+    document.addEventListener("keyup", this.keyup);
+    document.addEventListener("touchstart", this.touchstart);
   }
 
   componentWillUnmount() {
-    document.removeEventListener("keydown", this.keydown.bind(this));
-    document.removeEventListener("keyup", this.keyup.bind(this));
-    document.removeEventListener("touchstart", this.touchstart.bind(this));
+    document.removeEventListener("keydown", this.keydown);
+    document.removeEventListener("keyup", this.keyup);
+    document.removeEventListener("touchstart", this.touchstart);
   }
 
   shouldComponentUpdate() {
