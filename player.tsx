@@ -137,7 +137,7 @@ export class Player extends Component<PlayerProps, {}> {
     this.scene = new THREE.Scene();
     const { offsetWidth, offsetHeight } = this.playerDiv;
     this.camera = new THREE.PerspectiveCamera(FOV, offsetWidth / offsetHeight, NEAR, FAR);
-    this.camera.position.z = 100;
+    this.camera.position.z = 30;
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize( window.innerWidth, window.innerHeight );
     this.playerDiv.appendChild(this.renderer.domElement);
@@ -170,15 +170,20 @@ export class Player extends Component<PlayerProps, {}> {
       const step = steps[i];
       const geometry = new THREE.TextGeometry(step.text, {
         font,
-        size: 80,
-        height: 5,
+        size: 10,
+        height: 2,
         curveSegments: 12,
-        bevelEnabled: true,
-        bevelThickness: 10,
-        bevelSize: 8,
-        bevelSegments: 5
+        bevelEnabled: false,
+        bevelThickness: 1,
+        bevelSize: 0.5,
+        bevelSegments: 3
       });
-      const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+      const material = new THREE.MeshPhongMaterial({
+        color: 0x156289,
+        emissive: 0x072534,
+        side: THREE.DoubleSide,
+        flatShading: true
+      });
       const mesh = new THREE.Mesh(geometry, material);
       mesh.position.x = step.position.x;
       mesh.position.y = step.position.y;
