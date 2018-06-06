@@ -17,7 +17,7 @@ class Step extends Component<StepProps, {}> {
 
   handleVec3Change = (field: types.StepVec3Props, axis: types.Axis, e) => {
     const newStep: types.Step = { ...this.props.step };
-    newStep[field][axis] = e.target.value;
+    newStep[field][axis] = e.target.value ? Number(e.target.value) : ("" as any);
     this.props.onChange(newStep);
   }
 

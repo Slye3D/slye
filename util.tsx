@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import * as types from "./types";
 
 export function createResolvable() {
   let methods;
@@ -18,4 +19,8 @@ export async function loadFontAsync(src) {
   });
   await resolvable;
   return font;
+}
+
+export function toThreeVec3(vec: types.Vec3): THREE.Vector3 {
+  return new THREE.Vector3(vec.x, vec.y, vec.z);
 }

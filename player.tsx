@@ -1,7 +1,8 @@
 import React, { Component } from "react";
+import * as TWEEN from "@tweenjs/tween.js";
 import * as THREE from "three";
 import * as types from "./types";
-import { loadFontAsync } from "./util";
+import { toThreeVec3, loadFontAsync } from "./util";
 
 // Constants
 export const NEAR = 1;
@@ -22,6 +23,7 @@ export class Player extends Component<PlayerProps, {}> {
   scene: THREE.Scene;
   camera: THREE.PerspectiveCamera;
   renderer: THREE.Renderer;
+  active: number;
 
   keydown(event) {
     if (event.keyCode === 9 || 
@@ -68,6 +70,8 @@ export class Player extends Component<PlayerProps, {}> {
   }
 
   componentWillMount() {
+    // For debug
+    window["player"] = this;
     document.addEventListener("keydown", this.keydown);
     document.addEventListener("keyup", this.keyup);
     document.addEventListener("touchstart", this.touchstart);
@@ -90,9 +94,9 @@ export class Player extends Component<PlayerProps, {}> {
   setDistance() {
     // TODO Get WMax and HMax from steps.
     // WMax is maximum width we have in all steps.
-    const WMax = 800;
+    const WMax = 400;
     // Like WMax
-    const HMax = 200;
+    const HMax = 30;
     // D=Display=<w:width, h: height>
     const Dw = this.playerDiv.offsetWidth;
     const Dh = this.playerDiv.offsetHeight;
@@ -110,6 +114,7 @@ export class Player extends Component<PlayerProps, {}> {
     }
     const OD = OB * FD / BE;
     this.distance = OD;
+    console.log(this.distance);
   }
 
   handleResize = () => {
@@ -118,19 +123,47 @@ export class Player extends Component<PlayerProps, {}> {
     this.camera.aspect = offsetWidth / offsetHeight;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(offsetWidth, offsetHeight);
-    // TODO Go to current step!
+    this.goTo(this.active);
   }
 
   handleClose() {
     this.props.onClose();
   }
 
-  handleNext() {
-    // TODO Go to next step
+  goTo = (target: number, time = 1500) => {
+    console.log("Go to", target);
+    this.active = target;
+    const step = this.props.steps[target];
+    const { x: ox, y: oy, z: oz } = step.orientation;
+
+    // TODO position is not centre of object.
+    const position = new THREE.Vector3(0, 0, this.distance)
+		const e = new THREE.Euler(ox, oy, oz, 'XYZ' );
+		position.applyEuler(e);
+    position.add(toThreeVec3(step.position));
+
+    new TWEEN.Tween(this.camera.position)
+      .to(position, time)
+      .easing(TWEEN.Easing.Quadratic.In)
+      .start();
+
+    new TWEEN.Tween(this.camera.rotation)
+      .to(step.orientation, time)
+      .easing(TWEEN.Easing.Quadratic.In)
+      .start();
+  };
+
+  handleNext = () => {
+    const t = (this.active + 1) % this.props.steps.length;
+    this.goTo(t);
   }
 
-  handlePrev() {
-    // TODO Go to previous step
+  handlePrev = () => {
+    if (this.active === 0) {
+      return this.goTo(this.props.steps.length - 1);
+    }
+    const t = (this.active - 1) % this.props.steps.length;
+    this.goTo(t);
   }
 
   init = () => {
@@ -155,11 +188,14 @@ export class Player extends Component<PlayerProps, {}> {
     this.scene.add(lights[1]);
     this.scene.add(lights[2]);
 
-    this.threeRender();
+    requestAnimationFrame(this.threeRender);
+    this.goTo(0);
   }
 
-  threeRender = () => {
+  threeRender = (time) => {
     this.renderer.render(this.scene, this.camera);
+    this.camera.updateProjectionMatrix();
+    TWEEN.default.update(time);
     if (this.playerDiv) requestAnimationFrame(this.threeRender);
   }
 
@@ -191,8 +227,8 @@ export class Player extends Component<PlayerProps, {}> {
       mesh.rotation.x = step.orientation.x;
       mesh.rotation.y = step.orientation.y;
       mesh.rotation.z = step.orientation.z;
-      console.log(mesh);
       this.scene.add(mesh);
+      console.log(mesh);
     }
   }
 
