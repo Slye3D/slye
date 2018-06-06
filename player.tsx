@@ -8,6 +8,7 @@ export const NEAR = 1;
 export const FAR = 2000000;
 export const FOV = 70;
 export const GR = 1.61803398875;
+export const FONT = loadFontAsync("assets/optimer_regular.typeface.json");
 
 export interface PlayerProps {
   onClose(): void;
@@ -136,7 +137,7 @@ export class Player extends Component<PlayerProps, {}> {
     this.scene = new THREE.Scene();
     const { offsetWidth, offsetHeight } = this.playerDiv;
     this.camera = new THREE.PerspectiveCamera(FOV, offsetWidth / offsetHeight, NEAR, FAR);
-    this.camera.position.z = 30;
+    this.camera.position.z = 100;
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize( window.innerWidth, window.innerHeight );
     this.playerDiv.appendChild(this.renderer.domElement);
@@ -164,7 +165,7 @@ export class Player extends Component<PlayerProps, {}> {
 
   async drawSteps() {
     const { steps } = this.props;
-    const font = await loadFontAsync("assets/optimer_regular.typeface.json");
+    const font = await FONT;
     for (let i = 0; i < steps.length;++i) {
       const step = steps[i];
       const geometry = new THREE.TextGeometry(step.text, {
