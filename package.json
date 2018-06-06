@@ -12,6 +12,7 @@
     "@types/three": "^0.92.3",
     "node-sass": "^4.9.0",
     "parcel-bundler": "^1.8.1",
+    "rimraf": "^2.6.2",
     "typescript": "^2.9.1"
   },
   "dependencies": {
