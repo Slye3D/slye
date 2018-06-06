@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import * as THREE from "three";
 import * as types from "./types";
 
 // Constants
@@ -16,6 +17,9 @@ export class Player extends Component<PlayerProps, {}> {
   // Distance between camera and step.
   distance: number;
   playerDiv: HTMLElement;
+  scene: THREE.Scene;
+  camera: THREE.PerspectiveCamera;
+  renderer: THREE.Renderer;
 
   keydown(event) {
     if (event.keyCode === 9 || 
@@ -65,12 +69,14 @@ export class Player extends Component<PlayerProps, {}> {
     document.addEventListener("keydown", this.keydown);
     document.addEventListener("keyup", this.keyup);
     document.addEventListener("touchstart", this.touchstart);
+    window.addEventListener("resize", this.handleResize);
   }
 
   componentWillUnmount() {
     document.removeEventListener("keydown", this.keydown);
     document.removeEventListener("keyup", this.keyup);
     document.removeEventListener("touchstart", this.touchstart);
+    window.removeEventListener("resize", this.handleResize);
   }
 
   shouldComponentUpdate() {
@@ -104,6 +110,15 @@ export class Player extends Component<PlayerProps, {}> {
     this.distance = OD;
   }
 
+  handleResize = () => {
+    this.setDistance();
+    const { offsetWidth, offsetHeight } = this.playerDiv;
+    this.camera.aspect = offsetWidth / offsetHeight;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize(offsetWidth, offsetHeight);
+    // TODO Go to current step!
+  }
+
   handleClose() {
     this.props.onClose();
   }
@@ -116,10 +131,21 @@ export class Player extends Component<PlayerProps, {}> {
     // TODO Go to previous step
   }
 
+  init() {
+    this.scene = new THREE.Scene();
+    const { offsetWidth, offsetHeight } = this.playerDiv;
+    this.camera = new THREE.PerspectiveCamera(FOV, offsetWidth / offsetHeight, NEAR, FAR);
+
+    this.renderer = new THREE.WebGLRenderer();
+    this.renderer.setSize( window.innerWidth, window.innerHeight );
+    this.playerDiv.appendChild(this.renderer.domElement);
+  }
+
   handleRef = (player) => {
     this.playerDiv = player;
     if (player) {
       this.setDistance();
+      this.init();
     }
   }
 
