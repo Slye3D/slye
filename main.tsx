@@ -96,7 +96,8 @@ class App extends Component<{}, AppState> {
             step={ s }
             onChange={ this.handleStepChange.bind(this, i) } />
         )) }
-        <button className="new-step" onClick={ this.handleNewStep } />
+        <button className="btn-icon new-step" onClick={ this.handleNewStep } />
+        <button className="btn-icon play" />
       </div>
     );
   }
