@@ -15,7 +15,7 @@ const options = {
   cache: true,
   hmr: false,
   logLevel: 3,
-  minify: false,
+  minify: true,
   outDir,
   publicUrl: "/",
   sourceMaps: true,
