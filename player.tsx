@@ -25,6 +25,8 @@ export class Player extends Component<PlayerProps, {}> {
   renderer: THREE.Renderer;
   active: number;
   widths = new Map<number, number>();
+  heights = new Map<number, number>();
+  wMax = -Infinity;
 
   keydown(event) {
     if (event.keyCode === 9 || 
@@ -91,31 +93,13 @@ export class Player extends Component<PlayerProps, {}> {
     return false;
   }
 
-  // TODO Write documentations for this function. :/
   setDistance() {
-    // TODO Get WMax and HMax from steps.
-    // WMax is maximum width we have in all steps.
-    const WMax = 400;
-    // Like WMax
-    const HMax = 30;
-    // D=Display=<w:width, h: height>
-    const Dw = this.playerDiv.offsetWidth;
-    const Dh = this.playerDiv.offsetHeight;
-    const FD = HMax / 2;
-    const DH = WMax / 2;
-    const OB = NEAR;
-    const AB = Math.tan((FOV / 2) * Math.PI / 180)
-    const BI = AB * Dw / Dh;
-    let BJ = GR * BI / (1 + GR);
-    const BJoverBE = DH / FD;
-    let BE = BJ / BJoverBE;
-    if (BE > (AB - 30)) {
-      BE = GR * AB / (1 + GR);
-      BJ = BE * BJoverBE;
-    }
-    const OD = OB * FD / BE;
-    this.distance = OD;
-    console.log(this.distance);
+    const vFov = THREE.Math.degToRad(FOV);
+    const farHeight = 2 * Math.tan(vFov / 2) * FAR;
+    const farWidth = farHeight * this.camera.aspect;
+    const AE = GR * (farWidth / 2) / (1 + GR);
+    const OC = FAR * this.wMax / AE;
+    this.distance = OC;
   }
 
   handleResize = () => {
@@ -132,13 +116,13 @@ export class Player extends Component<PlayerProps, {}> {
   }
 
   goTo = (target: number, time = 1500) => {
-    console.log("Go to", target);
     this.active = target;
     const step = this.props.steps[target];
     const { x: ox, y: oy, z: oz } = step.orientation;
 
     const alignX = this.widths.get(target) / 2;
-    const position = new THREE.Vector3(alignX, 0, this.distance);
+    const alighY = this.heights.get(target) / 2;
+    const position = new THREE.Vector3(alignX, alighY, this.distance);
 		const e = new THREE.Euler(ox, oy, oz, 'XYZ' );
 		position.applyEuler(e);
     position.add(toThreeVec3(step.position));
@@ -181,16 +165,15 @@ export class Player extends Component<PlayerProps, {}> {
     lights[1] = new THREE.PointLight(0xffffff, 1, 0);
     lights[2] = new THREE.PointLight(0xffffff, 1, 0);
 
-    lights[0].position.set(0, 200, 0);
-    lights[1].position.set(100, 200, 100);
-    lights[2].position.set(-100, -200, - 100);
+    lights[0].position.set(0, 2000, 0);
+    lights[1].position.set(1000, 2000, 1000);
+    lights[2].position.set(-1000, -2000, - 1000);
 
     this.scene.add(lights[0]);
     this.scene.add(lights[1]);
     this.scene.add(lights[2]);
 
     requestAnimationFrame(this.threeRender);
-    this.goTo(0);
   }
 
   threeRender = (time) => {
@@ -229,20 +212,26 @@ export class Player extends Component<PlayerProps, {}> {
       mesh.rotation.y = step.orientation.y;
       mesh.rotation.z = step.orientation.z;
       this.scene.add(mesh);
-      // Compute width of geometry
+      // Compute width/height of geometry
       geometry.computeBoundingBox();
       const boundingBox = geometry.boundingBox;
       const width = boundingBox.max.x - boundingBox.min.x;
+      const height = boundingBox.max.y - boundingBox.min.y;
       this.widths.set(i, width);
+      this.heights.set(i, height);
+      if (width > this.wMax) {
+        this.wMax = width;
+      }
     }
   }
 
-  handleRef = (player) => {
+  handleRef = async (player) => {
     this.playerDiv = player;
     if (player) {
-      this.setDistance();
       this.init();
-      this.drawSteps();
+      await this.drawSteps();
+      this.setDistance();
+      this.goTo(0, 100);
     }
   }
 
