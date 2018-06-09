@@ -188,6 +188,7 @@ export class Player extends Component<PlayerProps, {}> {
     const font = await FONT;
     for (let i = 0; i < steps.length;++i) {
       const step = steps[i];
+      if (!step.text.trim()) continue;
       const geometry = new THREE.TextGeometry(step.text, {
         font,
         size: 10,
