@@ -108,7 +108,7 @@ export class Player extends Component<PlayerProps, {}> {
     this.camera.aspect = offsetWidth / offsetHeight;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(offsetWidth, offsetHeight);
-    this.goTo(this.active);
+    this.goTo(this.active, 750);
   }
 
   handleClose() {
@@ -232,13 +232,21 @@ export class Player extends Component<PlayerProps, {}> {
       this.init();
       await this.drawSteps();
       this.setDistance();
-      this.goTo(0, 100);
+      this.goTo(0, 0);
+      this.showPlayer();
     }
+  }
+
+  showPlayer() {
+    new TWEEN.Tween(this.playerDiv.style)
+      .to({ opacity: 1 }, 500)
+      .easing(TWEEN.Easing.Quadratic.In)
+      .start();
   }
 
   render() {
     return (
-      <div id="player" ref={ this.handleRef } />
+      <div id="player" ref={ this.handleRef } style={{ opacity: 0 }} />
     );
   }
 }
