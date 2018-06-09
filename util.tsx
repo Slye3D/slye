@@ -24,3 +24,19 @@ export async function loadFontAsync(src) {
 export function toThreeVec3(vec: types.Vec3): THREE.Vector3 {
   return new THREE.Vector3(vec.x, vec.y, vec.z);
 }
+
+export function cloneStep(step: types.Step): types.Step {
+  return {
+    text: step.text,
+    position: { ...step.position },
+    orientation: { ...step.orientation }
+  };
+}
+
+export function stepDeg2Rad(step: types.Step): types.Step {
+  step = cloneStep(step);
+  step.orientation.x = THREE.Math.degToRad(step.orientation.x);
+  step.orientation.y = THREE.Math.degToRad(step.orientation.y);
+  step.orientation.z = THREE.Math.degToRad(step.orientation.z);
+  return step;
+}

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ReactDom from "react-dom";
 import * as types from "./types";
 import { Player } from "./player";
+import { stepDeg2Rad } from "./util";
 
 interface StepProps {
   step: types.Step,
@@ -110,7 +111,9 @@ class App extends Component<{}, AppState> {
   render() {
     if (this.state.isPlaying) {
       return (
-        <Player steps={ this.state.steps } onClose={ this.togglePlayer } />
+        <Player
+          steps={ this.state.steps.map(stepDeg2Rad) }
+          onClose={ this.togglePlayer } />
       );
     }
     return (
