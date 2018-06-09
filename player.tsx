@@ -24,6 +24,7 @@ export class Player extends Component<PlayerProps, {}> {
   camera: THREE.PerspectiveCamera;
   renderer: THREE.Renderer;
   active: number;
+  widths = new Map<number, number>();
 
   keydown(event) {
     if (event.keyCode === 9 || 
@@ -136,8 +137,8 @@ export class Player extends Component<PlayerProps, {}> {
     const step = this.props.steps[target];
     const { x: ox, y: oy, z: oz } = step.orientation;
 
-    // TODO position is not centre of object.
-    const position = new THREE.Vector3(0, 0, this.distance)
+    const alignX = this.widths.get(target) / 2;
+    const position = new THREE.Vector3(alignX, 0, this.distance);
 		const e = new THREE.Euler(ox, oy, oz, 'XYZ' );
 		position.applyEuler(e);
     position.add(toThreeVec3(step.position));
@@ -228,7 +229,11 @@ export class Player extends Component<PlayerProps, {}> {
       mesh.rotation.y = step.orientation.y;
       mesh.rotation.z = step.orientation.z;
       this.scene.add(mesh);
-      console.log(mesh);
+      // Compute width of geometry
+      geometry.computeBoundingBox();
+      const boundingBox = geometry.boundingBox;
+      const width = boundingBox.max.x - boundingBox.min.x;
+      this.widths.set(i, width);
     }
   }
 
