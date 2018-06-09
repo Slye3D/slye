@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ReactDom from "react-dom";
 import * as types from "./types";
 import { Player } from "./player";
-import { stepDeg2Rad } from "./util";
+import { emptyStep, stepDeg2Rad } from "./util";
 
 interface StepProps {
   step: types.Step,
@@ -78,18 +78,13 @@ interface AppState {
 
 class App extends Component<{}, AppState> {
   state = {
-    steps: [],
+    steps: [ emptyStep("Hello Slye!") ],
     isPlaying: false
   };
 
   handleNewStep = () => {
-    const newStep: types.Step = {
-      text: "",
-      position: { x: 0, y: 0, z: 0 },
-      orientation: { x: 0, y: 0, z: 0 }
-    };
     this.setState(s => {
-      s.steps.push(newStep);
+      s.steps.push(emptyStep());
       return s;
     });
   }

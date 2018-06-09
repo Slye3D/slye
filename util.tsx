@@ -40,3 +40,11 @@ export function stepDeg2Rad(step: types.Step): types.Step {
   step.orientation.z = THREE.Math.degToRad(step.orientation.z);
   return step;
 }
+
+export function emptyStep(text = ""): types.Step {
+  return {
+    text,
+    position: { x: 0, y: 0, z: 0 },
+    orientation: { x: 0, y: 0, z: 0 }
+  };
+}
