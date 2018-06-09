@@ -78,16 +78,35 @@ interface AppState {
 
 class App extends Component<{}, AppState> {
   state = {
-    steps: [ emptyStep("Hello Slye!") ],
+    steps: null,
     isPlaying: false
   };
+  
+  constructor(props) {
+    super(props);
+    try {
+      const steps = localStorage.getItem("slye-presentation");
+      if (!steps) throw new Error();
+      this.state.steps = JSON.parse(steps);
+    } catch (e) {
+      this.state.steps = [ emptyStep("Hello Slye!") ]
+    }
+  }
 
   handleNewStep = () => {
+    this.handleSave();
     this.setState(s => {
       s.steps.push(emptyStep());
       return s;
     });
   }
+
+  togglePlayer = () => {
+    this.handleSave();
+    this.setState({
+      isPlaying: !this.state.isPlaying
+    });
+  };
 
   handleStepChange = (i: number, newStep: types.Step) => {
     const newSteps = [ ...this.state.steps ];
@@ -97,11 +116,14 @@ class App extends Component<{}, AppState> {
     });
   };
 
-  togglePlayer = () => {
-    this.setState({
-      isPlaying: !this.state.isPlaying
-    });
-  };
+
+  handleSave = () => {
+    // Because setState is async.
+    setTimeout(() => {
+      const steps = JSON.stringify(this.state.steps);
+      localStorage.setItem("slye-presentation", steps);
+    }, 10);
+  }
 
   render() {
     if (this.state.isPlaying) {
