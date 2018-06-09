@@ -53,6 +53,11 @@ body {
   width: 100vw;
   height: 100vh;
   background: $dark;
+  canvas {
+    position: fixed;
+    width: 100% !important;
+    height: 100% !important;
+  }
 }
 
 input {
