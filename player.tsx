@@ -17,16 +17,18 @@ export interface PlayerProps {
 }
 
 export class Player extends Component<PlayerProps, {}> {
-  // Distance between camera and step.
-  distance: number;
+  // Reference to player DOM object.
   playerDiv: HTMLElement;
+  // THREE.js related data.
   scene: THREE.Scene;
   camera: THREE.PerspectiveCamera;
   renderer: THREE.Renderer;
+  // Current step.
   active: number;
+  // Width and heights of each step.
+  // Computed and drawSteps()
   widths = new Map<number, number>();
   heights = new Map<number, number>();
-  wMax = -Infinity;
 
   keydown(event) {
     if (event.keyCode === 9 || 
@@ -66,10 +68,11 @@ export class Player extends Component<PlayerProps, {}> {
       } else if (x > window.innerWidth - width) {
         this.handleNext();
       }
-      //if (result) {
-        //event.preventDefault();
-      //}
     }
+  }
+
+  handleClose() {
+    this.props.onClose();
   }
 
   componentWillMount() {
@@ -93,17 +96,7 @@ export class Player extends Component<PlayerProps, {}> {
     return false;
   }
 
-  setDistance() {
-    const vFov = THREE.Math.degToRad(FOV);
-    const farHeight = 2 * Math.tan(vFov / 2) * FAR;
-    const farWidth = farHeight * this.camera.aspect;
-    const AE = GR * (farWidth / 2) / (1 + GR);
-    const OC = FAR * this.wMax / AE;
-    this.distance = OC;
-  }
-
   handleResize = () => {
-    this.setDistance();
     const { offsetWidth, offsetHeight } = this.playerDiv;
     this.camera.aspect = offsetWidth / offsetHeight;
     this.camera.updateProjectionMatrix();
@@ -111,18 +104,20 @@ export class Player extends Component<PlayerProps, {}> {
     this.goTo(this.active, 750);
   }
 
-  handleClose() {
-    this.props.onClose();
-  }
-
   goTo = (target: number, time = 1500) => {
     this.active = target;
     const step = this.props.steps[target];
     const { x: ox, y: oy, z: oz } = step.orientation;
-
+    // Find distance between camera and text.
+    const vFov = THREE.Math.degToRad(FOV);
+    const farHeight = 2 * Math.tan(vFov / 2) * FAR;
+    const farWidth = farHeight * this.camera.aspect;
+    const AE = GR * (farWidth / 2) / (1 + GR);
+    const distance = FAR * this.widths.get(target) / AE;
+    // Align camera so it'll focus on centre of text geometry.
     const alignX = this.widths.get(target) / 2;
     const alighY = this.heights.get(target) / 2;
-    const position = new THREE.Vector3(alignX, alighY, this.distance);
+    const position = new THREE.Vector3(alignX, alighY, distance);
 		const e = new THREE.Euler(ox, oy, oz, 'XYZ' );
 		position.applyEuler(e);
     position.add(toThreeVec3(step.position));
@@ -157,7 +152,7 @@ export class Player extends Component<PlayerProps, {}> {
     this.camera = new THREE.PerspectiveCamera(FOV, offsetWidth / offsetHeight, NEAR, FAR);
     this.camera.position.z = 30;
     this.renderer = new THREE.WebGLRenderer();
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setSize(offsetWidth, offsetHeight);
     this.playerDiv.appendChild(this.renderer.domElement);
     // Lights
     const lights = [];
@@ -220,9 +215,6 @@ export class Player extends Component<PlayerProps, {}> {
       const height = boundingBox.max.y - boundingBox.min.y;
       this.widths.set(i, width);
       this.heights.set(i, height);
-      if (width > this.wMax) {
-        this.wMax = width;
-      }
     }
   }
 
@@ -231,7 +223,6 @@ export class Player extends Component<PlayerProps, {}> {
     if (player) {
       this.init();
       await this.drawSteps();
-      this.setDistance();
       this.goTo(0, 0);
       this.showPlayer();
     }
