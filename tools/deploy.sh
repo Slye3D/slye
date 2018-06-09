@@ -1,5 +1,10 @@
 #!/bin/bash
-HASH=$(git rev-parse HEAD | cut -c-6)
+git ls-files -m --error-unmatch . >/dev/null 2>&1; ec=$?
+if test "$ec" = 0; then
+  echo "Repository is dirty..."
+  exit
+fi
+HASH=$(git rev-parse HEAD | cut -c-7)
 ./tools/build.js
 cd dist
 git init
