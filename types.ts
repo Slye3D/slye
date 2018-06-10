@@ -21,6 +21,11 @@ export interface Step {
   orientation: Vec3;
 }
 
+export interface Presentation {
+  // TODO owner...
+  steps: Step[];
+}
+
 export type Axis = "x" | "y" | "z";
 
 export type StepVec3Props = "position" | "orientation";
