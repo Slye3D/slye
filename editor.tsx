@@ -10,7 +10,6 @@
  */
 
 import React, { Component } from "react";
-import ReactDom from "react-dom";
 import { Player } from "./player";
 import * as types from "./types";
 import { emptyStep, randomString, stepDeg2Rad } from "./util";
@@ -89,12 +88,12 @@ class Step extends Component<StepProps, {}> {
   }
 }
 
-interface AppState {
+interface EditorState {
   isPlaying: boolean;
   steps: Map<string, types.Step>;
 }
 
-class App extends Component<{}, AppState> {
+export class Editor extends Component<{}, EditorState> {
   state = {
     isPlaying: false,
     steps: null
@@ -167,5 +166,3 @@ class App extends Component<{}, AppState> {
     );
   }
 }
-
-ReactDom.render(<App />, document.getElementById("root"));
