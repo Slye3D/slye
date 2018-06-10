@@ -1,3 +1,14 @@
+/**
+ *    _____ __
+ *   / ___// /_  _____
+ *   \__ \/ / / / / _ \
+ *  ___/ / / /_/ /  __/
+ * /____/_/\__, /\___/
+ *       /____/
+ *       Copyright 2018 Parsa Ghadimi. All Rights Reserved.
+ *       Licence: MIT License
+ */
+
 import React, { Component } from "react";
 import * as TWEEN from "@tweenjs/tween.js";
 import * as THREE from "three";
