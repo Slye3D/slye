@@ -195,8 +195,8 @@ export class Player extends Component<PlayerProps, {}> {
         bevelSegments: 3
       });
       const material = new THREE.MeshPhongMaterial({
-        color: 0x156289,
-        emissive: 0x072534,
+        color: 0xeee037,
+        emissive: 0x000,
         side: THREE.DoubleSide,
         flatShading: true
       });
