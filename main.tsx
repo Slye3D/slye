@@ -11,8 +11,8 @@
 
 import React, { Component } from "react";
 import ReactDom from "react-dom";
-import * as types from "./types";
 import { Player } from "./player";
+import * as types from "./types";
 import { emptyStep, randomString, stepDeg2Rad } from "./util";
 
 interface StepProps {
@@ -30,7 +30,8 @@ class Step extends Component<StepProps, {}> {
 
   handleVec3Change = (field: types.StepVec3Props, axis: types.Axis, e) => {
     const newStep: types.Step = { ...this.props.step };
-    newStep[field][axis] = e.target.value ? Number(e.target.value) : ("" as any);
+    newStep[field][axis] = e.target.value ? Number(e.target.value)
+      : ("" as any);
     this.props.onChange(newStep);
   }
 
@@ -89,17 +90,17 @@ class Step extends Component<StepProps, {}> {
 }
 
 interface AppState {
-  steps: Map<string, types.Step>;
   isPlaying: boolean;
+  steps: Map<string, types.Step>;
 }
 
 class App extends Component<{}, AppState> {
   state = {
-    steps: null,
-    isPlaying: false
+    isPlaying: false,
+    steps: null
   };
   saveTimeout: number;
-  
+
   constructor(props) {
     super(props);
     this.state.steps = new Map<string, types.Step>();
@@ -131,7 +132,7 @@ class App extends Component<{}, AppState> {
 
   handleSave = (t = 10) => {
     if (this.saveTimeout !== undefined) {
-      clearTimeout(this.saveTimeout)
+      clearTimeout(this.saveTimeout);
     }
     this.saveTimeout = setTimeout(() => {
       // TODO
@@ -140,7 +141,7 @@ class App extends Component<{}, AppState> {
 
   render() {
     if (this.state.isPlaying) {
-      const stepsArray = [ ...this.state.steps.values() ].map(stepDeg2Rad);
+      const stepsArray = [...this.state.steps.values()].map(stepDeg2Rad);
       return (
         <Player
           steps={ stepsArray }

@@ -9,11 +9,11 @@
  *       Licence: MIT License
  */
 
-import React, { Component } from "react";
 import * as TWEEN from "@tweenjs/tween.js";
+import React, { Component } from "react";
 import * as THREE from "three";
 import * as types from "./types";
-import { toThreeVec3, loadFontAsync } from "./util";
+import { loadFontAsync, toThreeVec3 } from "./util";
 
 // Constants
 export const NEAR = 1;
@@ -24,7 +24,7 @@ export const FONT = loadFontAsync("assets/optimer_regular.typeface.json");
 
 export interface PlayerProps {
   onClose(): void;
-  steps: types.Step[]
+  steps: types.Step[];
 }
 
 export class Player extends Component<PlayerProps, {}> {
@@ -42,7 +42,7 @@ export class Player extends Component<PlayerProps, {}> {
   heights = new Map<number, number>();
 
   keydown(event) {
-    if (event.keyCode === 9 || 
+    if (event.keyCode === 9 ||
       (event.keyCode >= 32 && event.keyCode <= 34) ||
       (event.keyCode >= 37 && event.keyCode <= 40)) {
       event.preventDefault();
@@ -129,8 +129,8 @@ export class Player extends Component<PlayerProps, {}> {
     const alignX = this.widths.get(target) / 2;
     const alighY = this.heights.get(target) / 2;
     const position = new THREE.Vector3(alignX, alighY, distance);
-		const e = new THREE.Euler(ox, oy, oz, 'XYZ' );
-		position.applyEuler(e);
+    const e = new THREE.Euler(ox, oy, oz, "XYZ" );
+    position.applyEuler(e);
     position.add(toThreeVec3(step.position));
 
     new TWEEN.Tween(this.camera.position)
@@ -160,7 +160,8 @@ export class Player extends Component<PlayerProps, {}> {
   init = () => {
     this.scene = new THREE.Scene();
     const { offsetWidth, offsetHeight } = this.playerDiv;
-    this.camera = new THREE.PerspectiveCamera(FOV, offsetWidth / offsetHeight, NEAR, FAR);
+    const aspect = offsetWidth / offsetHeight;
+    this.camera = new THREE.PerspectiveCamera(FOV, aspect, NEAR, FAR);
     this.camera.position.z = 30;
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(offsetWidth, offsetHeight);
@@ -192,7 +193,7 @@ export class Player extends Component<PlayerProps, {}> {
   async drawSteps() {
     const { steps } = this.props;
     const font = await FONT;
-    for (let i = 0; i < steps.length;++i) {
+    for (let i = 0; i < steps.length; ++i) {
       const step = steps[i];
       if (!step.text.trim()) continue;
       const geometry = new THREE.TextGeometry(step.text, {
@@ -208,8 +209,8 @@ export class Player extends Component<PlayerProps, {}> {
       const material = new THREE.MeshPhongMaterial({
         color: 0xeee037,
         emissive: 0x000,
-        side: THREE.DoubleSide,
-        flatShading: true
+        flatShading: true,
+        side: THREE.DoubleSide
       });
       const mesh = new THREE.Mesh(geometry, material);
       mesh.position.x = step.position.x;
