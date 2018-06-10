@@ -81,6 +81,7 @@ class App extends Component<{}, AppState> {
     steps: null,
     isPlaying: false
   };
+  saveTimeout: number;
   
   constructor(props) {
     super(props);
@@ -109,6 +110,7 @@ class App extends Component<{}, AppState> {
   };
 
   handleStepChange = (i: number, newStep: types.Step) => {
+    this.handleSave(750);
     const newSteps = [ ...this.state.steps ];
     newSteps[i] = newStep;
     this.setState({
@@ -116,13 +118,14 @@ class App extends Component<{}, AppState> {
     });
   };
 
-
-  handleSave = () => {
-    // Because setState is async.
-    setTimeout(() => {
+  handleSave = (t = 10) => {
+    if (this.saveTimeout !== undefined) {
+      clearTimeout(this.saveTimeout)
+    }
+    this.saveTimeout = setTimeout(() => {
       const steps = JSON.stringify(this.state.steps);
       localStorage.setItem("slye-presentation", steps);
-    }, 10);
+    }, t);
   }
 
   render() {
