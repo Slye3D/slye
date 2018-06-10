@@ -103,6 +103,7 @@ export class Editor extends Component<{}, EditorState> {
   constructor(props) {
     super(props);
     this.state.steps = new Map<string, types.Step>();
+    this.state.steps.set(randomString(), emptyStep("Hello Slye!"));
   }
 
   handleNewStep = () => {
