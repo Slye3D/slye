@@ -85,13 +85,6 @@ class App extends Component<{}, AppState> {
   
   constructor(props) {
     super(props);
-    try {
-      const steps = localStorage.getItem("slye-presentation");
-      if (!steps) throw new Error();
-      this.state.steps = JSON.parse(steps);
-    } catch (e) {
-      this.state.steps = [ emptyStep("Hello Slye!") ]
-    }
   }
 
   handleNewStep = () => {
@@ -123,8 +116,7 @@ class App extends Component<{}, AppState> {
       clearTimeout(this.saveTimeout)
     }
     this.saveTimeout = setTimeout(() => {
-      const steps = JSON.stringify(this.state.steps);
-      localStorage.setItem("slye-presentation", steps);
+      // TODO
     }, t);
   }
 
