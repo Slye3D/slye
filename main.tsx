@@ -5,7 +5,8 @@ import { Player } from "./player";
 import { emptyStep, randomString, stepDeg2Rad } from "./util";
 
 interface StepProps {
-  step: types.Step,
+  step: types.Step;
+  onDelete: () => void;
   onChange: (newStep: types.Step) => void;
 }
 
@@ -22,9 +23,14 @@ class Step extends Component<StepProps, {}> {
     this.props.onChange(newStep);
   }
 
+  handleDelete = () => {
+    this.props.onDelete();
+  }
+
   render() {
     return (
       <div className="step">
+        <button className="delete" onClick={ this.handleDelete } />
         <input
           type="text"
           placeholder="Text..."
@@ -100,12 +106,17 @@ class App extends Component<{}, AppState> {
     this.setState({
       isPlaying: !this.state.isPlaying
     });
-  };
+  }
 
   handleStepChange = (id: string, newStep: types.Step) => {
     this.handleSave(750);
     this.state.steps.set(id, newStep);
-  };
+  }
+
+  handleStepDelete = (id: string) => {
+    this.state.steps.delete(id);
+    this.forceUpdate();
+  }
 
   handleSave = (t = 10) => {
     if (this.saveTimeout !== undefined) {
@@ -131,6 +142,7 @@ class App extends Component<{}, AppState> {
         <Step
           key={ "step" + id }
           step={ step }
+          onDelete={ this.handleStepDelete.bind(this, id) }
           onChange={ this.handleStepChange.bind(this, id) } />
       );
     });
