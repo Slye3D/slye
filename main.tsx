@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ReactDom from "react-dom";
 import * as types from "./types";
 import { Player } from "./player";
-import { emptyStep, stepDeg2Rad } from "./util";
+import { emptyStep, randomString, stepDeg2Rad } from "./util";
 
 interface StepProps {
   step: types.Step,
@@ -28,24 +28,24 @@ class Step extends Component<StepProps, {}> {
         <input
           type="text"
           placeholder="Text..."
-          value={ this.props.step.text }
+          defaultValue={ this.props.step.text }
           onChange={ this.handleTextChange }/>
         Position:
         <div className="position">
           <input
             type="number"
             placeholder="X"
-            value={ this.props.step.position.x }
+            defaultValue={ this.props.step.position.x + "" }
             onChange={ this.handleVec3Change.bind(this, "position", "x") } />
           <input
             type="number"
             placeholder="Y"
-            value={ this.props.step.position.y }
+            defaultValue={ this.props.step.position.y + "" }
             onChange={ this.handleVec3Change.bind(this, "position", "y") } />
           <input
             type="number"
             placeholder="Z"
-            value={ this.props.step.position.z }
+            defaultValue={ this.props.step.position.z + "" }
             onChange={ this.handleVec3Change.bind(this, "position", "z") } />
         </div>
         Orientation:
@@ -53,17 +53,17 @@ class Step extends Component<StepProps, {}> {
           <input
             type="number"
             placeholder="X"
-            value={ this.props.step.orientation.x }
+            defaultValue={ this.props.step.orientation.x + "" }
             onChange={ this.handleVec3Change.bind(this, "orientation", "x") } />
           <input
             type="number"
             placeholder="Y"
-            value={ this.props.step.orientation.y }
+            defaultValue={ this.props.step.orientation.y + "" }
             onChange={ this.handleVec3Change.bind(this, "orientation", "y") } />
           <input
             type="number"
             placeholder="Z"
-            value={ this.props.step.orientation.z }
+            defaultValue={ this.props.step.orientation.z + "" }
             onChange={ this.handleVec3Change.bind(this, "orientation", "z") } />
         </div>
       </div>
@@ -72,7 +72,7 @@ class Step extends Component<StepProps, {}> {
 }
 
 interface AppState {
-  steps: types.Step[];
+  steps: Map<string, types.Step>;
   isPlaying: boolean;
 }
 
@@ -85,14 +85,14 @@ class App extends Component<{}, AppState> {
   
   constructor(props) {
     super(props);
+    this.state.steps = new Map<string, types.Step>();
   }
 
   handleNewStep = () => {
     this.handleSave();
-    this.setState(s => {
-      s.steps.push(emptyStep());
-      return s;
-    });
+    const id = randomString();
+    this.state.steps.set(id, emptyStep());
+    this.forceUpdate();
   }
 
   togglePlayer = () => {
@@ -102,13 +102,9 @@ class App extends Component<{}, AppState> {
     });
   };
 
-  handleStepChange = (i: number, newStep: types.Step) => {
+  handleStepChange = (id: string, newStep: types.Step) => {
     this.handleSave(750);
-    const newSteps = [ ...this.state.steps ];
-    newSteps[i] = newStep;
-    this.setState({
-      steps: newSteps,
-    });
+    this.state.steps.set(id, newStep);
   };
 
   handleSave = (t = 10) => {
@@ -122,20 +118,25 @@ class App extends Component<{}, AppState> {
 
   render() {
     if (this.state.isPlaying) {
+      const stepsArray = [ ...this.state.steps.values() ].map(stepDeg2Rad);
       return (
         <Player
-          steps={ this.state.steps.map(stepDeg2Rad) }
+          steps={ stepsArray }
           onClose={ this.togglePlayer } />
       );
     }
+    const steps = [];
+    this.state.steps.forEach((step, id) => {
+      steps.push(
+        <Step
+          key={ "step" + id }
+          step={ step }
+          onChange={ this.handleStepChange.bind(this, id) } />
+      );
+    });
     return (
       <div className="steps-list" >
-        { this.state.steps.map((s, i) => (
-          <Step
-            key={ "step" + i }
-            step={ s }
-            onChange={ this.handleStepChange.bind(this, i) } />
-        )) }
+        { ...steps }
         <button className="btn-icon new-step" onClick={ this.handleNewStep } />
         <button className="btn-icon play" onClick={ this.togglePlayer } />
       </div>

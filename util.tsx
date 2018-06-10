@@ -48,3 +48,7 @@ export function emptyStep(text = ""): types.Step {
     orientation: { x: 0, y: 0, z: 0 }
   };
 }
+
+export function randomString(): string {
+  return Math.random().toString(36).substring(7);
+}
