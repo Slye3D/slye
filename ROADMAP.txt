@@ -1,0 +1,7 @@
+=== Cloud storage ===
+ * Implement db actions
+ * Implement index page
+ * Setup firestore
+
+=== UX ===
+ * Make steps sort-able (react-sortable-hoc)
