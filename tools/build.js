@@ -5,6 +5,8 @@ const fs = require("fs");
 const path = require("path");
 const util = require("./util");
 
+process.env.NODE_ENV = "production";
+
 const outDir = path.join(__dirname, "../dist");
 util.rmrf(outDir);
 fs.mkdirSync(outDir);
