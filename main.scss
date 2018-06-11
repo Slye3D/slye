@@ -79,6 +79,30 @@ body {
   }
 }
 
+#index-page {
+  width: 100vw;
+  height: 100vh;
+  .header {
+    height: 70px;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    .logo {
+      display: inline-block;
+      margin: 15px;
+      height: 40px;
+      width: 200px;
+      background: url("assets/logo.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: left center;
+    }
+    .login {
+      float: right;
+      right: calc((70px - 32px) / 2);
+      top: calc((70px - 32px) / 2);
+    }
+  }
+}
+
 input {
   margin: 0 10px;
   width: calc(100% - 20px);
@@ -128,4 +152,37 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button { 
   -webkit-appearance: none; 
   margin: 0; 
+}
+
+.button {
+  display: inline-block;
+  position: relative;
+  width: 120px;
+  height: 32px;
+  line-height: 32px;
+  border-radius: 2px;
+  font-size: 0.9em;
+  background-color: #fff;
+  color: #646464;
+  cursor: pointer;
+}
+
+.button.raised {
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: 0.2s;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+
+.button.raised:active {
+  box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+  transition-delay: 0s;
+}
+
+.button.blue {
+  background-color: #4285f4;
+  color: #fff;
+}
+
+.center {
+  text-align: center;
 }

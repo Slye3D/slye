@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@tweenjs/tween.js": "^17.2.0",
+    "firebase": "^5.0.4",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
     "react-router": "^4.2.0",

@@ -10,15 +10,19 @@
  */
 
 import React, { Component } from "react";
-import { HashRouter, Route } from "react-router-dom";
+import { HashRouter, Route, Switch } from "react-router-dom";
 
 import { Editor } from "./editor";
+import { Index } from "./index";
 
 export class Router extends Component<{}, {}> {
   render() {
     return (
       <HashRouter>
-        <Route path="/" component={ Editor } />
+        <Switch>
+          <Route path="/" component={ Index } s={ 2 } exact />
+          <Route path="/editor" component={ Editor } />
+        </Switch>
       </HashRouter>
     );
   }
