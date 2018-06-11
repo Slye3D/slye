@@ -104,6 +104,14 @@ body {
       width: 200px;
     }
   }
+  .plus {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    &::after {
+      content: "+";
+    }
+  }
 }
 
 input {

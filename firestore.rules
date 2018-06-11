@@ -1,0 +1,23 @@
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function createdNow() {
+      return request.time == request.resource.data.created;
+    }
+
+    function validate() {
+      return request.auth.uid != null
+          && request.resource.data.owner.uid == request.auth.uid
+          && request.resource.data.owner.photoURL is string
+          && request.resource.data.owner.displayName is string
+          && request.resource.data.updated == request.time;
+    }
+
+    match /presentations/{pr} {
+      allow read: if true;
+      allow create: if validate() && createdNow();
+      allow update: if validate();
+    }
+  }
+}
+

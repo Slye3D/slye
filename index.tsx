@@ -14,8 +14,9 @@ import { connect } from "react-redux";
 import * as types from "./types";
 
 interface IndexProps {
-  onLogin: () => void;
-  onLogout: () => void;
+  onLogin(): void;
+  onLogout(): void;
+  createNew(): void;
   user?: types.User;
 }
 
@@ -26,6 +27,10 @@ class Index extends Component<IndexProps, {}> {
 
   handleLogout = () => {
     this.props.onLogout();
+  };
+
+  handleNewPresentation = () => {
+    this.props.createNew();
   };
 
   render() {
@@ -53,6 +58,11 @@ class Index extends Component<IndexProps, {}> {
         <div className="presentations-list">
 
         </div>
+        { user ? (
+          <button
+            className="btn-icon plus"
+            onClick={ this.handleNewPresentation } />
+        ) : null }
       </div>
     );
   }
@@ -71,6 +81,9 @@ const mapDispatchToProps = dispatch => {
     },
     onLogout() {
       dispatch({ type: "LOGOUT" });
+    },
+    createNew() {
+      dispatch({ type: "NEW_PRESENTATION" });
     }
   };
 };

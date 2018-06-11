@@ -49,8 +49,28 @@ function auth(state: AuthState = {}, action: AuthAction): AuthState {
   return state;
 }
 
+export interface DocsState {}
+
+export interface CreateAction {
+  type: "NEW_PRESENTATION";
+}
+
+export type DocsAction = CreateAction;
+
+function docs(state: DocsState = {}, action: DocsAction): DocsState {
+  switch (action.type) {
+    case "NEW_PRESENTATION":
+      db.create().then(id => {
+        location.hash = "#/editor/" + id;
+      });
+      break;
+  }
+  return state;
+}
+
 const reducer = combineReducers({
-  auth
+  auth,
+  docs
 });
 
 export const store = createStore(reducer);

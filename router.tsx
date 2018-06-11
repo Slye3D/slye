@@ -21,7 +21,7 @@ export class Router extends Component<{}, {}> {
       <HashRouter>
         <Switch>
           <Route path="/" component={ IndexPage } s={ 2 } exact />
-          <Route path="/editor" component={ Editor } />
+          <Route path="/editor/:id" component={ Editor } exact />
         </Switch>
       </HashRouter>
     );

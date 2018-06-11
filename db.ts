@@ -12,8 +12,10 @@
 import firebase from "firebase/app";
 import { store } from "./redux";
 import * as types from "./types";
+import * as util from "./util";
 
 import "firebase/auth";
+import "firebase/firestore";
 
 const config = {
   apiKey: "AIzaSyASm8PZXgrnFzbEgaFo9WZbliJ8cviR9Xs",
@@ -29,20 +31,37 @@ firebase.auth().onAuthStateChanged((user: types.User) => {
   store.dispatch({ type: "SET_USER", user });
 });
 
+const auth = firebase.auth();
+const db = firebase.firestore();
+db.settings({
+  timestampsInSnapshots: true
+});
+const collectionRef = db.collection("presentations");
+
 export async function queryLatest(): Promise<types.Presentation[]> {
   return [];
 }
 
-export async function queryPresentation(id: string)
+export async function getPresentation(id: string)
   : Promise<types.Presentation> {
-  return {
-    owner: null,
-    steps: []
-  };
+    return null;
 }
 
 export async function create(): Promise<string> {
-  return "abc";
+  const u = auth.currentUser;
+  const presentation = {
+    owner: {
+      displayName: u.displayName,
+      photoURL: u.photoURL,
+      uid: u.uid
+    },
+    steps: [util.emptyStep()],
+    created: firebase.firestore.FieldValue.serverTimestamp(),
+    updated: firebase.firestore.FieldValue.serverTimestamp()
+  };
+  console.log(presentation);
+  const doc = await collectionRef.add(presentation);
+  return doc.id;
 }
 
 export async function update(id: string, p: types.Presentation) {

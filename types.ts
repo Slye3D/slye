@@ -24,6 +24,8 @@ export interface Step {
 export interface Presentation {
   owner: User;
   steps: Step[];
+  created: Date;
+  updated: Date;
 }
 
 export type Axis = "x" | "y" | "z";
@@ -32,7 +34,6 @@ export type StepVec3Props = "position" | "orientation";
 
 export interface User {
   displayName: string;
-  email: string;
   photoURL: string;
   uid: string;
 }
