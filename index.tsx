@@ -11,10 +11,10 @@
 
 import React, { Component } from "react";
 import * as db from "./db";
+import * as types from "./types";
 
 interface IndexState {
-  // TODO
-  user: any;
+  user: types.User;
 }
 
 export class Index extends Component<{}, IndexState> {

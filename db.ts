@@ -31,6 +31,7 @@ export async function queryLatest(): Promise<types.Presentation[]> {
 export async function queryPresentation(id: string)
   : Promise<types.Presentation> {
   return {
+    owner: null,
     steps: []
   };
 }
@@ -49,6 +50,6 @@ export async function login() {
   console.log(result);
 }
 
-export function onAuthChange(cb: (user: any) => void) {
+export function onAuthChange(cb: (user: types.User) => void) {
   return firebase.auth().onAuthStateChanged(cb);
 }

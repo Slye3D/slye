@@ -22,10 +22,17 @@ export interface Step {
 }
 
 export interface Presentation {
-  // TODO owner...
+  owner: User;
   steps: Step[];
 }
 
 export type Axis = "x" | "y" | "z";
 
 export type StepVec3Props = "position" | "orientation";
+
+export interface User {
+  displayName: string;
+  email: string;
+  photoURL: string;
+  uid: string;
+}
