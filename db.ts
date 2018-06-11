@@ -49,8 +49,11 @@ export async function update(id: string, p: types.Presentation) {
 
 }
 
-export async function login() {
+export function login() {
   const provider = new firebase.auth.GoogleAuthProvider();
-  const result = await firebase.auth().signInWithPopup(provider);
-  console.log(result);
+  return firebase.auth().signInWithPopup(provider);
+}
+
+export function logout() {
+  return firebase.auth().signOut();
 }

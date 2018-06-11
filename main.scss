@@ -100,6 +100,9 @@ body {
       right: calc((70px - 32px) / 2);
       top: calc((70px - 32px) / 2);
     }
+    .user {
+      width: 200px;
+    }
   }
 }
 
@@ -185,4 +188,43 @@ input[type=number]::-webkit-outer-spin-button {
 
 .center {
   text-align: center;
+}
+
+.drop {
+  position: relative;
+  ul {
+    padding: 0;
+    position: absolute;
+    left: 0;
+    top: 3em;
+    transition: all 0.3s ease;
+    transform: scale(0);
+    transform-origin: 0 0;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    li {
+      display: block;
+      width: 100%;
+      a {
+        width: 100%;
+        padding: 1em 18px;
+        display: inline-block;
+        white-space: pre;
+        box-sizing: border-box;
+        &:hover {
+          background: $dark;
+          color: $primary;
+        }
+      }
+    }
+  }
+  &:hover {
+    ul {
+      transform: scale(1);
+    }
+  }
+}
+
+a, li {
+  color: $dark;
+  text-decoration: none;
 }

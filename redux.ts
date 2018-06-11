@@ -13,8 +13,12 @@ import { combineReducers, createStore } from "redux";
 import * as db from "./db";
 import * as types from "./types";
 
-export interface UserState {
+export interface AuthState {
   user?: types.User;
+}
+
+export interface LogoutAction {
+  type: "LOGOUT";
 }
 
 export interface LoginAction {
@@ -26,12 +30,15 @@ export interface SetUserAction {
   user: types.User;
 }
 
-export type UserAction = LoginAction | SetUserAction;
+export type AuthAction = LogoutAction | LoginAction | SetUserAction;
 
-function user(state: UserState = {}, action: UserAction): UserState {
+function auth(state: AuthState = {}, action: AuthAction): AuthState {
   switch (action.type) {
     case "LOGIN":
       db.login();
+      break;
+    case "LOGOUT":
+      db.logout();
       break;
     case "SET_USER":
       return {
@@ -43,6 +50,7 @@ function user(state: UserState = {}, action: UserAction): UserState {
 }
 
 const reducer = combineReducers({
-  user
+  auth
 });
+
 export const store = createStore(reducer);

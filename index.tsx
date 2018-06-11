@@ -11,9 +11,12 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import * as types from "./types";
 
 interface IndexProps {
   onLogin: () => void;
+  onLogout: () => void;
+  user?: types.User;
 }
 
 class Index extends Component<IndexProps, {}> {
@@ -21,14 +24,31 @@ class Index extends Component<IndexProps, {}> {
     this.props.onLogin();
   };
 
+  handleLogout = () => {
+    this.props.onLogout();
+  };
+
   render() {
+    const { user } = this.props;
     return (
       <div id="index-page">
         <div className="header">
           <div className="logo" />
-          <div className="login button raised blue">
-            <div className="center" onClick={ this.handleLogin }>Login</div>
-          </div>
+            { !user ? (
+              <div className="login button raised blue">
+                <div
+                  className="center"
+                  onClick={ this.handleLogin }>Login</div>
+              </div>
+            ) : (
+              <div className="drop user login button raised">
+                <div
+                  className="center" >Hello, { user.displayName }</div>
+                <ul>
+                  <li><a onClick={ this.handleLogout }>Sign out</a></li>
+                </ul>
+              </div>
+            ) }
         </div>
         <div className="presentations-list">
 
@@ -39,14 +59,18 @@ class Index extends Component<IndexProps, {}> {
 }
 
 const mapStateToProps = state => {
-  console.log(state);
-  return { };
+  return {
+    user: state.auth.user
+  };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     onLogin() {
       dispatch({ type: "LOGIN" });
+    },
+    onLogout() {
+      dispatch({ type: "LOGOUT" });
     }
   };
 };
