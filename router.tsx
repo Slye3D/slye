@@ -13,14 +13,14 @@ import React, { Component } from "react";
 import { HashRouter, Route, Switch } from "react-router-dom";
 
 import { Editor } from "./editor";
-import { Index } from "./index";
+import { IndexPage } from "./index";
 
 export class Router extends Component<{}, {}> {
   render() {
     return (
       <HashRouter>
         <Switch>
-          <Route path="/" component={ Index } s={ 2 } exact />
+          <Route path="/" component={ IndexPage } s={ 2 } exact />
           <Route path="/editor" component={ Editor } />
         </Switch>
       </HashRouter>

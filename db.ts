@@ -10,6 +10,7 @@
  */
 
 import firebase from "firebase/app";
+import { store } from "./redux";
 import * as types from "./types";
 
 import "firebase/auth";
@@ -23,6 +24,10 @@ const config = {
   messagingSenderId: "1070119163797"
 };
 firebase.initializeApp(config);
+
+firebase.auth().onAuthStateChanged((user: types.User) => {
+  store.dispatch({ type: "SET_USER", user });
+});
 
 export async function queryLatest(): Promise<types.Presentation[]> {
   return [];
@@ -48,8 +53,4 @@ export async function login() {
   const provider = new firebase.auth.GoogleAuthProvider();
   const result = await firebase.auth().signInWithPopup(provider);
   console.log(result);
-}
-
-export function onAuthChange(cb: (user: types.User) => void) {
-  return firebase.auth().onAuthStateChanged(cb);
 }

@@ -10,28 +10,16 @@
  */
 
 import React, { Component } from "react";
-import * as db from "./db";
-import * as types from "./types";
+import { connect } from "react-redux";
 
-interface IndexState {
-  user: types.User;
+interface IndexProps {
+  onLogin: () => void;
 }
 
-export class Index extends Component<{}, IndexState> {
+class Index extends Component<IndexProps, {}> {
   handleLogin = () => {
-    db.login();
+    this.props.onLogin();
   };
-
-  unsubscribeCb = () => null;
-  componentWillMount() {
-    this.unsubscribeCb = db.onAuthChange(user => {
-      this.setState({ user });
-    });
-  }
-
-  componentWillUnmount() {
-    this.unsubscribeCb();
-  }
 
   render() {
     return (
@@ -49,3 +37,22 @@ export class Index extends Component<{}, IndexState> {
     );
   }
 }
+
+const mapStateToProps = state => {
+  console.log(state);
+  return { };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onLogin() {
+      dispatch({ type: "LOGIN" });
+    }
+  };
+};
+
+// tslint:disable-next-line:variable-name
+export const IndexPage = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Index);
