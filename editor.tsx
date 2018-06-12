@@ -10,6 +10,7 @@
  */
 
 import React, { Component } from "react";
+import * as db from "./db";
 import { Player } from "./player";
 import * as types from "./types";
 import { emptyStep, randomString, stepDeg2Rad } from "./util";
@@ -89,22 +90,50 @@ class Step extends Component<StepProps, {}> {
 }
 
 interface EditorState {
+  loading: boolean;
   isPlaying: boolean;
   steps: Map<string, types.Step>;
+  order: string[];
 }
 
 export class Editor extends Component<{}, EditorState> {
   state = {
+    loading: true,
     isPlaying: false,
-    steps: null
+    steps: null,
+    order: []
   };
   saveTimeout: number;
+  readonly id: string;
+  data: types.Presentation;
 
   constructor(props) {
     super(props);
-    this.state.steps = new Map<string, types.Step>();
-    this.state.steps.set(randomString(), emptyStep("Hello Slye!"));
+    // TODO Remove any.
+    this.id = (this.props as any).match.params.id;
   }
+
+  async componentWillMount() {
+    const steps = new Map<string, types.Step>();
+    this.data = await db.getPresentation(this.id);
+    console.log(this.data);
+    for (const key in this.data.steps) {
+      if (this.data.steps[key]) {
+        steps.set(key, this.data.steps[key]);
+      }
+    }
+    this.setState({ loading: false, steps });
+  }
+
+  save = () => {
+    console.log("Save to db...");
+    this.data.steps = {};
+    this.data.order = this.state.order;
+    this.state.steps.forEach((step, key) => {
+      this.data.steps[key] = step;
+    });
+    db.update(this.id, this.data);
+  };
 
   handleNewStep = () => {
     this.handleSave();
@@ -121,7 +150,7 @@ export class Editor extends Component<{}, EditorState> {
   }
 
   handleStepChange = (id: string, newStep: types.Step) => {
-    this.handleSave(750);
+    this.handleSave(1000);
     this.state.steps.set(id, newStep);
   }
 
@@ -134,12 +163,14 @@ export class Editor extends Component<{}, EditorState> {
     if (this.saveTimeout !== undefined) {
       clearTimeout(this.saveTimeout);
     }
-    this.saveTimeout = setTimeout(() => {
-      // TODO
-    }, t);
+    this.saveTimeout = setTimeout(this.save, t);
   }
 
   render() {
+    if (this.state.loading) {
+      // TODO Render a spinner.
+      return <div>Loading</div>;
+    }
     if (this.state.isPlaying) {
       const stepsArray = [...this.state.steps.values()].map(stepDeg2Rad);
       return (

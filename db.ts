@@ -42,9 +42,14 @@ export async function queryLatest(): Promise<types.Presentation[]> {
   return [];
 }
 
-export async function getPresentation(id: string)
-  : Promise<types.Presentation> {
-    return null;
+export async function getPresentation(id: string): Promise<types.Presentation> {
+  const docRef = collectionRef.doc(id);
+  const snap = await docRef.get();
+  if (snap.exists) {
+    return snap.data() as types.Presentation;
+  } else {
+    throw Error(`Presentation does not exist ${id}`);
+  }
 }
 
 export async function create(): Promise<string> {
@@ -63,13 +68,22 @@ export async function create(): Promise<string> {
     updated: firebase.firestore.FieldValue.serverTimestamp(),
     order: [id]
   };
-  console.log(presentation);
   const doc = await collectionRef.add(presentation);
   return doc.id;
 }
 
 export async function update(id: string, p: types.Presentation) {
+  if (!ownsDoc(auth.currentUser, p)) return;
+  const docRef = collectionRef.doc(id);
+  await docRef.update({
+    steps: p.steps,
+    updated: firebase.firestore.FieldValue.serverTimestamp()
+  });
+  console.log("saved");
+}
 
+export function ownsDoc(u: types.User, p: types.Presentation) {
+  return u.uid === p.owner.uid;
 }
 
 export function login() {
