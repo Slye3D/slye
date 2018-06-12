@@ -14,6 +14,7 @@ import { HashRouter, Route, Switch } from "react-router-dom";
 
 import { Editor } from "./editor";
 import { IndexPage } from "./index";
+import { PlayerPage } from "./player";
 
 export class Router extends Component<{}, {}> {
   render() {
@@ -22,6 +23,7 @@ export class Router extends Component<{}, {}> {
         <Switch>
           <Route path="/" component={ IndexPage } s={ 2 } exact />
           <Route path="/editor/:id" component={ Editor } exact />
+          <Route path="/player/:id" component={ PlayerPage } exact />
         </Switch>
       </HashRouter>
     );

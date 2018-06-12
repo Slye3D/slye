@@ -12,8 +12,9 @@
 import * as TWEEN from "@tweenjs/tween.js";
 import React, { Component } from "react";
 import * as THREE from "three";
+import * as db from "./db";
 import * as types from "./types";
-import { loadFontAsync, toThreeVec3 } from "./util";
+import { loadFontAsync, stepDeg2Rad, toThreeVec3 } from "./util";
 
 // Constants
 export const NEAR = 1;
@@ -250,6 +251,42 @@ export class Player extends Component<PlayerProps, {}> {
   render() {
     return (
       <div id="player" ref={ this.handleRef } style={{ opacity: 0 }} />
+    );
+  }
+}
+
+export interface PlayerPageState {
+  loading: boolean;
+  steps: types.Step[];
+}
+
+export class PlayerPage extends Component<{}, PlayerPageState> {
+  state = {
+    loading: true,
+    steps: null
+  };
+
+  async componentWillMount() {
+    const id = (this.props as any).match.params.id;
+    const steps = [];
+    const data = await db.getPresentation(id);
+    // TODO Respect to p.order.
+    for (const key in data.steps) {
+      if (data.steps[key]) {
+        steps.push(stepDeg2Rad(data.steps[key]));
+      }
+    }
+    this.setState({ loading: false, steps });
+  }
+
+  render() {
+    if (this.state.loading) {
+      return <div>Loading</div>;
+    }
+    return (
+      <Player
+        steps={ this.state.steps }
+        onClose={ () => null } />
     );
   }
 }
