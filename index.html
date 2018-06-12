@@ -15,6 +15,11 @@
       gtag('js', new Date());
 
       gtag('config', 'UA-102589015-2');
+      window.addEventListener("hashchange", function() {
+        ga('send', 'pageview', {
+           'page': location.hash.substr(1)
+        });
+      });
     </script>
   </body>
 </body>
