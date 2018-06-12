@@ -270,8 +270,7 @@ export class PlayerPage extends Component<{}, PlayerPageState> {
     const id = (this.props as any).match.params.id;
     const steps = [];
     const data = await db.getPresentation(id);
-    // TODO Respect to p.order.
-    for (const key in data.steps) {
+    for (const key of data.order) {
       if (data.steps[key]) {
         steps.push(stepDeg2Rad(data.steps[key]));
       }

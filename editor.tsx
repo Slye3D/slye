@@ -139,11 +139,12 @@ export class Editor extends Component<{}, EditorState> {
     this.handleSave();
     const id = randomString();
     this.state.steps.set(id, emptyStep());
+    this.state.order.push(id);
     this.forceUpdate();
   }
 
   togglePlayer = () => {
-    this.handleSave();
+    if (!this.state.isPlaying) this.handleSave();
     this.setState({
       isPlaying: !this.state.isPlaying
     });
@@ -172,7 +173,12 @@ export class Editor extends Component<{}, EditorState> {
       return <div>Loading</div>;
     }
     if (this.state.isPlaying) {
-      const stepsArray = [...this.state.steps.values()].map(stepDeg2Rad);
+      const stepsArray = [];
+      for (const key of this.state.order) {
+        if (this.state.steps.has(key)) {
+          stepsArray.push(stepDeg2Rad(this.state.steps.get(key)));
+        }
+      }
       return (
         <Player
           steps={ stepsArray }
