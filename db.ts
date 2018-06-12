@@ -10,7 +10,6 @@
  */
 
 import firebase from "firebase/app";
-import { store } from "./redux";
 import * as types from "./types";
 import * as util from "./util";
 
@@ -26,10 +25,6 @@ const config = {
   messagingSenderId: "1070119163797"
 };
 firebase.initializeApp(config);
-
-firebase.auth().onAuthStateChanged((user: types.User) => {
-  store.dispatch({ type: "SET_USER", user });
-});
 
 const auth = firebase.auth();
 const db = firebase.firestore();
@@ -93,4 +88,10 @@ export function login() {
 
 export function logout() {
   return firebase.auth().signOut();
+}
+
+export function onAuthStateChanged(cb: (u: types.User) => void) {
+  firebase.auth().onAuthStateChanged(cb);
+  firebase.auth().onAuthStateChanged((user: types.User) => {
+  });
 }
