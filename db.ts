@@ -49,15 +49,19 @@ export async function getPresentation(id: string)
 
 export async function create(): Promise<string> {
   const u = auth.currentUser;
+  const id = util.randomString();
   const presentation = {
     owner: {
       displayName: u.displayName,
       photoURL: u.photoURL,
       uid: u.uid
     },
-    steps: [util.emptyStep()],
+    steps: {
+      [id]: util.emptyStep()
+    },
     created: firebase.firestore.FieldValue.serverTimestamp(),
-    updated: firebase.firestore.FieldValue.serverTimestamp()
+    updated: firebase.firestore.FieldValue.serverTimestamp(),
+    order: [id]
   };
   console.log(presentation);
   const doc = await collectionRef.add(presentation);

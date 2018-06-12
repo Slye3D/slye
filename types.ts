@@ -23,9 +23,12 @@ export interface Step {
 
 export interface Presentation {
   owner: User;
-  steps: Step[];
+  steps: {
+    [key: string]: Step
+  };
   created: Date;
   updated: Date;
+  order: string[];
 }
 
 export type Axis = "x" | "y" | "z";
