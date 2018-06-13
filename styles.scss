@@ -108,6 +108,21 @@ body {
   }
 }
 
+#index {
+  h2 {
+    color: $dark;
+    margin: 10px;
+  }
+  .list {
+    width: 70vw;
+    margin: auto;
+    display: flex;
+    .preview {
+      margin: 15px
+    }
+  }
+}
+
 #layout {
   width: 100vw;
   height: 100vh;

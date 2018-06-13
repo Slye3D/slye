@@ -36,8 +36,23 @@ db.settings({
 const collectionRef = db.collection("presentations");
 const storageRef = firebase.storage().ref();
 
-export async function queryLatest(): Promise<types.Presentation[]> {
-  return [];
+export async function queryLatest()
+  : Promise<types.PresentationInfo[]> {
+  const query = collectionRef.orderBy("updated", "desc").limit(50);
+  const snapshots = await query.get();
+  const out = [];
+  snapshots.forEach(snap => {
+    const id = snap.id;
+    const data = snap.data();
+    out.push({ id, data, thumbnail: null });
+  });
+  for (const presentation of out) {
+    const { id, data } = presentation;
+    const path = thumbnailPath(data.owner.uid, id);
+    const thumbRef = storageRef.child(path);
+    presentation.thumbnail = await thumbRef.getDownloadURL();
+  }
+  return out.reverse();
 }
 
 export async function getPresentation(id: string): Promise<types.Presentation> {
@@ -102,7 +117,11 @@ export function onAuthStateChanged(cb: (u: types.User) => void) {
 
 export function uploadThumbnail(id, blob) {
   const userId = auth.currentUser.uid;
-  const path = `/data/${userId}/${id}/thumb.png`;
+  const path = thumbnailPath(userId, id);
   const ref = storageRef.child(path);
   return ref.put(blob);
+}
+
+function thumbnailPath(userId, presentationId) {
+  return `/data/${userId}/${presentationId}/thumb.png`;
 }

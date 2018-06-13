@@ -49,3 +49,9 @@ export interface SlyeRenderer {
   render(time: number): void;
   goTo(id: string, duration?: number): void;
 }
+
+export interface PresentationInfo {
+  id: string;
+  thumbnail: string;
+  data: Presentation;
+}
