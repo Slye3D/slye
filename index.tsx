@@ -22,6 +22,13 @@ interface IndexState {
 const Preview = ({ info }) => (
   <a className="preview" href={`#/view/${info.id}`} >
     <img src={ info.thumbnail } />
+    <div className="owner-box">
+      <img src={ info.data.owner.photoURL } />
+      <p>
+        <span className="by">By </span>
+        { info.data.owner.displayName }
+      </p>
+    </div>
   </a>
 );
 

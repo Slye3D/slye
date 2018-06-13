@@ -113,12 +113,37 @@ body {
     color: $dark;
     margin: 10px;
   }
-  .list {
-    width: 70vw;
-    margin: auto;
-    display: flex;
-    .preview {
-      margin: 15px
+}
+
+#index .list {
+  width: 70vw;
+  margin: auto;
+  display: flex;
+  .preview {
+    margin: 15px;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    border-radius: 0 0 10px 10px;
+    background: $dark;
+    img {
+      width: 256px;
+      height: 144px;
+    }
+    .owner-box {
+      box-shadow: inset 0px 1px 4px 0px $primary;
+      display: flex;
+      img {
+        width: 40px;
+        height: 40px;
+        border-radius: 100%;
+        margin: 10px;
+      }
+      p {
+        .by {
+          color: $secondary;
+        }
+        color: $primary;
+        align-self: center;
+      }
     }
   }
 }
