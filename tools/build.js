@@ -5,7 +5,14 @@ const fs = require("fs");
 const path = require("path");
 const util = require("./util");
 
-process.env.NODE_ENV = "production";
+const production = process.argv[2] === "prod";
+
+if (production) {
+  process.env.NODE_ENV = "production";
+  console.log("Production build.");
+} else {
+  console.log("Development build.");
+}
 
 const outDir = path.join(__dirname, "../dist");
 util.rmrf(outDir);
@@ -14,13 +21,13 @@ fs.symlinkSync(path.join(__dirname, "../assets"), path.join(outDir, "assets"));
 
 const options = {
   autoinstall: false,
-  cache: true,
+  cache: !production,
   hmr: false,
   logLevel: 3,
-  minify: true,
+  minify: production,
   outDir,
   publicUrl: "/",
-  sourceMaps: true,
+  sourceMaps: !production,
   watch: false
 };
 

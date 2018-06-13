@@ -5,7 +5,7 @@ if test "$ec" = 0; then
   exit
 fi
 HASH=$(git rev-parse HEAD | cut -c-7)
-./tools/build.js
+./tools/build.js prod
 cd dist
 git init
 git remote add origin git@github.com:Slye3D/slye.github.io.git
