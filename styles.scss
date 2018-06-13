@@ -246,10 +246,11 @@ input[type=number]::-webkit-outer-spin-button {
 .drop {
   position: relative;
   ul {
+    background: $secondary;
     padding: 0;
     position: absolute;
     left: 0;
-    top: 3em;
+    top: 2em;
     transition: all 0.3s ease;
     transform: scale(0);
     transform-origin: 0 0;
