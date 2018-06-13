@@ -76,11 +76,11 @@ export class Renderer implements types.SlyeRenderer {
     const geometry = new THREE.TextGeometry(step.text, {
       font,
       size: 10,
-      height: 2,
+      height: 1,
       curveSegments: 12,
       bevelEnabled: false,
       bevelThickness: 1,
-      bevelSize: 0.5,
+      bevelSize: 0.3,
       bevelSegments: 3
     });
     const material = new THREE.MeshPhongMaterial({
