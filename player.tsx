@@ -11,6 +11,7 @@
 
 import * as TWEEN from "@tweenjs/tween.js";
 import React, { Component } from "react";
+import { Renderer } from "./renderer";
 import * as types from "./types";
 
 export interface PlayerProps {
@@ -22,7 +23,9 @@ export class Player extends Component<PlayerProps, {}> {
   // Reference to player DOM object.
   playerDiv: HTMLElement;
   renderer: types.SlyeRenderer;
+  active = 0;
 
+  // DOM handlers
   keydown(event) {
     if (event.keyCode === 9 ||
       (event.keyCode >= 32 && event.keyCode <= 34) ||
@@ -55,6 +58,7 @@ export class Player extends Component<PlayerProps, {}> {
   touchstart = (event) => {
     if (event.touches.length === 1) {
       const x = event.touches[0].clientX;
+      // TODO s/window.innerWidth/playerDiv.offsetWidth/
       const width = window.innerWidth * 0.3;
       if (x < width) {
         this.handlePrev();
@@ -87,35 +91,53 @@ export class Player extends Component<PlayerProps, {}> {
   }
 
   // Actions
-
   handleResize = () => {
-    // TODO
+    const { offsetWidth, offsetHeight } = this.playerDiv;
+    this.renderer.setSize(offsetWidth, offsetHeight);
   }
 
   handleNext = () => {
-    // TODO
+    this.active++;
+    if (this.active === this.props.presentation.order.length) {
+      this.active = 0;
+    }
+    this.renderer.goTo(this.props.presentation.order[this.active]);
   }
 
   handlePrev = () => {
-    // TODO
+    this.active--;
+    if (this.active === -1) {
+      this.active = this.props.presentation.order.length - 1;
+    }
+    this.renderer.goTo(this.props.presentation.order[this.active]);
   }
 
   handleClose() {
     this.props.onClose();
   }
 
-  handleRef = async player => {
-    this.playerDiv = player;
-    if (player) {
-      // TODO
-    }
+  componentWillMount() {
+    this.renderer = new Renderer(this.props.presentation);
   }
 
-  showPlayer() {
-    new TWEEN.Tween(this.playerDiv.style)
+  handleRef = async playerDiv => {
+    this.playerDiv = playerDiv;
+    if (!playerDiv) return;
+    this.handleResize();
+    await this.renderer.init();
+    playerDiv.appendChild(this.renderer.canvas);
+    // Show player with a fade effect
+    new TWEEN.Tween(playerDiv.style)
       .to({ opacity: 1 }, 500)
       .easing(TWEEN.Easing.Quadratic.In)
       .start();
+    //  Start rendering loop
+    const render = time => {
+      if (!this.playerDiv) return;
+      this.renderer.render(time);
+      requestAnimationFrame(render);
+    };
+    requestAnimationFrame(render);
   }
 
   render() {
