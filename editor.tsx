@@ -174,8 +174,7 @@ export class Editor extends Component<{}, EditorState> {
 
   render() {
     if (this.state.loading) {
-      // TODO Render a spinner.
-      return <div>Loading</div>;
+      return <div className="loader" />;
     }
     if (this.state.isPlaying) {
       const stepsArray = [];

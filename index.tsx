@@ -38,7 +38,7 @@ export class Index extends Component<{}, IndexState> {
 
   render() {
     if (this.state.loading) {
-      return <div>Loading</div>;
+      return <div className="loader" />;
     }
     const { presentations } = this.state;
     return (

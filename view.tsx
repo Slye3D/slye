@@ -33,7 +33,7 @@ export class View extends Component<{}, ViewState> {
 
   render() {
     if (this.state.loading) {
-      return <div>Loading</div>;
+      return <div className="loader" />;
     }
 
     return (
