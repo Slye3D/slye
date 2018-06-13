@@ -39,7 +39,7 @@ class App extends Component<AppProps, {}> {
     return (
       <div id="layout">
         <div className="header">
-          <div className="logo" />
+          <div className="logo" onClick={ () => location.hash = ""} />
             { !user ? (
               <div className="login button raised blue">
                 <div
