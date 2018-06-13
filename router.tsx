@@ -13,12 +13,14 @@ import React, { Component } from "react";
 import { HashRouter, Route, Switch } from "react-router-dom";
 
 import { Editor } from "./editor";
+import { View } from "./view";
 
 export class Router extends Component<{}, {}> {
   render() {
     return (
       <HashRouter>
         <Switch>
+          <Route path="/view/:id" component={ View } exact />
           <Route path="/editor/:id" component={ Editor } exact />
         </Switch>
       </HashRouter>

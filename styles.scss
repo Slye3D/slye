@@ -68,19 +68,47 @@ body {
   }
 }
 
-#player {
-  width: 100vw;
-  height: 100vh;
-  background: $dark;
-  top: 0;
-  position: fixed;
-  canvas {
-    width: 100% !important;
-    height: 100% !important;
+#editor {
+  .player {
+    width: 100vw;
+    height: 100vh;
+    background: $dark;
+    top: 0;
+    position: fixed;
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
   }
 }
 
-#index-page {
+#view {
+  .player {
+    width: 100vw;
+    height: calc(70vh - 70px);
+    background: $dark;
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+  }
+  .author-info {
+    display: flex;
+    padding: 15px;
+    .avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 100%;
+    }
+    .name {
+      color: $dark;
+      align-self: center;
+      margin-left: 10px;
+    }
+  }
+}
+
+#layout {
   width: 100vw;
   height: 100vh;
   .header {

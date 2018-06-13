@@ -37,7 +37,7 @@ class App extends Component<AppProps, {}> {
   render() {
     const { user } = this.props;
     return (
-      <div id="index-page">
+      <div id="layout">
         <div className="header">
           <div className="logo" />
             { !user ? (

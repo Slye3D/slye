@@ -143,7 +143,7 @@ export class Player extends Component<PlayerProps, {}> {
 
   render() {
     return (
-      <div id="player" ref={ this.handleRef } style={{ opacity: 0 }} />
+      <div className="player" ref={ this.handleRef } style={{ opacity: 0 }} />
     );
   }
 }
