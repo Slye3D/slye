@@ -51,17 +51,17 @@ class App extends Component<AppProps, {}> {
                 <div
                   className="center" >Hello, { user.displayName }</div>
                 <ul>
+                  <li>
+                    <a onClick={ this.handleNewPresentation }>
+                      New presentation
+                    </a>
+                  </li>
                   <li><a onClick={ this.handleLogout }>Sign out</a></li>
                 </ul>
               </div>
             ) }
         </div>
         <Router />
-        { user ? (
-          <button
-            className="btn-icon plus"
-            onClick={ this.handleNewPresentation } />
-        ) : null }
       </div>
     );
   }
