@@ -37,14 +37,14 @@ interface SlyeRenderer {
   goTo(id: string, duration?: number): void;
 }
 
-interface StepSize {
+interface StepWithSize extends types.Step {
   width: number;
   height: number;
 }
 
 export class Renderer implements SlyeRenderer {
   canvas: HTMLCanvasElement;
-  private sizes: Map<string, StepSize>;
+  private steps: Map<string, StepWithSize>;
   private active: string;
   private width: number;
   private height: number;
@@ -134,7 +134,7 @@ export class Renderer implements SlyeRenderer {
       if (this.presentation.steps[key]) {
         const step = util.stepDeg2Rad(this.presentation.steps[key]);
         const size = await this.drawStep(step);
-        this.sizes.set(key, size);
+        this.steps.set(key, Object.assign(step, size));
       } else {
         throw new Error("Corrupted presentation object.");
       }
@@ -157,7 +157,7 @@ export class Renderer implements SlyeRenderer {
 
   goTo(id: string, duration = 1500) {
     this.active = id;
-    const step = this.presentation.steps[id];
+    const step = this.steps.get(id);
     // TODO I don't like this code.
     const { x: ox, y: oy, z: oz } = step.orientation;
     // Find distance between camera and text.
@@ -165,14 +165,13 @@ export class Renderer implements SlyeRenderer {
     const farHeight = 2 * Math.tan(vFov / 2) * FAR;
     const farWidth = farHeight * this.camera.aspect;
     const AE = GR * (farWidth / 2) / (1 + GR);
-    const size = this.sizes.get(id);
     // TODO If by setting this distance height of element become
     // greater than screen we should user another algorithm to
     // fit text in centre of screen.
-    const distance = FAR * size.width / AE;
+    const distance = FAR * step.width / AE;
     // Align camera so it'll focus on centre of text geometry.
-    const alignX = size.width / 2;
-    const alighY = size.height / 2;
+    const alignX = step.width / 2;
+    const alighY = step.height / 2;
     const position = new THREE.Vector3(alignX, alighY, distance);
     const e = new THREE.Euler(ox, oy, oz, "XYZ" );
     position.applyEuler(e);
