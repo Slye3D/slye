@@ -12,9 +12,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
+import { Slye } from "./app";
 import { onAuthStateChanged } from "./db";
 import { store } from "./redux";
-import { Router } from "./router";
 
 onAuthStateChanged(user => {
   store.dispatch({ type: "SET_USER", user });
@@ -22,7 +22,7 @@ onAuthStateChanged(user => {
 
 ReactDOM.render(
   <Provider store={ store } >
-    <Router />
+    <Slye />
   </Provider>,
   document.getElementById("root")
 );

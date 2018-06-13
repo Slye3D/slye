@@ -11,16 +11,17 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Router } from "./router";
 import * as types from "./types";
 
-interface IndexProps {
+interface AppProps {
   onLogin(): void;
   onLogout(): void;
   createNew(): void;
   user?: types.User;
 }
 
-class Index extends Component<IndexProps, {}> {
+class App extends Component<AppProps, {}> {
   handleLogin = () => {
     this.props.onLogin();
   };
@@ -55,9 +56,7 @@ class Index extends Component<IndexProps, {}> {
               </div>
             ) }
         </div>
-        <div className="presentations-list">
-
-        </div>
+        <Router />
         { user ? (
           <button
             className="btn-icon plus"
@@ -89,7 +88,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 // tslint:disable-next-line:variable-name
-export const IndexPage = connect(
+export const Slye = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Index);
+)(App);
