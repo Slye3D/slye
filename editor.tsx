@@ -12,6 +12,7 @@
 import React, { Component } from "react";
 import * as db from "./db";
 import { Player } from "./player";
+import { saveThumbnail } from "./thumbnail";
 import * as types from "./types";
 import { emptyStep, randomString, stepDeg2Rad } from "./util";
 
@@ -125,15 +126,21 @@ export class Editor extends Component<{}, EditorState> {
     this.setState({ loading: false, steps, order });
   }
 
-  save = () => {
-    console.log("Save to db...");
+  updateData = () => {
     this.data.steps = {};
     this.data.order = this.state.order;
     this.state.steps.forEach((step, key) => {
       this.data.steps[key] = step;
     });
+  }
+
+  save = () => {
+    console.log("Save to db...");
+    this.updateData();
     db.update(this.id, this.data);
-  };
+    if (this.state.isPlaying) {}
+    saveThumbnail(this.id, this.data);
+  }
 
   handleNewStep = () => {
     this.handleSave();
@@ -144,7 +151,7 @@ export class Editor extends Component<{}, EditorState> {
   }
 
   togglePlayer = () => {
-    if (!this.state.isPlaying) this.handleSave();
+    if (!this.state.isPlaying) this.updateData();
     this.setState({
       isPlaying: !this.state.isPlaying
     });

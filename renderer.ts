@@ -169,6 +169,16 @@ export class Renderer implements types.SlyeRenderer {
     position.applyEuler(e);
     position.add(util.toThreeVec3(step.position));
 
+    if (duration === 0) {
+      this.camera.position.x = position.x;
+      this.camera.position.y = position.y;
+      this.camera.position.z = position.z;
+      this.camera.rotation.x = step.orientation.x;
+      this.camera.rotation.y = step.orientation.y;
+      this.camera.rotation.z = step.orientation.z;
+      return;
+    }
+
     new TWEEN.Tween(this.camera.position)
       .to(position, duration)
       .easing(TWEEN.Easing.Quadratic.In)

@@ -69,3 +69,9 @@ export function emptyStep(text = ""): types.Step {
 export function randomString(): string {
   return Math.random().toString(36).substring(7);
 }
+
+export function delay(t: number): Promise<void> {
+  return new Promise(r => {
+    setTimeout(r, t);
+  });
+}

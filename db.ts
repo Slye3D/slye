@@ -15,6 +15,7 @@ import * as util from "./util";
 
 import "firebase/auth";
 import "firebase/firestore";
+import "firebase/storage";
 
 const config = {
   apiKey: "AIzaSyASm8PZXgrnFzbEgaFo9WZbliJ8cviR9Xs",
@@ -24,6 +25,7 @@ const config = {
   storageBucket: "slye-161715.appspot.com",
   messagingSenderId: "1070119163797"
 };
+
 firebase.initializeApp(config);
 
 const auth = firebase.auth();
@@ -32,6 +34,7 @@ db.settings({
   timestampsInSnapshots: true
 });
 const collectionRef = db.collection("presentations");
+const storageRef = firebase.storage().ref();
 
 export async function queryLatest(): Promise<types.Presentation[]> {
   return [];
@@ -94,4 +97,11 @@ export function onAuthStateChanged(cb: (u: types.User) => void) {
   firebase.auth().onAuthStateChanged(cb);
   firebase.auth().onAuthStateChanged((user: types.User) => {
   });
+}
+
+export function uploadThumbnail(id, blob) {
+  const userId = auth.currentUser.uid;
+  const path = `/data/${userId}/${id}/thumb.png`;
+  const ref = storageRef.child(path);
+  return ref.put(blob);
 }
