@@ -160,6 +160,8 @@ export class Editor extends Component<{}, EditorState> {
 
   handleStepDelete = (id: string) => {
     this.state.steps.delete(id);
+    const index = this.state.order.indexOf(id);
+    this.state.order.splice(index, 1);
     this.handleSave();
     this.forceUpdate();
   }
