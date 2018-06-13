@@ -19,21 +19,19 @@ import { emptyStep, randomString, stepDeg2Rad } from "./util";
 interface StepProps {
   step: types.Step;
   onDelete: () => void;
-  onChange: (newStep: types.Step) => void;
+  onChange: () => void;
 }
 
 class Step extends Component<StepProps, {}> {
   handleTextChange = (event) => {
-    const newStep: types.Step = { ...this.props.step };
-    newStep.text = event.target.value;
-    this.props.onChange(newStep);
+    this.props.step.text = event.target.value;
+    this.props.onChange();
   };
 
   handleVec3Change = (field: types.StepVec3Props, axis: types.Axis, e) => {
-    const newStep: types.Step = { ...this.props.step };
-    newStep[field][axis] = e.target.value ? Number(e.target.value)
+    this.props.step[field][axis] = e.target.value ? Number(e.target.value)
       : ("" as any);
-    this.props.onChange(newStep);
+    this.props.onChange();
   }
 
   handleDelete = () => {
@@ -138,15 +136,14 @@ export class Editor extends Component<{}, EditorState> {
     console.log("Save to db...");
     this.updateData();
     db.update(this.id, this.data);
-    if (this.state.isPlaying) {}
     saveThumbnail(this.id, this.data);
   }
 
   handleNewStep = () => {
-    this.handleSave();
     const id = randomString();
     this.state.steps.set(id, emptyStep());
     this.state.order.push(id);
+    this.handleSave();
     this.forceUpdate();
   }
 
@@ -157,13 +154,13 @@ export class Editor extends Component<{}, EditorState> {
     });
   }
 
-  handleStepChange = (id: string, newStep: types.Step) => {
+  handleStepChange = (id: string) => {
     this.handleSave(2500);
-    this.state.steps.set(id, newStep);
   }
 
   handleStepDelete = (id: string) => {
     this.state.steps.delete(id);
+    this.handleSave();
     this.forceUpdate();
   }
 
@@ -188,26 +185,30 @@ export class Editor extends Component<{}, EditorState> {
         }
       }
       return (
-        <Player
-          presentation={ this.data }
-          onClose={ this.togglePlayer } />
+        <div id="editor">
+          <Player
+            presentation={ this.data }
+            onClose={ this.togglePlayer } />
+        </div>
       );
     }
-    const steps = [];
-    this.state.steps.forEach((step, id) => {
-      steps.push(
-        <Step
-          key={ "step" + id }
-          step={ step }
-          onDelete={ this.handleStepDelete.bind(this, id) }
-          onChange={ this.handleStepChange.bind(this, id) } />
-      );
-    });
     return (
-      <div className="steps-list" >
-        { ...steps }
-        <button className="btn-icon new-step" onClick={ this.handleNewStep } />
-        <button className="btn-icon play" onClick={ this.togglePlayer } />
+      <div id="editor">
+        <div className="steps-list">
+          { [...this.state.order].map(id => (
+            <Step
+              key={ "step" + id }
+              step={ this.state.steps.get(id) }
+              onDelete={ this.handleStepDelete.bind(this, id) }
+              onChange={ this.handleStepChange.bind(this, id) } />
+          )) }
+          <button
+            className="btn-icon new-step"
+            onClick={ this.handleNewStep } />
+          <button
+            className="btn-icon play"
+            onClick={ this.togglePlayer } />
+        </div>
       </div>
     );
   }

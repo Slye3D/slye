@@ -75,6 +75,7 @@ export async function update(id: string, p: types.Presentation) {
   const docRef = collectionRef.doc(id);
   await docRef.update({
     steps: p.steps,
+    order: p.order,
     updated: firebase.firestore.FieldValue.serverTimestamp()
   });
   console.log("saved");
