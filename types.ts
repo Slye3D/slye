@@ -40,3 +40,12 @@ export interface User {
   photoURL: string;
   uid: string;
 }
+
+export interface SlyeRenderer {
+  canvas: HTMLCanvasElement;
+  active: string;
+  init(): Promise<void>;
+  setSize(width: number, height: number): void;
+  render(time: number): void;
+  goTo(id: string, duration?: number): void;
+}

@@ -29,23 +29,15 @@ export const FOV = 70;
 export const GR = 1.61803398875;
 export const FONT = "assets/optimer_regular.typeface.json";
 
-interface SlyeRenderer {
-  canvas: HTMLCanvasElement;
-  init(): Promise<void>;
-  setSize(width: number, height: number): void;
-  render(time: number): void;
-  goTo(id: string, duration?: number): void;
-}
-
 interface StepWithSize extends types.Step {
   width: number;
   height: number;
 }
 
-export class Renderer implements SlyeRenderer {
+export class Renderer implements types.SlyeRenderer {
   canvas: HTMLCanvasElement;
+  active: string;
   private steps: Map<string, StepWithSize>;
-  private active: string;
   private width: number;
   private height: number;
   // THREE.js related data.
