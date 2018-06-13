@@ -20,14 +20,20 @@ export function createResolvable() {
   return Object.assign(promise, methods);
 }
 
+const fontCache = new Map<string, any>();
+const loader = new THREE.FontLoader();
 export async function loadFontAsync(src) {
-  const loader = new THREE.FontLoader();
   const resolvable = createResolvable();
-  let font;
-  loader.load(src, (f) => {
-    font = f;
+  let font = fontCache.get(src);
+  if (font) {
     resolvable.resolve();
-  });
+  } else {
+    loader.load(src, f => {
+      font = f;
+      fontCache.set(src, f);
+      resolvable.resolve();
+    });
+  }
   await resolvable;
   return font;
 }
