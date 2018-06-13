@@ -52,7 +52,7 @@ export async function queryLatest()
     const thumbRef = storageRef.child(path);
     presentation.thumbnail = await thumbRef.getDownloadURL();
   }
-  return out.reverse();
+  return out;
 }
 
 export async function getPresentation(id: string): Promise<types.Presentation> {
