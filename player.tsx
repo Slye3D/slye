@@ -71,17 +71,17 @@ export class Player extends Component<PlayerProps, {}> {
   componentDidMount() {
     // For debug
     window["player"] = this;
-    this.playerDiv.addEventListener("keydown", this.keydown);
-    this.playerDiv.addEventListener("keyup", this.keyup);
-    this.playerDiv.addEventListener("touchstart", this.touchstart);
+    document.addEventListener("keydown", this.keydown);
+    document.addEventListener("keyup", this.keyup);
+    document.addEventListener("touchstart", this.touchstart);
     // TODO listen to size changes of playerDiv
     window.addEventListener("resize", this.handleResize);
   }
 
   componentWillUnmount() {
-    this.playerDiv.removeEventListener("keydown", this.keydown);
-    this.playerDiv.removeEventListener("keyup", this.keyup);
-    this.playerDiv.removeEventListener("touchstart", this.touchstart);
+    document.removeEventListener("keydown", this.keydown);
+    document.removeEventListener("keyup", this.keyup);
+    document.removeEventListener("touchstart", this.touchstart);
     window.removeEventListener("resize", this.handleResize);
   }
 
@@ -123,8 +123,9 @@ export class Player extends Component<PlayerProps, {}> {
   handleRef = async playerDiv => {
     this.playerDiv = playerDiv;
     if (!playerDiv) return;
-    this.handleResize();
     await this.renderer.init();
+    this.handleResize();
+    this.renderer.goTo(this.props.presentation.order[0], 0);
     playerDiv.appendChild(this.renderer.canvas);
     // Show player with a fade effect
     new TWEEN.Tween(playerDiv.style)

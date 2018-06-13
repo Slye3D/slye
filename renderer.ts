@@ -38,8 +38,8 @@ export class Renderer implements types.SlyeRenderer {
   canvas: HTMLCanvasElement;
   active: string;
   private steps: Map<string, StepWithSize>;
-  private width: number;
-  private height: number;
+  private width = 256;
+  private height = 256;
   // THREE.js related data.
   private scene: THREE.Scene;
   private camera: THREE.PerspectiveCamera;
@@ -109,19 +109,17 @@ export class Renderer implements types.SlyeRenderer {
     this.camera.aspect = this.width / this.height;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(this.width, this.height);
-    this.goTo(this.active, 0);
+    if (this.active) {
+      this.goTo(this.active, 750);
+    }
   }
 
   // Public APIs
   async init() {
-    if (!this.width || !this.height) {
-      throw new Error("setSize() should be called before init()");
-    }
-
     this.initThree();
-
     if (this.presentation.order.length === 0) return;
 
+    this.steps = new Map();
     for (const key of this.presentation.order) {
       if (this.presentation.steps[key]) {
         const step = util.stepDeg2Rad(this.presentation.steps[key]);
@@ -131,11 +129,12 @@ export class Renderer implements types.SlyeRenderer {
         throw new Error("Corrupted presentation object.");
       }
     }
-
-    this.goTo(this.presentation.order[0]);
   }
 
   setSize(width: number, height: number) {
+    if (!this.width || !this.height) {
+      throw new Error("setSize() should be called after init()");
+    }
     this.width = width;
     this.height = height;
     this.handleSizeChange();
@@ -148,6 +147,7 @@ export class Renderer implements types.SlyeRenderer {
   }
 
   goTo(id: string, duration = 1500) {
+    if (!this.steps) return;
     this.active = id;
     const step = this.steps.get(id);
     // TODO I don't like this code.

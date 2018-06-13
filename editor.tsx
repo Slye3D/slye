@@ -101,7 +101,7 @@ export class Editor extends Component<{}, EditorState> {
     loading: true,
     isPlaying: false,
     steps: null,
-    order: []
+    order: null
   };
   saveTimeout: number;
   readonly id: string;
@@ -116,13 +116,13 @@ export class Editor extends Component<{}, EditorState> {
   async componentWillMount() {
     const steps = new Map<string, types.Step>();
     this.data = await db.getPresentation(this.id);
-    console.log(this.data);
     for (const key in this.data.steps) {
       if (this.data.steps[key]) {
         steps.set(key, this.data.steps[key]);
       }
     }
-    this.setState({ loading: false, steps });
+    const order = this.data.order;
+    this.setState({ loading: false, steps, order });
   }
 
   save = () => {
@@ -144,7 +144,7 @@ export class Editor extends Component<{}, EditorState> {
   }
 
   togglePlayer = () => {
-    if (!this.state.isPlaying) this.handleSave();
+    if (!this.state.isPlaying) this.save();
     this.setState({
       isPlaying: !this.state.isPlaying
     });
@@ -181,7 +181,7 @@ export class Editor extends Component<{}, EditorState> {
       }
       return (
         <Player
-          steps={ stepsArray }
+          presentation={ this.data }
           onClose={ this.togglePlayer } />
       );
     }
