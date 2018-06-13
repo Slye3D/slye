@@ -144,14 +144,14 @@ export class Editor extends Component<{}, EditorState> {
   }
 
   togglePlayer = () => {
-    if (!this.state.isPlaying) this.save();
+    if (!this.state.isPlaying) this.handleSave();
     this.setState({
       isPlaying: !this.state.isPlaying
     });
   }
 
   handleStepChange = (id: string, newStep: types.Step) => {
-    this.handleSave(1000);
+    this.handleSave(2500);
     this.state.steps.set(id, newStep);
   }
 
@@ -160,10 +160,11 @@ export class Editor extends Component<{}, EditorState> {
     this.forceUpdate();
   }
 
-  handleSave = (t = 10) => {
+  handleSave = (t = 0) => {
     if (this.saveTimeout !== undefined) {
       clearTimeout(this.saveTimeout);
     }
+    if (!t) return this.save();
     this.saveTimeout = setTimeout(this.save, t);
   }
 
