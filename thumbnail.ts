@@ -21,7 +21,7 @@ import * as types from "./types";
 async function presentationToBlob(p: types.Presentation) {
   const renderer = new Renderer(p);
   await renderer.init();
-  renderer.setSize(256, 144);
+  renderer.setSize(512, 288);
   if (p.order.length > 0) {
     renderer.goTo(p.order[0], 0);
   }
