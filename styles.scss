@@ -86,7 +86,7 @@ body {
 #view {
   .player-wrapper {
     width: 100vw;
-    height: calc(70vh - 70px);
+    height: calc(70vh - 50px);
     background: $dark;
     .player {
       width: 100%;
@@ -174,13 +174,13 @@ body {
   width: 100vw;
   height: 100vh;
   .header {
-    height: 70px;
+    height: 50px;
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
     .logo {
       cursor: pointer;
       display: inline-block;
-      margin: 15px;
-      height: 40px;
+      margin-left: 15px;
+      height: 50px;
       width: 90px;
       background: url("assets/logo.png");
       background-size: contain;
@@ -189,8 +189,9 @@ body {
     }
     .login {
       float: right;
-      right: calc((70px - 32px) / 2);
-      top: calc((70px - 32px) / 2);
+      right: calc((50px - 32px) / 2);
+      top: calc((50px - 32px) / 2);
+      width: 200px;
     }
     .user {
       width: 200px;
