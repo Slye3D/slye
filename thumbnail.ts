@@ -29,7 +29,7 @@ async function presentationToBlob(p: types.Presentation) {
   let resolve;
   const promise = new Promise(r => resolve = r);
   renderer.canvas.toBlob(resolve);
-  // TODO renderer.dispose();
+  renderer.dispose();
   return await promise;
 }
 

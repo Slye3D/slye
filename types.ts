@@ -48,6 +48,7 @@ export interface SlyeRenderer {
   setSize(width: number, height: number): void;
   render(time: number): void;
   goTo(id: string, duration?: number): void;
+  dispose(): void;
 }
 
 export interface PresentationInfo {

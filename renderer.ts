@@ -188,4 +188,8 @@ export class Renderer implements types.SlyeRenderer {
       .easing(TWEEN.Easing.Quadratic.In)
       .start();
   }
+
+  dispose() {
+    // TODO Remove scene from heap.
+  }
 }

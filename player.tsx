@@ -86,6 +86,7 @@ export class Player extends Component<PlayerProps, {}> {
     document.removeEventListener("touchstart", this.touchstart);
     window.removeEventListener("resize", this.handleResize);
     screenfull.off("change", this.handleResize);
+    this.renderer.dispose();
   }
 
   shouldComponentUpdate() {
