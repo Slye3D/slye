@@ -35,6 +35,8 @@ db.settings({
 });
 const collectionRef = db.collection("presentations");
 const storageRef = firebase.storage().ref();
+// TODO Maybe save to indexed db?
+const storageDownloadLinkCache = new Map<string, string>();
 
 export async function queryLatest()
   : Promise<types.PresentationInfo[]> {
@@ -48,9 +50,14 @@ export async function queryLatest()
   });
   for (const presentation of out) {
     const { id, data } = presentation;
-    const path = thumbnailPath(data.owner.uid, id);
-    const thumbRef = storageRef.child(path);
-    presentation.thumbnail = await thumbRef.getDownloadURL();
+    if (storageDownloadLinkCache.has(id)) {
+      presentation.thumbnail = storageDownloadLinkCache.get(id);
+    } else {
+      const path = thumbnailPath(data.owner.uid, id);
+      const thumbRef = storageRef.child(path);
+      presentation.thumbnail = await thumbRef.getDownloadURL();
+      storageDownloadLinkCache.set(id, presentation.thumbnail);
+    }
   }
   return out;
 }
