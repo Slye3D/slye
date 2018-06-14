@@ -10,6 +10,7 @@
  */
 
 import React, { Component } from "react";
+import * as screenfull from "screenfull";
 import * as db from "./db";
 import { Player } from "./player";
 import * as types from "./types";
@@ -24,11 +25,18 @@ export class View extends Component<{}, ViewState> {
     loading: true,
     presentation: null
   };
+  playerRef: Player;
 
   async componentWillMount() {
     const id = (this.props as any).match.params.id;
     const presentation = await db.getPresentation(id);
     this.setState({ loading: false, presentation });
+  }
+
+  handleFullScreen = () => {
+    if (screenfull.enabled) {
+      screenfull.request(this.playerRef.playerDiv);
+    }
   }
 
   render() {
@@ -38,9 +46,15 @@ export class View extends Component<{}, ViewState> {
 
     return (
       <div id="view">
-        <Player
-          onClose={ () => null }
-          presentation={ this.state.presentation } />
+        <div className="player-wrapper">
+          <Player
+            ref={ r => this.playerRef = r }
+            onClose={ () => null }
+            presentation={ this.state.presentation } />
+          <div
+            className="full-screen"
+            onClick={ this.handleFullScreen } />
+        </div>
         <div className="author-info">
           <img
             className="avatar"

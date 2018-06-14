@@ -11,6 +11,7 @@
 
 import * as TWEEN from "@tweenjs/tween.js";
 import React, { Component } from "react";
+import * as screenfull from "screenfull";
 import { Renderer } from "./renderer";
 import * as types from "./types";
 
@@ -76,6 +77,7 @@ export class Player extends Component<PlayerProps, {}> {
     document.addEventListener("touchstart", this.touchstart);
     // TODO listen to size changes of playerDiv
     window.addEventListener("resize", this.handleResize);
+    screenfull.on("change", this.handleResize);
   }
 
   componentWillUnmount() {
@@ -83,6 +85,7 @@ export class Player extends Component<PlayerProps, {}> {
     document.removeEventListener("keyup", this.keyup);
     document.removeEventListener("touchstart", this.touchstart);
     window.removeEventListener("resize", this.handleResize);
+    screenfull.off("change", this.handleResize);
   }
 
   shouldComponentUpdate() {
