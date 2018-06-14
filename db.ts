@@ -37,6 +37,7 @@ const collectionRef = db.collection("presentations");
 const storageRef = firebase.storage().ref();
 // TODO Maybe save to indexed db?
 const storageDownloadLinkCache = new Map<string, string>();
+const presentationsCache = new Map<string, types.Presentation>();
 
 export async function queryLatest()
   : Promise<types.PresentationInfo[]> {
@@ -45,7 +46,8 @@ export async function queryLatest()
   const out = [];
   snapshots.forEach(snap => {
     const id = snap.id;
-    const data = snap.data();
+    const data = snap.data() as types.Presentation;
+    presentationsCache.set(id, data);
     out.push({ id, data, thumbnail: null });
   });
   for (const presentation of out) {
@@ -63,6 +65,9 @@ export async function queryLatest()
 }
 
 export async function getPresentation(id: string): Promise<types.Presentation> {
+  if (presentationsCache.has(id)) {
+    return presentationsCache.get(id);
+  }
   const docRef = collectionRef.doc(id);
   const snap = await docRef.get();
   if (snap.exists) {
@@ -95,11 +100,15 @@ export async function create(): Promise<string> {
 export async function update(id: string, p: types.Presentation) {
   if (!ownsDoc(auth.currentUser, p)) return;
   const docRef = collectionRef.doc(id);
-  await docRef.update({
+  const newProps = {
     steps: p.steps,
     order: p.order,
     updated: firebase.firestore.FieldValue.serverTimestamp()
-  });
+  };
+  await docRef.update(newProps);
+  // Update local cache
+  const old = presentationsCache.has(id) ? presentationsCache.get(id) : {};
+  presentationsCache.set(id, { ...old, ...newProps } as any);
   console.log("saved");
 }
 
