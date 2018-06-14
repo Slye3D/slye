@@ -38,7 +38,7 @@ const storageRef = firebase.storage().ref();
 
 export async function queryLatest()
   : Promise<types.PresentationInfo[]> {
-  const query = collectionRef.orderBy("updated", "desc").limit(50);
+  const query = collectionRef.orderBy("updated", "desc").limit(5);
   const snapshots = await query.get();
   const out = [];
   snapshots.forEach(snap => {

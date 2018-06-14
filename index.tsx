@@ -50,8 +50,8 @@ export class Index extends Component<{}, IndexState> {
     const { presentations } = this.state;
     return (
       <div id="index">
-        <h2>Latest presentations</h2>
         <div className="list">
+          <h2>Latest presentations</h2>
           { presentations.map(x => <Preview info={ x } key={ x.id } />) }
         </div>
       </div>
