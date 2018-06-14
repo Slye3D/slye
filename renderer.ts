@@ -150,7 +150,6 @@ export class Renderer implements types.SlyeRenderer {
     if (!this.steps) return;
     this.active = id;
     const step = this.steps.get(id);
-    // TODO I don't like this code.
     const { x: ox, y: oy, z: oz } = step.orientation;
     // Find distance between camera and text.
     const vFov = THREE.Math.degToRad(FOV);
@@ -159,7 +158,11 @@ export class Renderer implements types.SlyeRenderer {
     // TODO If by setting this distance height of element become
     // greater than screen we should user another algorithm to
     // fit text in centre of screen.
-    const distance = (FAR * step.width / farWidth) / (2 / 3);
+    let distance = (FAR * step.width / farWidth) / (2 / 3);
+    const presentiveHeight = step.height * FAR / distance;
+    if (presentiveHeight > 3 / 4 * farHeight) {
+      distance = (FAR * step.height / farHeight) / (3 / 4);
+    }
     // Align camera so it'll focus on centre of text geometry.
     const alignX = step.width / 2;
     const alighY = step.height / 2;
