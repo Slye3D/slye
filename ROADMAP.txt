@@ -1,7 +1,7 @@
-=== Cloud storage ===
- * Implement db actions
- * Implement index page
- * Setup firestore
+=== Pages ===
+ * User Profile
+ * User Dashboard
 
-=== UX ===
+=== Editor ===
  * Make steps sort-able (react-sortable-hoc)
+ * Title and description for each presentation
