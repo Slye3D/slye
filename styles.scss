@@ -151,7 +151,7 @@ body {
       height: 144px;
     }
     .owner-box {
-      box-shadow: inset 0px 1px 4px 0px $primary;
+      border-top: solid 1px $primary;
       display: flex;
       img {
         width: 40px;
