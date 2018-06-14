@@ -3,6 +3,10 @@
     <title>Slye</title>
     <link rel="shortcut icon" href="favicon.ico" />
     <link rel="stylesheet" href="styles.scss" />
+    <meta 
+       name='viewport' 
+       content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
+
   </head>
   <body>
     <div id="root"></div>
@@ -15,11 +19,6 @@
       gtag('js', new Date());
 
       gtag('config', 'UA-102589015-2');
-      window.addEventListener("hashchange", function() {
-        ga('send', 'pageview', {
-           'page': location.hash.substr(1)
-        });
-      });
     </script>
   </body>
 </body>
