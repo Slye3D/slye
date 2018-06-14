@@ -41,7 +41,7 @@ const presentationsCache = new Map<string, types.Presentation>();
 
 export async function queryLatest()
   : Promise<types.PresentationInfo[]> {
-  const query = collectionRef.orderBy("updated", "desc").limit(5);
+  const query = collectionRef.orderBy("created", "desc").limit(5);
   const snapshots = await query.get();
   const out = [];
   snapshots.forEach(snap => {
