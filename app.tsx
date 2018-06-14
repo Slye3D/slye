@@ -44,7 +44,7 @@ class App extends Component<AppProps, {}> {
               <div className="login button raised blue">
                 <div
                   className="center"
-                  onClick={ this.handleLogin }>Login</div>
+                  onClick={ this.handleLogin }>Signin with Google</div>
               </div>
             ) : (
               <div className="drop user login button raised">

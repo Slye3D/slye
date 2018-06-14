@@ -131,7 +131,9 @@ body {
 }
 
 #index .list {
-  width: 70vw;
+  width: 100vw;
+  max-width: 1200px;
+  justify-content: center;
   margin: auto;
   display: flex;
   flex-wrap: wrap;
@@ -175,7 +177,7 @@ body {
       display: inline-block;
       margin: 15px;
       height: 40px;
-      width: 200px;
+      width: 90px;
       background: url("assets/logo.png");
       background-size: contain;
       background-repeat: no-repeat;
