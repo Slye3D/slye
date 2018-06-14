@@ -51,7 +51,7 @@ export class Index extends Component<{}, IndexState> {
     return (
       <div id="index">
         <div className="list">
-          <h2>Latest presentations</h2>
+          <h2>Recent presentations</h2>
           { presentations.map(x => <Preview info={ x } key={ x.id } />) }
         </div>
       </div>
