@@ -28,7 +28,11 @@ export class Player extends Component<PlayerProps, {}> {
   }
 
   componentWillUnmount() {
-    // TODO dispose
+    // Send dispose event to iFrame
+    this.iFrame.contentWindow.postMessage(JSON.stringify({
+      slye: true,
+      type: "dispose"
+    }), "*");
   }
 
   shouldComponentUpdate() {
@@ -38,7 +42,15 @@ export class Player extends Component<PlayerProps, {}> {
 
   handleRef = async playerDiv => {
     this.playerDiv = playerDiv;
+    if (!playerDiv) return;
     playerDiv.appendChild(this.iFrame);
+    setTimeout(() => {
+      this.iFrame.contentWindow.postMessage(JSON.stringify({
+        slye: true,
+        type: "init",
+        presentation: this.props.presentation
+      }), "*");
+    }, 750);
   }
 
   render() {

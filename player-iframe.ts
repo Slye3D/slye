@@ -29,16 +29,18 @@ window.addEventListener("message", async e => {
   } catch (e) { return; }
 
   switch (data.type) {
+    case "dispose":
     case "init":
       if (renderer) renderer.dispose();
-      active = 0;
+      active = -1;
       presentation = data.presentation;
-      // An empty init message will only dispose renderer.
+      // If event does not contain presentation so it's just a dispose event.
       if (!presentation) return;
       renderer = new Renderer(presentation);
       await renderer.init();
       renderer.setSize(innerWidth, innerHeight);
       document.body.innerHTML = "";
+      goToNext();
       document.body.appendChild(renderer.canvas);
       break;
     case "goto":
@@ -119,7 +121,6 @@ document.addEventListener("touchstart", touchstart);
 window.addEventListener("resize", handleResize);
 
 // Render
-
 function render(time) {
   if (renderer) renderer.render(time);
   requestAnimationFrame(render);
