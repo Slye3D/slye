@@ -1,0 +1,17 @@
+$dark: #373737;
+$primary: #eee037;
+$secondary: #fefefe;
+
+html, body {
+  overflow: none;
+  margin: 0;
+  padding: 0;
+  background: $dark;
+  width: 100%
+  height: 100%;
+}
+
+canvas {
+  width: 100vw
+  height: 100vh;
+}

@@ -31,7 +31,7 @@ const options = {
   watch: false
 };
 
-const entryPoints = ["index.html", "test.html"];
+const entryPoints = ["index.html", "test.html", "player/index.html"];
 
 const bundler = new Bundler(entryPoints, options);
 bundler.bundle();
