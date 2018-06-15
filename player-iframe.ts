@@ -38,6 +38,7 @@ window.addEventListener("message", async e => {
       renderer = new Renderer(presentation);
       await renderer.init();
       renderer.setSize(innerWidth, innerHeight);
+      document.body.innerHTML = "";
       document.body.appendChild(renderer.canvas);
       break;
     case "goto":

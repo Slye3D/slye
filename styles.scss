@@ -87,14 +87,15 @@ body {
   .player-wrapper {
     width: 100vw;
     height: calc(70vh - 50px);
-    background: $dark;
+    //background: $dark;
     .player {
       width: 100%;
       height: 100%;
     }
-    canvas {
+    iframe {
       width: 100% !important;
       height: 100% !important;
+      border: none;
     }
     .full-screen {
       display: inline-block;
