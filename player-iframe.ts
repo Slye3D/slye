@@ -40,7 +40,7 @@ window.addEventListener("message", async e => {
       await renderer.init();
       renderer.setSize(innerWidth, innerHeight);
       document.body.innerHTML = "";
-      goToNext();
+      goToNext(0);
       document.body.appendChild(renderer.canvas);
       break;
     case "goto":
@@ -49,22 +49,22 @@ window.addEventListener("message", async e => {
   }
 });
 
-function goToNext() {
+function goToNext(t = 1500) {
   if (!renderer) return;
   active++;
   if (active === presentation.order.length) {
     active = 0;
   }
-  renderer.goTo(presentation.order[active]);
+  renderer.goTo(presentation.order[active], t);
 }
 
-function goToPrev() {
+function goToPrev(t = 1500) {
   if (!renderer) return;
   active--;
   if (active === -1) {
     active = presentation.order.length - 1;
   }
-  renderer.goTo(presentation.order[active]);
+  renderer.goTo(presentation.order[active], t);
 }
 
 // DOM event handlers

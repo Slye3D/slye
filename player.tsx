@@ -40,17 +40,23 @@ export class Player extends Component<PlayerProps, {}> {
     return false;
   }
 
-  handleRef = async playerDiv => {
-    this.playerDiv = playerDiv;
-    if (!playerDiv) return;
-    playerDiv.appendChild(this.iFrame);
+  sendToIFrame() {
     setTimeout(() => {
       this.iFrame.contentWindow.postMessage(JSON.stringify({
         slye: true,
         type: "init",
         presentation: this.props.presentation
       }), "*");
-    }, 750);
+    }, 500);
+  }
+
+  handleRef = async playerDiv => {
+    this.playerDiv = playerDiv;
+    if (!playerDiv) return;
+    this.iFrame.onload = () => {
+      this.sendToIFrame();
+    };
+    playerDiv.appendChild(this.iFrame);
   }
 
   render() {
