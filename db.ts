@@ -98,7 +98,9 @@ export async function create(): Promise<string> {
 }
 
 export async function update(id: string, p: types.Presentation) {
-  if (!ownsDoc(auth.currentUser, p)) return;
+  if (!ownsDoc(auth.currentUser, p)) {
+    throw new Error("Not owned by this user.");
+  }
   const docRef = collectionRef.doc(id);
   const newProps = {
     steps: p.steps,
@@ -131,11 +133,11 @@ export function onAuthStateChanged(cb: (u: types.User) => void) {
   });
 }
 
-export function uploadThumbnail(id, blob) {
-  const userId = auth.currentUser.uid;
+export async function uploadThumbnail(id, blob) {
+  const userId = (await getPresentation(id)).owner.uid;
   const path = thumbnailPath(userId, id);
   const ref = storageRef.child(path);
-  return ref.put(blob);
+  return await ref.put(blob);
 }
 
 function thumbnailPath(userId, presentationId) {
