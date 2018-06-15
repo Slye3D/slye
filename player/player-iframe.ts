@@ -40,7 +40,7 @@ window.addEventListener("message", async e => {
   }
 });
 
-function handleNext() {
+function goToNext() {
   if (!renderer) return;
   active++;
   if (active === presentation.order.length) {
@@ -49,7 +49,7 @@ function handleNext() {
   renderer.goTo(presentation.order[active]);
 }
 
-function handlePrev() {
+function goToPrev() {
   if (!renderer) return;
   active--;
   if (active === -1) {
@@ -75,14 +75,14 @@ function keyup(event) {
     case 33: // pg up
     case 37: // left
     case 38: // up
-      handlePrev();
+      goToPrev();
       break;
     case 9:  // tab
     case 32: // space
     case 34: // pg down
     case 39: // right
     case 40: // down
-      handleNext();
+      goToNext();
       break;
   }
   keydown(event);
@@ -94,9 +94,9 @@ function touchstart(event) {
     const x = event.touches[0].clientX;
     const width = innerWidth * 0.3;
     if (x < width) {
-      handlePrev();
+      goToPrev();
     } else if (x > innerWidth - width) {
-      handleNext();
+      goToNext();
     }
   }
 }
@@ -110,3 +110,12 @@ document.addEventListener("keydown", keydown);
 document.addEventListener("keyup", keyup);
 document.addEventListener("touchstart", touchstart);
 window.addEventListener("resize", handleResize);
+
+// Render
+
+function render(time) {
+  if (renderer) renderer.render(time);
+  requestAnimationFrame(render);
+}
+
+requestAnimationFrame(render);
