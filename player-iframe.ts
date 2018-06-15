@@ -21,7 +21,13 @@ let renderer: types.SlyeRenderer;
 let active: number;
 
 window.addEventListener("message", async e => {
-  const data = JSON.parse(e.data);
+  if (e.data[0] !== "{") return;
+  let data;
+  try {
+    data = JSON.parse(e.data);
+    if (!data.slye) return;
+  } catch (e) { return; }
+
   switch (data.type) {
     case "init":
       if (renderer) renderer.dispose();
