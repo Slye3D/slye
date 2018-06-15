@@ -27,7 +27,8 @@ export const NEAR = 1;
 export const FAR = 2000000;
 export const FOV = 70;
 export const GR = 1.61803398875;
-export const FONT = "assets/optimer_regular.typeface.json";
+const fontSrc = "./assets/optimer_regular.typeface.json";
+export const FONT = util.loadFontAsync(fontSrc);
 
 interface StepWithSize extends types.Step {
   width: number;
@@ -72,7 +73,7 @@ export class Renderer implements types.SlyeRenderer {
 
   private async drawStep(step: types.Step) {
     if (!step.text.trim()) return null;
-    const font = await util.loadFontAsync(FONT);
+    const font = await FONT;
     const geometry = new THREE.TextGeometry(step.text, {
       font,
       size: 10,
@@ -155,9 +156,6 @@ export class Renderer implements types.SlyeRenderer {
     const vFov = THREE.Math.degToRad(FOV);
     const farHeight = 2 * Math.tan(vFov / 2) * FAR;
     const farWidth = farHeight * this.camera.aspect;
-    // TODO If by setting this distance height of element become
-    // greater than screen we should user another algorithm to
-    // fit text in centre of screen.
     let distance = (FAR * step.width / farWidth) / (2 / 3);
     const presentiveHeight = step.height * FAR / distance;
     if (presentiveHeight > 3 / 4 * farHeight) {
@@ -193,6 +191,27 @@ export class Renderer implements types.SlyeRenderer {
   }
 
   dispose() {
-    // TODO Remove scene from heap.
+    // Remove canvas from DOM.
+    const parent = this.canvas.parentElement;
+    if (parent) {
+      parent.removeChild(this.canvas);
+    }
+    // Remove THREE.js data
+    // tslint:disable-next-line:forin
+    for (const i in this.scene.children) {
+      const o = this.scene.children[i] as any;
+      if (o.geometry) o.geometry.dispose();
+      if (o.material) {
+        if (o.material.texture) o.material.texture.dispose();
+        o.material.dispose();
+      }
+      this.scene.remove(o);
+    }
+    // Set everything to null
+    this.scene = null;
+    this.renderer = null;
+    this.camera = null;
+    this.steps = null;
+    this.canvas = null;
   }
 }
