@@ -20,7 +20,7 @@ export interface PlayerProps {
 export class Player extends Component<PlayerProps, {}> {
   // Reference to player DOM object.
   playerDiv: HTMLDivElement;
-  private iFrame: HTMLIFrameElement;
+  iFrame: HTMLIFrameElement;
 
   componentWillMount() {
     this.iFrame = document.createElement("iframe");

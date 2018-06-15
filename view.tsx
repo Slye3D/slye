@@ -36,6 +36,7 @@ export class View extends Component<{}, ViewState> {
   handleFullScreen = () => {
     if (screenfull.enabled) {
       screenfull.request(this.playerRef.playerDiv);
+      this.playerRef.iFrame.focus();
     }
   }
 
