@@ -16,14 +16,20 @@ if (!parent) {
   throw new Error("Can not open this player directly.");
 }
 
+let presentation: types.Presentation;
 let renderer: types.SlyeRenderer;
+let active: number;
 
 window.addEventListener("message", async e => {
   const data = JSON.parse(e.data);
   switch (data.type) {
     case "init":
       if (renderer) renderer.dispose();
-      renderer = new Renderer(data.presentation);
+      active = 0;
+      presentation = data.presentation;
+      // An empty init message will only dispose renderer.
+      if (!presentation) return;
+      renderer = new Renderer(presentation);
       await renderer.init();
       renderer.setSize(innerWidth, innerHeight);
       document.body.appendChild(renderer.canvas);
@@ -33,3 +39,74 @@ window.addEventListener("message", async e => {
       break;
   }
 });
+
+function handleNext() {
+  if (!renderer) return;
+  active++;
+  if (active === presentation.order.length) {
+    active = 0;
+  }
+  renderer.goTo(presentation.order[active]);
+}
+
+function handlePrev() {
+  if (!renderer) return;
+  active--;
+  if (active === -1) {
+    active = presentation.order.length - 1;
+  }
+  renderer.goTo(presentation.order[active]);
+}
+
+// DOM event handlers
+
+function keydown(event) {
+  if (!renderer) return;
+  if (event.keyCode === 9 ||
+    (event.keyCode >= 32 && event.keyCode <= 34) ||
+    (event.keyCode >= 37 && event.keyCode <= 40)) {
+    event.preventDefault();
+  }
+}
+
+function keyup(event) {
+  if (!renderer) return;
+  switch (event.keyCode) {
+    case 33: // pg up
+    case 37: // left
+    case 38: // up
+      handlePrev();
+      break;
+    case 9:  // tab
+    case 32: // space
+    case 34: // pg down
+    case 39: // right
+    case 40: // down
+      handleNext();
+      break;
+  }
+  keydown(event);
+}
+
+function touchstart(event) {
+  if (!renderer) return;
+  if (event.touches.length === 1) {
+    const x = event.touches[0].clientX;
+    const width = innerWidth * 0.3;
+    if (x < width) {
+      handlePrev();
+    } else if (x > innerWidth - width) {
+      handleNext();
+    }
+  }
+}
+
+function handleResize() {
+  if (!renderer) return;
+  renderer.setSize(innerWidth, innerHeight);
+}
+
+document.addEventListener("keydown", keydown);
+document.addEventListener("keyup", keyup);
+document.addEventListener("touchstart", touchstart);
+window.addEventListener("resize", handleResize);
