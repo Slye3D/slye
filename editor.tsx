@@ -10,6 +10,7 @@
  */
 
 import React, { Component } from "react";
+import * as screenfull from "screenfull";
 import * as db from "./db";
 import { Player } from "./player";
 import { saveThumbnail } from "./thumbnail";
@@ -105,11 +106,19 @@ export class Editor extends Component<{}, EditorState> {
   saveTimeout: number;
   readonly id: string;
   data: types.Presentation;
+  closePlayer = false;
 
   constructor(props) {
     super(props);
     // TODO Remove any.
     this.id = (this.props as any).match.params.id;
+  }
+
+  handleFullscreenChange = () => {
+    if (this.closePlayer) {
+      this.togglePlayer();
+    }
+    this.closePlayer = !this.closePlayer;
   }
 
   async componentWillMount() {
@@ -122,6 +131,11 @@ export class Editor extends Component<{}, EditorState> {
     }
     const order = this.data.order;
     this.setState({ loading: false, steps, order });
+    screenfull.on("change", this.handleFullscreenChange);
+  }
+
+  componentWillUnmount() {
+    screenfull.off("change", this.handleFullscreenChange);
   }
 
   updateData = () => {
@@ -174,6 +188,15 @@ export class Editor extends Component<{}, EditorState> {
     this.saveTimeout = setTimeout(this.save, t);
   }
 
+  handlePlayer = p => {
+    if (!p) return;
+    if (screenfull.enabled) {
+      this.closePlayer = false;
+      screenfull.request(p.playerDiv);
+      p.iFrame.focus();
+    }
+  }
+
   render() {
     if (this.state.loading) {
       return <div className="loader" />;
@@ -189,6 +212,7 @@ export class Editor extends Component<{}, EditorState> {
         <div id="editor">
           <Player
             presentation={ this.data }
+            ref={ this.handlePlayer}
             onClose={ this.togglePlayer } />
         </div>
       );
