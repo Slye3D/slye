@@ -75,9 +75,10 @@ body {
     background: $dark;
     top: 0;
     position: fixed;
-    canvas {
+    iframe {
       width: 100% !important;
       height: 100% !important;
+      border: none;
     }
   }
 }
