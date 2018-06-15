@@ -9,8 +9,8 @@
  *       Licence: MIT License
  */
 
-import { Renderer } from "../renderer";
-import * as types from "../types";
+import { Renderer } from "./renderer";
+import * as types from "./types";
 
 if (!parent) {
   throw new Error("Can not open this player directly.");
