@@ -4,6 +4,11 @@ service cloud.firestore {
     function createdNow() {
       return request.time == request.resource.data.created;
     }
+    
+    function dontChangeOwner() {
+      return request.auth.uid != null
+            && request.auth.uid == resource.data.owner.uid
+    }
 
     function validate() {
       return request.auth.uid != null
@@ -16,7 +21,7 @@ service cloud.firestore {
     match /presentations/{pr} {
       allow read: if true;
       allow create: if validate() && createdNow();
-      allow update: if validate();
+      allow update: if validate() && dontChangeOwner();
     }
   }
 }
