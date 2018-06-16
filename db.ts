@@ -39,9 +39,7 @@ const storageRef = firebase.storage().ref();
 const storageDownloadLinkCache = new Map<string, string>();
 const presentationsCache = new Map<string, types.Presentation>();
 
-export async function queryLatest()
-  : Promise<types.PresentationInfo[]> {
-  const query = collectionRef.orderBy("created", "desc").limit(5);
+async function extractFromQuery(query): Promise<types.PresentationInfo[]> {
   const snapshots = await query.get();
   const out = [];
   snapshots.forEach(snap => {
@@ -62,6 +60,17 @@ export async function queryLatest()
     }
   }
   return out;
+}
+
+export async function queryLatest()
+  : Promise<types.PresentationInfo[]> {
+  const query = collectionRef.orderBy("created", "desc").limit(20);
+  return await extractFromQuery(query);
+}
+
+export async function queryProfile(uid): Promise<types.PresentationInfo[]> {
+  const query = collectionRef.where("owner.uid", "==", uid);
+  return await extractFromQuery(query);
 }
 
 export async function getPresentation(id: string): Promise<types.Presentation> {
