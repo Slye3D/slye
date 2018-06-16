@@ -56,7 +56,16 @@ class App extends Component<AppProps, {}> {
                       New presentation
                     </a>
                   </li>
-                  <li><a onClick={ this.handleLogout }>Sign out</a></li>
+                  <li>
+                    <a href={ `#/profile/${user.uid}` }>
+                      Your profile
+                    </a>
+                  </li>
+                  <li>
+                    <a onClick={ this.handleLogout }>
+                      Sign out
+                    </a>
+                  </li>
                 </ul>
               </div>
             ) }

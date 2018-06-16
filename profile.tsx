@@ -13,6 +13,13 @@ import React, { Component } from "react";
 import * as db from "./db";
 import * as types from "./types";
 
+// tslint:disable-next-line:variable-name
+const Preview = ({ info }) => (
+  <div className="preview">
+    <img src={ info.thumbnail } />
+  </div>
+);
+
 interface ProfileState {
   isLoading: boolean;
   presentations: types.PresentationInfo[];
@@ -44,8 +51,20 @@ export class Profile extends Component<{}, ProfileState> {
   }
 
   render() {
+    console.log(this.state);
+    if (this.state.isLoading) {
+      return <div className="loader" />;
+    }
+    const { presentations, user } = this.state;
     return (
-      <div>
+      <div id="profile-page">
+      <div className="user">
+        <img src={ user.photoURL } />
+        <h3>{ user.displayName }</h3>
+      </div>
+      <div className="list">
+        { presentations.map(p => <Preview info={ p } key={ "p-" + p.id } />) }
+      </div>
       </div>
     );
   }
