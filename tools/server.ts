@@ -26,6 +26,11 @@ export function createHTTPServer() {
         res.end(`Unexpected server error occurred. [#${err.code}]`);
         return;
       }
+      if (!fs.existsSync(finalPath)) {
+        res.writeHead(404, { "Content-Type": "text/html; charset=utf-8" });
+        res.end("Run ./tools/build.ts first");
+        return;
+      }
       res.writeHead(200, { "Content-Type": mime.getType(finalPath) });
       const stream = fs.createReadStream(finalPath);
       stream.pipe(res);
