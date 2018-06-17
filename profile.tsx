@@ -16,7 +16,9 @@ import * as types from "./types";
 // tslint:disable-next-line:variable-name
 const Preview = ({ info }) => (
   <div className="preview">
-    <img src={ info.thumbnail } />
+    <a href={ "#/view/" + info.id } >
+      <img src={ info.thumbnail } />
+    </a>
   </div>
 );
 
@@ -51,7 +53,6 @@ export class Profile extends Component<{}, ProfileState> {
   }
 
   render() {
-    console.log(this.state);
     if (this.state.isLoading) {
       return <div className="loader" />;
     }
