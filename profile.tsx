@@ -10,6 +10,7 @@
  */
 
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import * as db from "./db";
 import * as types from "./types";
 
@@ -22,22 +23,27 @@ const Preview = ({ info }) => (
   </div>
 );
 
+interface ProfileProps {
+  currentUser: types.User;
+}
+
 interface ProfileState {
   isLoading: boolean;
   presentations: types.PresentationInfo[];
   user: types.User;
 }
 
-export class Profile extends Component<{}, ProfileState> {
+class UserProfile extends Component<ProfileProps, ProfileState> {
   state = {
     isLoading: true,
     presentations: null,
     user: null
   };
+  uid: string;
 
   async componentWillMount() {
-    const uid = (this.props as any).match.params.uid;
-    const presentations = await db.queryProfile(uid);
+    this.uid = (this.props as any).match.params.uid;
+    const presentations = await db.queryProfile(this.uid);
     let user;
     if (presentations.length > 0) {
       user = presentations[0].data.owner;
@@ -56,7 +62,16 @@ export class Profile extends Component<{}, ProfileState> {
     if (this.state.isLoading) {
       return <div className="loader" />;
     }
-    const { presentations, user } = this.state;
+    const { presentations } = this.state;
+    const { currentUser } = this.props;
+    const currentUserProfile = currentUser && this.uid === currentUser.uid;
+    let { user } = this.state;
+    if (!user && currentUserProfile) {
+      user = currentUser;
+    }
+    if (!user) {
+      return <div>Not found</div>;
+    }
     return (
       <div id="profile-page">
       <div className="user">
@@ -65,8 +80,27 @@ export class Profile extends Component<{}, ProfileState> {
       </div>
       <div className="list">
         { presentations.map(p => <Preview info={ p } key={ "p-" + p.id } />) }
+        { presentations.length > 0 ? null : (
+          "There is nothing in here!"
+        ) }
       </div>
       </div>
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    currentUser: state.auth.user
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {};
+};
+
+// tslint:disable-next-line:variable-name
+export const Profile = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UserProfile);
