@@ -244,6 +244,21 @@ body {
     .preview {
       margin: 25px;
       box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+      .edit {
+        display: inherit;
+        width: 30px;
+        height: 30px;
+        background: $dark;
+        border-radius: 0 7px 0 0;
+        position: relative;
+        margin-bottom: -30px;
+        bottom: 30px;
+        &::after {
+          content: "\00270e";
+          font-size: 30px;
+          color: $primary;
+        }
+      }
     }
   }
 }

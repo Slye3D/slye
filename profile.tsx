@@ -15,11 +15,14 @@ import * as db from "./db";
 import * as types from "./types";
 
 // tslint:disable-next-line:variable-name
-const Preview = ({ info }) => (
+const Preview = ({ info, editable }) => (
   <div className="preview">
     <a href={ "#/view/" + info.id } >
       <img src={ info.thumbnail } />
     </a>
+    { !editable ? null : (
+      <a href={ "#/editor/" + info.id } className="edit" />
+    ) }
   </div>
 );
 
@@ -72,6 +75,7 @@ class UserProfile extends Component<ProfileProps, ProfileState> {
     if (!user) {
       return <div>Not found</div>;
     }
+    console.log(currentUserProfile);
     return (
       <div id="profile-page">
       <div className="user">
@@ -79,7 +83,9 @@ class UserProfile extends Component<ProfileProps, ProfileState> {
         <h3>{ user.displayName }</h3>
       </div>
       <div className="list">
-        { presentations.map(p => <Preview info={ p } key={ "p-" + p.id } />) }
+        { presentations.map(p => <Preview
+          info={ p } key={ "p-" + p.id }
+          editable={ currentUserProfile } />) }
         { presentations.length > 0 ? null : (
           "There is nothing in here!"
         ) }
