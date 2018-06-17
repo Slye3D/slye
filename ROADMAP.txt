@@ -1,7 +1,11 @@
-=== Pages ===
- * User Profile
- * User Dashboard
-
 === Editor ===
- * Make steps sort-able (react-sortable-hoc)
- * Title and description for each presentation
+ * Make steps sort-able (react-sortable-hoc).
+ * Title and description for each presentation.
+
+=== Random Stuff  ===
+ * Add support for other languages.
+    Currently we can only type in English.
+ * Support for images.
+    Maybe we should redesign the Editor
+ * Save users information in a new firestore document.
+ * Support usernames for profile pages.
