@@ -160,11 +160,13 @@ body {
         margin: 10px;
       }
       p {
+        align-self: center;
         .by {
           color: $secondary;
         }
-        color: $primary;
-        align-self: center;
+        a {
+          color: $primary;
+        }
       }
     }
   }
@@ -223,6 +225,7 @@ body {
       color: $dark;
       display: inline-block;
       align-self: center;
+      margin-left: 5px;
     }
   }
   .list {

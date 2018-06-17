@@ -20,16 +20,20 @@ interface IndexState {
 
 // tslint:disable-next-line:variable-name
 const Preview = ({ info }) => (
-  <a className="preview" href={`#/view/${info.id}`} >
-    <img src={ info.thumbnail } />
+  <div className="preview">
+    <a href={`#/view/${info.id}`} >
+      <img src={ info.thumbnail } />
+    </a>
     <div className="owner-box">
       <img src={ info.data.owner.photoURL } />
       <p>
         <span className="by">By </span>
-        { info.data.owner.displayName }
+        <a href={ "#/profile/" + info.data.owner.uid }>
+          { info.data.owner.displayName }
+        </a>
       </p>
     </div>
-  </a>
+  </div>
 );
 
 export class Index extends Component<{}, IndexState> {
