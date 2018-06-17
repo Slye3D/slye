@@ -54,6 +54,16 @@ export class Index extends Component<{}, IndexState> {
     const { presentations } = this.state;
     return (
       <div id="index">
+        <div className="description">
+          <p>
+          Slye is an early stage
+          <a
+            href="https://github.com/slye3d/slye"
+            target="_blank"> open-source </a>
+          web application to create 3D presentations powered by WebGL.<br />
+          </p>
+          <hr />
+        </div>
         <div className="list">
           <h2>Recent presentations</h2>
           { presentations.map(x => <Preview info={ x } key={ x.id } />) }

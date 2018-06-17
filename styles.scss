@@ -126,12 +126,21 @@ body {
 }
 #index {
   padding-top: 25px;
+  color: $dark;
   h2 {
     color: $dark;
     margin: 10px;
     width: 100%;
     text-align: center;
     text-transform: uppercase;
+  }
+  .description p {
+    a {
+      color: #5c6bc0;
+    }
+    margin: 25px;
+    text-align: center;
+    font-size: 1.5em;
   }
 }
 
