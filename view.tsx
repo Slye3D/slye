@@ -45,6 +45,8 @@ export class View extends Component<{}, ViewState> {
       return <div className="loader" />;
     }
 
+    const { owner } = this.state.presentation;
+
     return (
       <div id="view">
         <div className="player-wrapper">
@@ -60,9 +62,9 @@ export class View extends Component<{}, ViewState> {
           <img
             className="avatar"
             src={ this.state.presentation.owner.photoURL } />
-          <h3 className="name">
-            { this.state.presentation.owner.displayName }
-          </h3>
+          <a className="name" href={ "#/profile/" + owner.uid }>
+            { owner.displayName }
+          </a>
         </div>
       </div>
     );
