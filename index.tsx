@@ -64,8 +64,8 @@ export class Index extends Component<{}, IndexState> {
           </p>
           <hr />
         </div>
+        <h2>Recent presentations</h2>
         <div className="list">
-          <h2>Recent presentations</h2>
           { presentations.map(x => <Preview info={ x } key={ x.id } />) }
         </div>
       </div>

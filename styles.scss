@@ -145,11 +145,14 @@ body {
 }
 
 #index .list {
-  width: 100vw;
-  justify-content: center;
-  margin: auto;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 288px);
+  grid-column-gap: 16px;
+  grid-row-gap: 24px;
+  list-style-type: none;
+  padding: 0;
+  margin: 0 auto;
+  max-width: 1200px;
   .preview {
     margin: 15px;
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
