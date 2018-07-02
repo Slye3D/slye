@@ -53,6 +53,5 @@ export interface SlyeRenderer {
 
 export interface PresentationInfo {
   id: string;
-  thumbnail: string;
   data: Presentation;
 }
