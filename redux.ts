@@ -10,7 +10,7 @@
  */
 
 import { combineReducers, createStore } from "redux";
-import * as db from "./db";
+import { db } from "./fs";
 import * as types from "./types";
 
 export interface AuthState {

@@ -13,10 +13,13 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { Slye } from "./app";
-import { onAuthStateChanged } from "./db";
+import { db, enableFS } from "./fs";
 import { store } from "./redux";
 
-onAuthStateChanged(user => {
+// Enable FireStore.
+enableFS();
+
+db.onAuthStateChanged(user => {
   store.dispatch({ type: "SET_USER", user });
 });
 

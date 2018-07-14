@@ -11,7 +11,7 @@
 
 import React, { Component } from "react";
 import * as screenfull from "screenfull";
-import * as db from "./db";
+import { db } from "./fs";
 import { Player } from "./player";
 import * as types from "./types";
 

@@ -11,7 +11,7 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import * as db from "./db";
+import { db } from "./fs";
 import * as types from "./types";
 
 // tslint:disable-next-line:variable-name

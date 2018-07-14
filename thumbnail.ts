@@ -14,7 +14,7 @@
  * Firebase storage
  */
 
-import { uploadThumbnail } from "./db";
+import { db } from "./fs";
 import { Renderer } from "./renderer";
 import * as types from "./types";
 
@@ -35,6 +35,6 @@ async function presentationToBlob(p: types.Presentation) {
 
 export async function saveThumbnail(id, p: types.Presentation) {
   const blob = await presentationToBlob(p);
-  await uploadThumbnail(id, blob);
+  await db.uploadThumbnail(id, blob);
   console.log("uploaded thumbnail to server");
 }

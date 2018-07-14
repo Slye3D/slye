@@ -31,6 +31,7 @@ export interface DB {
   // Authentication
   login(): void;
   logout(): void;
+  onAuthStateChanged(cb: (u: types.User) => void);
 }
 
 export const db: DB = Object.create(null);
@@ -148,6 +149,10 @@ class FirestoreDB implements DB {
 
   logout() {
     return firebase.auth().signOut();
+  }
+
+  onAuthStateChanged(cb) {
+    firebase.auth().onAuthStateChanged(cb);
   }
 }
 

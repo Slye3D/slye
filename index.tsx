@@ -10,7 +10,7 @@
  */
 
 import React, { Component } from "react";
-import * as db from "./db";
+import { db } from "./fs";
 import * as types from "./types";
 
 interface IndexState {
