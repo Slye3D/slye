@@ -35,10 +35,11 @@ export interface DB {
 }
 
 export const db: DB = Object.create(null);
+declare const exports;
 
 export function enableFS() {
   const tmp = new FirestoreDB(FS_CONFIG);
-  Object.assign(db, tmp);
+  exports.db = tmp;
 }
 
 export function enableMock() {
@@ -46,10 +47,10 @@ export function enableMock() {
 }
 
 class FirestoreDB implements DB {
-  private auth;
-  private db;
-  private collectionRef;
-  private storageRef;
+  private auth: firebase.auth.Auth;
+  private db: firebase.firestore.Firestore;
+  private collectionRef: firebase.firestore.CollectionReference;
+  private storageRef: firebase.storage.Reference;
 
   constructor(config) {
     firebase.initializeApp(config);
@@ -99,7 +100,7 @@ class FirestoreDB implements DB {
   getThumbnailLink(p) {
     const path = thumbnailPath(p.data.owner.uid, p.id);
     const thumbRef = this.storageRef.child(path);
-    return thumbRef.getdownloadurl();
+    return thumbRef.getDownloadURL();
   }
 
   async create() {
@@ -122,11 +123,11 @@ class FirestoreDB implements DB {
     return doc.id;
   }
 
-  uploadThumbnail(p, blob) {
+  async uploadThumbnail(p, blob) {
     const userId = p.data.owner.uid;
     const path = thumbnailPath(userId, p.id);
     const ref = this.storageRef.child(path);
-    return ref.put(blob);
+    await ref.put(blob);
   }
 
   async update(id: string, p: types.Presentation) {

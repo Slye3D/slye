@@ -11,6 +11,7 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Img } from "./async";
 import { db } from "./fs";
 import * as types from "./types";
 
@@ -18,7 +19,7 @@ import * as types from "./types";
 const Preview = ({ info, editable }) => (
   <div className="preview">
     <a href={ "#/view/" + info.id } >
-      <img src={ info.thumbnail } />
+      <Img src={ db.getThumbnailLink(info) } />
     </a>
     { !editable ? null : (
       <a href={ "#/editor/" + info.id } className="edit" />
@@ -75,7 +76,6 @@ class UserProfile extends Component<ProfileProps, ProfileState> {
     if (!user) {
       return <div>Not found</div>;
     }
-    console.log(currentUserProfile);
     return (
       <div id="profile-page">
       <div className="user">

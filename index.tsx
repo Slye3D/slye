@@ -10,6 +10,7 @@
  */
 
 import React, { Component } from "react";
+import { Img } from "./async";
 import { db } from "./fs";
 import * as types from "./types";
 
@@ -19,10 +20,10 @@ interface IndexState {
 }
 
 // tslint:disable-next-line:variable-name
-const Preview = ({ info }) => (
+const Preview = ({ info }: { info: types.PresentationInfo }) => (
   <div className="preview">
     <a href={`#/view/${info.id}`} >
-      <img src={ info.thumbnail } />
+      <Img src={ db.getThumbnailLink(info) } />
     </a>
     <div className="owner-box">
       <img src={ info.data.owner.photoURL } />
