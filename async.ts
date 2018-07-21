@@ -28,7 +28,7 @@ function createAsyncComponent<Props extends {}>(
   defaultLoading: Props
 ): React.ComponentClass<AsyncPropsWithLoading<Props>> {
   class AsyncComponent extends Component<AsyncPropsWithLoading<Props>> {
-    static displayName = `Async${element})`;
+    static displayName = `Async(${element})`;
     state = {};
     pending = new Map<string, Promise<any>>();
     render() {

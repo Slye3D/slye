@@ -55,3 +55,34 @@ export interface PresentationInfo {
   id: string;
   data: Presentation;
 }
+
+export interface Actions {
+  Auth: {
+    login(): void;
+    logout(): void;
+  };
+  Presentations: {
+    create(): void;
+    // TODO(qti3e)
+    // queryProfile(uid: string): void;
+    // queryLatest(): void;
+  };
+}
+
+export interface Values {
+  Auth: {
+    isLoggedIn: boolean,
+    currentUser?: User
+  };
+  Presentations: {
+    // TODO(qti3e)
+    // isLoading: boolean;
+    // lastQueryType: "profile" | "latest";
+    // lastQueryResult: PresentationInfo[];
+  };
+}
+
+export interface Context {
+  actions: Actions;
+  values: Values;
+}

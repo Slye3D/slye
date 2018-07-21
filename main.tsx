@@ -11,21 +11,16 @@
 
 import React from "react";
 import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
 import { Slye } from "./app";
-import { db, enableFS } from "./fs";
-import { store } from "./redux";
+import { SlyeProvider } from "./context";
+import { enableFS } from "./fs";
 
 // Enable FireStore.
 enableFS();
 
-db.onAuthStateChanged(user => {
-  store.dispatch({ type: "SET_USER", user });
-});
-
 ReactDOM.render(
-  <Provider store={ store } >
+  <SlyeProvider>
     <Slye />
-  </Provider>,
+  </SlyeProvider>,
   document.getElementById("root")
 );
