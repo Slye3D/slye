@@ -10,8 +10,8 @@
  */
 
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import { Img } from "./async";
+import { Consumer } from "./context";
 import { db } from "./fs";
 import * as types from "./types";
 
@@ -27,17 +27,13 @@ const Preview = ({ info, editable }) => (
   </div>
 );
 
-interface ProfileProps {
-  currentUser: types.User;
-}
-
 interface ProfileState {
   isLoading: boolean;
   presentations: types.PresentationInfo[];
   user: types.User;
 }
 
-class UserProfile extends Component<ProfileProps, ProfileState> {
+export class Profile extends Component<{}, ProfileState> {
   state = {
     isLoading: true,
     presentations: null,
@@ -62,12 +58,11 @@ class UserProfile extends Component<ProfileProps, ProfileState> {
     });
   }
 
-  render() {
+  renderProfile(currentUser) {
     if (this.state.isLoading) {
       return <div className="loader" />;
     }
     const { presentations } = this.state;
-    const { currentUser } = this.props;
     const currentUserProfile = currentUser && this.uid === currentUser.uid;
     let { user } = this.state;
     if (!user && currentUserProfile) {
@@ -93,20 +88,12 @@ class UserProfile extends Component<ProfileProps, ProfileState> {
       </div>
     );
   }
+
+  render() {
+    return (
+      <Consumer>
+        {({values}) => this.renderProfile(values.Auth.currentUser)}
+      </Consumer>
+    );
+  }
 }
-
-const mapStateToProps = state => {
-  return {
-    currentUser: state.auth.user
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {};
-};
-
-// tslint:disable-next-line:variable-name
-export const Profile = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UserProfile);

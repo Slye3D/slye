@@ -10,94 +10,53 @@
  */
 
 import React, { Component } from "react";
-import { connect } from "react-redux";
+import { Consumer } from "./context";
 import { Router } from "./router";
-import * as types from "./types";
 
-interface AppProps {
-  onLogin(): void;
-  onLogout(): void;
-  createNew(): void;
-  user?: types.User;
-}
-
-class App extends Component<AppProps, {}> {
-  handleLogin = () => {
-    this.props.onLogin();
-  };
-
-  handleLogout = () => {
-    this.props.onLogout();
-  };
-
-  handleNewPresentation = () => {
-    this.props.createNew();
-  };
-
+export class Slye extends Component<{}, {}> {
   render() {
-    const { user } = this.props;
     return (
       <div id="layout">
         <div className="header">
           <div className="logo" onClick={ () => location.hash = ""} />
-            { !user ? (
+          <Consumer>
+            {({actions, values}) =>
+            !values.Auth.isLoggedIn ? (
               <div className="login button raised blue">
                 <div
                   className="center"
-                  onClick={ this.handleLogin }>Signin with Google</div>
+                  onClick={ actions.Auth.login }>Signin with Google</div>
               </div>
             ) : (
               <div className="drop user login button raised">
                 <div
-                  className="center" >Hello, { user.displayName }</div>
+                  className="center">
+                  Hello, { values.Auth.currentUser.displayName }
+                  </div>
                 <ul>
                   <li>
-                    <a onClick={ this.handleNewPresentation }>
+                    <a onClick={ actions.Presentations.create }>
                       New presentation
                     </a>
                   </li>
                   <li>
-                    <a href={ `#/profile/${user.uid}` }>
+                    <a href={ `#/profile/${values.Auth.currentUser.uid}` }>
                       Your profile
                     </a>
                   </li>
                   <li>
-                    <a onClick={ this.handleLogout }>
+                    <a onClick={ actions.Auth.logout }>
                       Sign out
                     </a>
                   </li>
                 </ul>
               </div>
-            ) }
+            )
+            }
+          </Consumer>
         </div>
         <Router />
       </div>
     );
   }
 }
-
-const mapStateToProps = state => {
-  return {
-    user: state.auth.user
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onLogin() {
-      dispatch({ type: "LOGIN" });
-    },
-    onLogout() {
-      dispatch({ type: "LOGOUT" });
-    },
-    createNew() {
-      dispatch({ type: "NEW_PRESENTATION" });
-    }
-  };
-};
-
-// tslint:disable-next-line:variable-name
-export const Slye = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);

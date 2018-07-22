@@ -30,10 +30,8 @@
     "firebase": "^5.0.4",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
-    "react-redux": "^5.0.7",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.3.1",
-    "redux": "^4.0.0",
     "screenfull": "^3.3.2",
     "three": "^0.93.0"
   }
