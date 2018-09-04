@@ -90,12 +90,12 @@ class FirestoreDB implements DB {
     return this.exeQuery(query);
   }
 
-  queryProfile(uid): Promise<types.PresentationInfo[]> {
+  queryProfile(uid: string): Promise<types.PresentationInfo[]> {
     const query = this.collectionRef.where("owner.uid", "==", uid);
     return this.exeQuery(query);
   }
 
-  async getPresentation(id): Promise<types.Presentation> {
+  async getPresentation(id: string): Promise<types.Presentation> {
     const docRef = this.collectionRef.doc(id);
     const snap = await docRef.get();
     if (snap.exists) {
@@ -107,13 +107,13 @@ class FirestoreDB implements DB {
     }
   }
 
-  getThumbnailLink(p) {
-    const path = thumbnailPath(p.data.owner.uid, p.id);
+  getThumbnailLink(p: types.PresentationInfo): Promise<string> {
+    const path = thumbnailPath(p.ownerInfo.uid, p.id);
     const thumbRef = this.storageRef.child(path);
     return thumbRef.getDownloadURL();
   }
 
-  async create() {
+  async create(): Promise<string> {
     const stepId = util.randomString();
     const presentation = {
       owner: this.currentUser.uid,
@@ -128,14 +128,14 @@ class FirestoreDB implements DB {
     return doc.id;
   }
 
-  async uploadThumbnail(p, blob) {
-    const userId = p.data.owner.uid;
+  async uploadThumbnail(p: types.PresentationInfo, blob): Promise<void> {
+    const userId = p.ownerInfo.uid;
     const path = thumbnailPath(userId, p.id);
     const ref = this.storageRef.child(path);
     await ref.put(blob);
   }
 
-  async update(id: string, p: types.Presentation) {
+  async update(id: string, p: types.Presentation): Promise<void> {
     if (!ownsDoc(this.currentUser, p)) {
       throw new Error("Not owned by this user.");
     }
@@ -160,16 +160,16 @@ class FirestoreDB implements DB {
     }
   }
 
-  login() {
+  login(): void {
     const provider = new firebase.auth.GoogleAuthProvider();
-    return firebase.auth().signInWithPopup(provider);
+    firebase.auth().signInWithPopup(provider);
   }
 
-  logout() {
-    return firebase.auth().signOut();
+  logout(): void {
+    firebase.auth().signOut();
   }
 
-  private async handleSignUp() {
+  private async handleSignUp(): Promise<void> {
     const data = this.auth.currentUser;
 
     const user: types.User = {
@@ -189,7 +189,7 @@ class FirestoreDB implements DB {
     }
   }
 
-  onAuthStateChanged(cb: (u: types.User) => void) {
+  onAuthStateChanged(cb: (u: types.User) => void): void {
     firebase.auth().onAuthStateChanged(async (user: firebase.UserInfo) => {
       if (!user) return cb(undefined);
       try {
