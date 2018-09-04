@@ -16,6 +16,7 @@ import { Editor } from "./editor";
 import { Index } from "./index";
 import { Profile } from "./profile";
 import { View } from "./view";
+import { Welcome } from "./welcome";
 
 export class Router extends Component<{}, {}> {
   render() {
@@ -25,7 +26,8 @@ export class Router extends Component<{}, {}> {
           <Route path="/" component={ Index } exact />
           <Route path="/view/:id" component={ View } exact />
           <Route path="/editor/:id" component={ Editor } exact />
-        <Route path="/profile/:uid" component={ Profile } exact />
+          <Route path="/profile/:uid" component={ Profile } exact />
+          <Route path="/welcome" component={ Welcome } exact />
         </Switch>
       </HashRouter>
     );

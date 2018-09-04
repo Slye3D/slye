@@ -12,6 +12,7 @@
 import React from "react";
 import { db } from "./fs";
 import * as types from "./types";
+import { goto } from "./util";
 
 const { Provider, Consumer } = React.createContext<types.Context>(undefined);
 export { Consumer };
@@ -47,7 +48,7 @@ export class SlyeProvider extends React.Component<{}, State> {
         create() {
           // TODO(qti3e) async create(): Promise<id>;
           db.create().then(id => {
-            location.hash = "#/editor/" + id;
+            goto("/editor/" + id);
           });
         }
       }
@@ -56,6 +57,9 @@ export class SlyeProvider extends React.Component<{}, State> {
 
   componentWillMount() {
     db.onAuthStateChanged(user => {
+      // TODO(qti3e) Check if this is the first time user
+      // logged in to the system, and if so show the welcome
+      // page.
       this.setState({
         values: {
           ...this.state.values,
@@ -64,6 +68,10 @@ export class SlyeProvider extends React.Component<{}, State> {
             isLoggedIn: Boolean(user),
             currentUser: user
           }
+        }
+      }, () => {
+        if (user && user.firstLogin) {
+          goto("/welcome");
         }
       });
     });

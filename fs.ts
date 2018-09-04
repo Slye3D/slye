@@ -32,6 +32,7 @@ export interface DB {
   login(): void;
   logout(): void;
   onAuthStateChanged(cb: (u: types.User) => void);
+  queryUser(uid: string): Promise<types.User>;
 }
 
 export const db: DB = Object.create(null);
@@ -50,7 +51,9 @@ class FirestoreDB implements DB {
   private auth: firebase.auth.Auth;
   private db: firebase.firestore.Firestore;
   private collectionRef: firebase.firestore.CollectionReference;
+  private usersCollectionRef: firebase.firestore.CollectionReference;
   private storageRef: firebase.storage.Reference;
+  private currentUser: types.User;
 
   constructor(config) {
     firebase.initializeApp(config);
@@ -60,6 +63,7 @@ class FirestoreDB implements DB {
       timestampsInSnapshots: true
     });
     this.collectionRef = this.db.collection("presentations");
+    this.usersCollectionRef = this.db.collection("users");
     this.storageRef = firebase.storage().ref();
   }
 
@@ -93,7 +97,9 @@ class FirestoreDB implements DB {
     if (snap.exists) {
       return snap.data() as types.Presentation;
     } else {
-      throw Error(`Presentation does not exist ${id}`);
+      const error = new Error(`Presentation does not exist ${id}`);
+      error.name = types.ErrorCodes.PresentationNotFound;
+      throw error;
     }
   }
 
@@ -104,14 +110,9 @@ class FirestoreDB implements DB {
   }
 
   async create() {
-    const u = this.auth.currentUser;
     const stepId = util.randomString();
     const presentation = {
-      owner: {
-        displayName: u.displayName,
-        photoURL: u.photoURL,
-        uid: u.uid
-      },
+      owner: this.currentUser.uid,
       steps: {
         [stepId]: util.emptyStep()
       },
@@ -131,7 +132,7 @@ class FirestoreDB implements DB {
   }
 
   async update(id: string, p: types.Presentation) {
-    if (!ownsDoc(this.auth.currentUser, p)) {
+    if (!ownsDoc(this.currentUser, p)) {
       throw new Error("Not owned by this user.");
     }
     const docRef = this.collectionRef.doc(id);
@@ -143,6 +144,18 @@ class FirestoreDB implements DB {
     await docRef.update(newProps);
   }
 
+  async queryUser(uid: string): Promise<types.User> {
+    const docRef = this.usersCollectionRef.doc(uid);
+    const snap = await docRef.get();
+    if (snap.exists) {
+      return snap.data() as types.User;
+    } else {
+      const error = new Error(`User does not exist ${uid}.`);
+      error.name = types.ErrorCodes.UserNotFound;
+      throw error;
+    }
+  }
+
   login() {
     const provider = new firebase.auth.GoogleAuthProvider();
     return firebase.auth().signInWithPopup(provider);
@@ -152,16 +165,51 @@ class FirestoreDB implements DB {
     return firebase.auth().signOut();
   }
 
-  onAuthStateChanged(cb) {
-    firebase.auth().onAuthStateChanged(cb);
+  private async handleSignUp() {
+    const data = this.auth.currentUser;
+
+    const user: types.User = {
+      uid: data.uid,
+      firstname: data.displayName,
+      lastname: "",
+      username: data.uid,
+      photoURL: data.photoURL,
+    };
+
+    this.currentUser = user;
+
+    try {
+      await this.usersCollectionRef.add(user);
+    } catch (e) {
+      // TODO(qti3e) Alert user, or try again?
+    }
+  }
+
+  onAuthStateChanged(cb: (u: types.User) => void) {
+    firebase.auth().onAuthStateChanged(async (user: firebase.UserInfo) => {
+      if (!user) return cb(undefined);
+      try {
+        this.currentUser = await this.queryUser(user.uid);
+        cb(this.currentUser);
+      } catch (e) {
+        if (e.name === types.ErrorCodes.UserNotFound && this.auth.currentUser) {
+          this.handleSignUp();
+          this.currentUser.firstLogin = true;
+          return cb(this.currentUser);
+        }
+        // TODO(qti3e) Handle this!
+        console.error(e);
+      }
+    });
   }
 }
 
 // Some util functions
+// TODO(qti3e) Move to util.ts
 export function thumbnailPath(userId, presentationId) {
   return `/data/${userId}/${presentationId}/thumb.png`;
 }
 
 export function ownsDoc(u: types.User, p: types.Presentation) {
-  return u.uid === p.owner.uid;
+  return u.uid === p.owner;
 }

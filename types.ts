@@ -37,8 +37,11 @@ export type StepVec3Props = "position" | "orientation";
 
 export interface User {
   uid: string;
-  displayName: string;
+  username: string;
+  firstname: string;
+  lastname: string;
   photoURL: string;
+  firstLogin?: boolean;
 }
 
 export interface SlyeRenderer {
@@ -85,4 +88,9 @@ export interface Values {
 export interface Context {
   actions: Actions;
   values: Values;
+}
+
+export enum ErrorCodes {
+  UserNotFound = "UserNotFound",
+  PresentationNotFound = "PresentationNotFound"
 }
