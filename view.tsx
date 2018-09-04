@@ -18,19 +18,22 @@ import * as types from "./types";
 export interface ViewState {
   loading: boolean;
   presentation: types.Presentation;
+  owner: types.User;
 }
 
 export class View extends Component<{}, ViewState> {
-  state = {
+  state: ViewState = {
     loading: true,
-    presentation: null
+    presentation: null,
+    owner: null
   };
   playerRef: Player;
 
   async componentWillMount() {
     const id = (this.props as any).match.params.id;
     const presentation = await db.getPresentation(id);
-    this.setState({ loading: false, presentation });
+    const owner = await db.queryUser(presentation.owner);
+    this.setState({ loading: false, owner, presentation });
   }
 
   handleFullScreen = () => {
@@ -45,7 +48,7 @@ export class View extends Component<{}, ViewState> {
       return <div className="loader" />;
     }
 
-    const { owner } = this.state.presentation;
+    const { owner } = this.state;
 
     return (
       <div id="view">
@@ -61,9 +64,9 @@ export class View extends Component<{}, ViewState> {
         <div className="author-info">
           <img
             className="avatar"
-            src={ this.state.presentation.owner.photoURL } />
+            src={ owner.photoURL } />
           <a className="name" href={ "#/profile/" + owner.uid }>
-            { owner.displayName }
+            { owner.firstname + " " + owner.lastname }
           </a>
         </div>
       </div>
