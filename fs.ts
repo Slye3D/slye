@@ -32,6 +32,7 @@ export interface DB {
   login(): void;
   logout(): void;
   onAuthStateChanged(cb: (u: types.User) => void);
+  queryUser(uid: string): Promise<types.User>;
 }
 
 export const db: DB = Object.create(null);
@@ -50,7 +51,9 @@ class FirestoreDB implements DB {
   private auth: firebase.auth.Auth;
   private db: firebase.firestore.Firestore;
   private collectionRef: firebase.firestore.CollectionReference;
+  private usersCollectionRef: firebase.firestore.CollectionReference;
   private storageRef: firebase.storage.Reference;
+  private currentUser: types.User;
 
   constructor(config) {
     firebase.initializeApp(config);
@@ -60,58 +63,60 @@ class FirestoreDB implements DB {
       timestampsInSnapshots: true
     });
     this.collectionRef = this.db.collection("presentations");
+    this.usersCollectionRef = this.db.collection("users");
     this.storageRef = firebase.storage().ref();
   }
 
-  async queryLatest() {
+  private async exeQuery(
+    query: firebase.firestore.Query
+  ): Promise<types.PresentationInfo[]> {
+    const snapshots = await query.get();
+    const out: types.PresentationInfo[] = [];
+    const promises = [];
+    snapshots.forEach(async snap => {
+      const id = snap.id;
+      const data = snap.data() as types.Presentation;
+      // TODO(qti3e) It's possible to optimize this part.
+      const ownerInfo = this.queryUser(data.ownerId);
+      promises.push(ownerInfo);
+      out.push({ id, data, ownerInfo: await ownerInfo });
+    });
+    await Promise.all(promises);
+    return out;
+  }
+
+  queryLatest(): Promise<types.PresentationInfo[]> {
     const query = this.collectionRef.orderBy("created", "desc").limit(20);
-    const snapshots = await query.get();
-    const out = [];
-    snapshots.forEach(snap => {
-      const id = snap.id;
-      const data = snap.data() as types.Presentation;
-      out.push({ id, data, thumbnail: null });
-    });
-    return out;
+    return this.exeQuery(query);
   }
 
-  async queryProfile(uid) {
+  queryProfile(uid: string): Promise<types.PresentationInfo[]> {
     const query = this.collectionRef.where("owner.uid", "==", uid);
-    const snapshots = await query.get();
-    const out = [];
-    snapshots.forEach(snap => {
-      const id = snap.id;
-      const data = snap.data() as types.Presentation;
-      out.push({ id, data, thumbnail: null });
-    });
-    return out;
+    return this.exeQuery(query);
   }
 
-  async getPresentation(id) {
+  async getPresentation(id: string): Promise<types.Presentation> {
     const docRef = this.collectionRef.doc(id);
     const snap = await docRef.get();
     if (snap.exists) {
       return snap.data() as types.Presentation;
     } else {
-      throw Error(`Presentation does not exist ${id}`);
+      const error = new Error(`Presentation does not exist ${id}`);
+      error.name = types.ErrorCodes.PresentationNotFound;
+      throw error;
     }
   }
 
-  getThumbnailLink(p) {
-    const path = thumbnailPath(p.data.owner.uid, p.id);
+  getThumbnailLink(p: types.PresentationInfo): Promise<string> {
+    const path = thumbnailPath(p.ownerInfo.uid, p.id);
     const thumbRef = this.storageRef.child(path);
     return thumbRef.getDownloadURL();
   }
 
-  async create() {
-    const u = this.auth.currentUser;
+  async create(): Promise<string> {
     const stepId = util.randomString();
     const presentation = {
-      owner: {
-        displayName: u.displayName,
-        photoURL: u.photoURL,
-        uid: u.uid
-      },
+      owner: this.currentUser.uid,
       steps: {
         [stepId]: util.emptyStep()
       },
@@ -123,15 +128,15 @@ class FirestoreDB implements DB {
     return doc.id;
   }
 
-  async uploadThumbnail(p, blob) {
-    const userId = p.data.owner.uid;
+  async uploadThumbnail(p: types.PresentationInfo, blob): Promise<void> {
+    const userId = p.ownerInfo.uid;
     const path = thumbnailPath(userId, p.id);
     const ref = this.storageRef.child(path);
     await ref.put(blob);
   }
 
-  async update(id: string, p: types.Presentation) {
-    if (!ownsDoc(this.auth.currentUser, p)) {
+  async update(id: string, p: types.Presentation): Promise<void> {
+    if (!ownsDoc(this.currentUser, p)) {
       throw new Error("Not owned by this user.");
     }
     const docRef = this.collectionRef.doc(id);
@@ -143,25 +148,71 @@ class FirestoreDB implements DB {
     await docRef.update(newProps);
   }
 
-  login() {
+  async queryUser(uid: string): Promise<types.User> {
+    const docRef = this.usersCollectionRef.doc(uid);
+    const snap = await docRef.get();
+    if (snap.exists) {
+      return snap.data() as types.User;
+    } else {
+      const error = new Error(`User does not exist ${uid}.`);
+      error.name = types.ErrorCodes.UserNotFound;
+      throw error;
+    }
+  }
+
+  login(): void {
     const provider = new firebase.auth.GoogleAuthProvider();
-    return firebase.auth().signInWithPopup(provider);
+    firebase.auth().signInWithPopup(provider);
   }
 
-  logout() {
-    return firebase.auth().signOut();
+  logout(): void {
+    firebase.auth().signOut();
   }
 
-  onAuthStateChanged(cb) {
-    firebase.auth().onAuthStateChanged(cb);
+  private async handleSignUp(): Promise<void> {
+    const data = this.auth.currentUser;
+
+    const user: types.User = {
+      uid: data.uid,
+      firstname: data.displayName,
+      lastname: "",
+      photoURL: data.photoURL,
+    };
+
+    this.currentUser = user;
+
+    try {
+      await this.usersCollectionRef.add(user);
+    } catch (e) {
+      // TODO(qti3e) Alert user, or try again?
+    }
+  }
+
+  onAuthStateChanged(cb: (u: types.User) => void): void {
+    firebase.auth().onAuthStateChanged(async (user: firebase.UserInfo) => {
+      if (!user) return cb(undefined);
+      try {
+        this.currentUser = await this.queryUser(user.uid);
+        cb(this.currentUser);
+      } catch (e) {
+        if (e.name === types.ErrorCodes.UserNotFound && this.auth.currentUser) {
+          this.handleSignUp();
+          this.currentUser.firstLogin = true;
+          return cb(this.currentUser);
+        }
+        // TODO(qti3e) Handle this!
+        console.error(e);
+      }
+    });
   }
 }
 
 // Some util functions
+// TODO(qti3e) Move to util.ts
 export function thumbnailPath(userId, presentationId) {
   return `/data/${userId}/${presentationId}/thumb.png`;
 }
 
 export function ownsDoc(u: types.User, p: types.Presentation) {
-  return u.uid === p.owner.uid;
+  return u.uid === p.ownerId;
 }

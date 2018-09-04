@@ -75,3 +75,7 @@ export function delay(t: number): Promise<void> {
     setTimeout(r, t);
   });
 }
+
+export function goto(url: string): void {
+  location.hash = "#" + url;
+}

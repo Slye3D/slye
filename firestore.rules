@@ -7,14 +7,12 @@ service cloud.firestore {
     
     function dontChangeOwner() {
       return request.auth.uid != null
-            && request.auth.uid == resource.data.owner.uid
+            && request.auth.uid == resource.data.owner;
     }
 
     function validate() {
       return request.auth.uid != null
-          && request.resource.data.owner.uid == request.auth.uid
-          && request.resource.data.owner.photoURL is string
-          && request.resource.data.owner.displayName is string
+          && request.resource.data.owner == request.auth.uid
           && request.resource.data.updated == request.time;
     }
 
@@ -22,6 +20,21 @@ service cloud.firestore {
       allow read: if true;
       allow create: if validate() && createdNow();
       allow update: if validate() && dontChangeOwner();
+    }
+
+    // Users collection
+
+    function validateUser() {
+      return request.auth.uid != null
+        && request.resource.uid == request.auth.id
+        && request.resource.data.owner.photoURL is string
+        && request.resource.data.owner.displayName is string;
+    }
+
+    match /users/{user} {
+      allow read: if true;
+      allow create: if validateUser() && createdNow();
+      allow update: if validateUser() && request.auth.uid == resource.data.uid;
     }
   }
 }
