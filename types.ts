@@ -22,7 +22,7 @@ export interface Step {
 }
 
 export interface Presentation {
-  owner: User;
+  owner: string;
   steps: {
     [key: string]: Step
   };
@@ -36,9 +36,9 @@ export type Axis = "x" | "y" | "z";
 export type StepVec3Props = "position" | "orientation";
 
 export interface User {
+  uid: string;
   displayName: string;
   photoURL: string;
-  uid: string;
 }
 
 export interface SlyeRenderer {
