@@ -67,31 +67,35 @@ class FirestoreDB implements DB {
     this.storageRef = firebase.storage().ref();
   }
 
-  async queryLatest() {
+  private async exeQuery(
+    query: firebase.firestore.Query
+  ): Promise<types.PresentationInfo[]> {
+    const snapshots = await query.get();
+    const out: types.PresentationInfo[] = [];
+    const promises = [];
+    snapshots.forEach(async snap => {
+      const id = snap.id;
+      const data = snap.data() as types.Presentation;
+      // TODO(qti3e) It's possible to optimize this part.
+      const ownerInfo = this.queryUser(data.owner);
+      promises.push(ownerInfo);
+      out.push({ id, data, ownerInfo: await ownerInfo });
+    });
+    await Promise.all(promises);
+    return out;
+  }
+
+  queryLatest(): Promise<types.PresentationInfo[]> {
     const query = this.collectionRef.orderBy("created", "desc").limit(20);
-    const snapshots = await query.get();
-    const out = [];
-    snapshots.forEach(snap => {
-      const id = snap.id;
-      const data = snap.data() as types.Presentation;
-      out.push({ id, data, thumbnail: null });
-    });
-    return out;
+    return this.exeQuery(query);
   }
 
-  async queryProfile(uid) {
+  queryProfile(uid): Promise<types.PresentationInfo[]> {
     const query = this.collectionRef.where("owner.uid", "==", uid);
-    const snapshots = await query.get();
-    const out = [];
-    snapshots.forEach(snap => {
-      const id = snap.id;
-      const data = snap.data() as types.Presentation;
-      out.push({ id, data, thumbnail: null });
-    });
-    return out;
+    return this.exeQuery(query);
   }
 
-  async getPresentation(id) {
+  async getPresentation(id): Promise<types.Presentation> {
     const docRef = this.collectionRef.doc(id);
     const snap = await docRef.get();
     if (snap.exists) {

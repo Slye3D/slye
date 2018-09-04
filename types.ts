@@ -57,6 +57,7 @@ export interface SlyeRenderer {
 export interface PresentationInfo {
   id: string;
   data: Presentation;
+  ownerInfo: User;
 }
 
 export interface Actions {

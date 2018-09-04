@@ -26,11 +26,11 @@ const Preview = ({ info }: { info: types.PresentationInfo }) => (
       <Img src={ db.getThumbnailLink(info) } />
     </a>
     <div className="owner-box">
-      <img src={ info.data.owner.photoURL } />
+      <img src={ info.ownerInfo.photoURL } />
       <p>
         <span className="by">By </span>
-        <a href={ "#/profile/" + info.data.owner.uid }>
-          { info.data.owner.displayName }
+        <a href={ "#/profile/" + info.ownerInfo.uid }>
+          { info.ownerInfo.firstname + " " + info.ownerInfo.lastname }
         </a>
       </p>
     </div>

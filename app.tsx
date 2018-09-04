@@ -31,7 +31,7 @@ export class Slye extends Component<{}, {}> {
               <div className="drop user login button raised">
                 <div
                   className="center">
-                  Hello, { values.Auth.currentUser.displayName }
+                  Hello, { values.Auth.currentUser.firstname }!
                   </div>
                 <ul>
                   <li>
