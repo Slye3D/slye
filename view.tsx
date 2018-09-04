@@ -32,7 +32,7 @@ export class View extends Component<{}, ViewState> {
   async componentWillMount() {
     const id = (this.props as any).match.params.id;
     const presentation = await db.getPresentation(id);
-    const owner = await db.queryUser(presentation.owner);
+    const owner = await db.queryUser(presentation.ownerId);
     this.setState({ loading: false, owner, presentation });
   }
 

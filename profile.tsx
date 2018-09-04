@@ -34,7 +34,7 @@ interface ProfileState {
 }
 
 export class Profile extends Component<{}, ProfileState> {
-  state = {
+  state: ProfileState = {
     isLoading: true,
     presentations: null,
     user: null
@@ -46,7 +46,7 @@ export class Profile extends Component<{}, ProfileState> {
     const presentations = await db.queryProfile(this.uid);
     let user;
     if (presentations.length > 0) {
-      user = presentations[0].data.owner;
+      user = presentations[0].data.ownerId;
     } else {
       // TODO Save users info in some document.
       // user = await db.getUser(uid);
@@ -75,7 +75,7 @@ export class Profile extends Component<{}, ProfileState> {
       <div id="profile-page">
       <div className="user">
         <img src={ user.photoURL } />
-        <h3>{ user.displayName }</h3>
+        <h3>{ user.firstname }</h3>
       </div>
       <div className="list">
         { presentations.map(p => <Preview

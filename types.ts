@@ -22,7 +22,7 @@ export interface Step {
 }
 
 export interface Presentation {
-  owner: string;
+  ownerId: string;
   steps: {
     [key: string]: Step
   };
@@ -37,7 +37,13 @@ export type StepVec3Props = "position" | "orientation";
 
 export interface User {
   uid: string;
-  username: string;
+  // TODO(qti3e) Find a way to support usernames,
+  // firestore does not support uniqu keys atm.
+  // But we can accomplish this using:
+  //
+  // 1) Firebase cloud functions.
+  // 2) Store like: /usernames/{username}
+  // username: string;
   firstname: string;
   lastname: string;
   photoURL: string;

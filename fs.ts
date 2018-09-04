@@ -77,7 +77,7 @@ class FirestoreDB implements DB {
       const id = snap.id;
       const data = snap.data() as types.Presentation;
       // TODO(qti3e) It's possible to optimize this part.
-      const ownerInfo = this.queryUser(data.owner);
+      const ownerInfo = this.queryUser(data.ownerId);
       promises.push(ownerInfo);
       out.push({ id, data, ownerInfo: await ownerInfo });
     });
@@ -176,7 +176,6 @@ class FirestoreDB implements DB {
       uid: data.uid,
       firstname: data.displayName,
       lastname: "",
-      username: data.uid,
       photoURL: data.photoURL,
     };
 
@@ -215,5 +214,5 @@ export function thumbnailPath(userId, presentationId) {
 }
 
 export function ownsDoc(u: types.User, p: types.Presentation) {
-  return u.uid === p.owner;
+  return u.uid === p.ownerId;
 }
