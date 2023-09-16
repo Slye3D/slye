@@ -10,10 +10,11 @@
  */
 
 export const FS_CONFIG = {
-  apiKey: "AIzaSyASm8PZXgrnFzbEgaFo9WZbliJ8cviR9Xs",
-  authDomain: "slye-161715.firebaseapp.com",
-  databaseURL: "https://slye-161715.firebaseio.com",
-  projectId: "slye-161715",
-  storageBucket: "slye-161715.appspot.com",
-  messagingSenderId: "1070119163797"
+  apiKey: "AIzaSyCP5BsUd4pnOn094HVy1sAfA5FAWloXoa8",
+  authDomain: "slye-f0b83.firebaseapp.com",
+  projectId: "slye-f0b83",
+  storageBucket: "slye-f0b83.appspot.com",
+  messagingSenderId: "277841076789",
+  appId: "1:277841076789:web:3d8d9f787b0eb202f4477c",
+  measurementId: "G-VPCKDF94FZ"
 };

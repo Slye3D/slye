@@ -9,33 +9,33 @@
  *       Licence: MIT License
  */
 
-import firebase from "firebase/app";
+import * as firebase from "firebase/app";
 import { FS_CONFIG } from "./config";
 import * as types from "./types";
 import * as util from "./util";
 
-import "firebase/auth";
-import "firebase/firestore";
-import "firebase/storage";
+import { getAuth, Auth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
+import { getFirestore, CollectionReference, addDoc, serverTimestamp, orderBy, where, limit, query, Firestore, collection, getDocs, doc, getDoc, updateDoc } from "firebase/firestore";
+import { FirebaseStorage, getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
 export interface DB {
   // Social media
   queryLatest(): Promise<types.PresentationInfo[]>;
   queryProfile(uid: string): Promise<types.PresentationInfo[]>;
-  getPresentation(id): Promise<types.Presentation>;
+  getPresentation(id: string): Promise<types.Presentation>;
   getThumbnailLink(p: types.PresentationInfo): Promise<string>;
   // Create & edit presentation
   create(): Promise<string>;
-  uploadThumbnail(p: types.PresentationInfo, blob): Promise<void>;
+  uploadThumbnail(p: types.PresentationInfo, blob: Blob | Uint8Array | ArrayBuffer): Promise<void>;
   update(id: string, p: types.Presentation): Promise<void>;
   // Authentication
   login(): void;
   logout(): void;
-  onAuthStateChanged(cb: (u: types.User) => void);
+  onAuthStateChanged(cb: (u: types.User) => void): void;
 }
 
 export const db: DB = Object.create(null);
-declare const exports;
+declare const exports: any;
 
 export function enableFS() {
   const tmp = new FirestoreDB(FS_CONFIG);
@@ -47,27 +47,24 @@ export function enableMock() {
 }
 
 class FirestoreDB implements DB {
-  private auth: firebase.auth.Auth;
-  private db: firebase.firestore.Firestore;
-  private collectionRef: firebase.firestore.CollectionReference;
-  private storageRef: firebase.storage.Reference;
+  private auth: Auth;
+  private db: Firestore;
+  private collectionRef: CollectionReference;
+  private storage: FirebaseStorage;
 
-  constructor(config) {
-    firebase.initializeApp(config);
-    this.auth = firebase.auth();
-    this.db = firebase.firestore();
-    this.db.settings({
-      timestampsInSnapshots: true
-    });
-    this.collectionRef = this.db.collection("presentations");
-    this.storageRef = firebase.storage().ref();
+  constructor(config: any) {
+    const firebaseApp = firebase.initializeApp(config);
+    this.auth = getAuth(firebaseApp);
+    this.db = getFirestore(firebaseApp)
+    this.collectionRef = collection(this.db, "presentations");
+    this.storage = getStorage(firebaseApp);
   }
 
   async queryLatest() {
-    const query = this.collectionRef.orderBy("created", "desc").limit(20);
-    const snapshots = await query.get();
+    const q = query(this.collectionRef, orderBy("created", "desc"), limit(20));
+    const snapshots = await getDocs(q);
     const out = [];
-    snapshots.forEach(snap => {
+    snapshots.forEach((snap) => {
       const id = snap.id;
       const data = snap.data() as types.Presentation;
       out.push({ id, data, thumbnail: null });
@@ -75,11 +72,11 @@ class FirestoreDB implements DB {
     return out;
   }
 
-  async queryProfile(uid) {
-    const query = this.collectionRef.where("owner.uid", "==", uid);
-    const snapshots = await query.get();
+  async queryProfile(uid: string) {
+    const q = query(this.collectionRef, where("owner.uid", "==", uid));
+    const snapshots = await getDocs(q);
     const out = [];
-    snapshots.forEach(snap => {
+    snapshots.forEach((snap) => {
       const id = snap.id;
       const data = snap.data() as types.Presentation;
       out.push({ id, data, thumbnail: null });
@@ -87,9 +84,9 @@ class FirestoreDB implements DB {
     return out;
   }
 
-  async getPresentation(id) {
-    const docRef = this.collectionRef.doc(id);
-    const snap = await docRef.get();
+  async getPresentation(id: string) {
+    const docRef = doc(this.collectionRef, id);
+    const snap = await getDoc(docRef);
     if (snap.exists) {
       return snap.data() as types.Presentation;
     } else {
@@ -97,10 +94,10 @@ class FirestoreDB implements DB {
     }
   }
 
-  getThumbnailLink(p) {
+  getThumbnailLink(p: types.PresentationInfo) {
     const path = thumbnailPath(p.data.owner.uid, p.id);
-    const thumbRef = this.storageRef.child(path);
-    return thumbRef.getDownloadURL();
+    const thumbRef = ref(this.storage, path);
+    return getDownloadURL(thumbRef);
   }
 
   async create() {
@@ -110,55 +107,54 @@ class FirestoreDB implements DB {
       owner: {
         displayName: u.displayName,
         photoURL: u.photoURL,
-        uid: u.uid
+        uid: u.uid,
       },
       steps: {
-        [stepId]: util.emptyStep()
+        [stepId]: util.emptyStep(),
       },
-      created: firebase.firestore.FieldValue.serverTimestamp(),
-      updated: firebase.firestore.FieldValue.serverTimestamp(),
-      order: [stepId]
+      created: serverTimestamp(),
+      updated: serverTimestamp(),
+      order: [stepId],
     };
-    const doc = await this.collectionRef.add(presentation);
+    const doc = await addDoc(this.collectionRef, presentation);
     return doc.id;
   }
 
-  async uploadThumbnail(p, blob) {
+  async uploadThumbnail(p: types.PresentationInfo, blob: Blob | Uint8Array | ArrayBuffer) {
     const userId = p.data.owner.uid;
     const path = thumbnailPath(userId, p.id);
-    const ref = this.storageRef.child(path);
-    await ref.put(blob);
+    await uploadBytes(ref(this.storage, path), blob);
   }
 
   async update(id: string, p: types.Presentation) {
     if (!ownsDoc(this.auth.currentUser, p)) {
       throw new Error("Not owned by this user.");
     }
-    const docRef = this.collectionRef.doc(id);
+    const docRef = doc(this.collectionRef, id);
     const newProps = {
       steps: p.steps,
       order: p.order,
-      updated: firebase.firestore.FieldValue.serverTimestamp()
+      updated: serverTimestamp(),
     };
-    await docRef.update(newProps);
+    await updateDoc(docRef, newProps);
   }
 
   login() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    return firebase.auth().signInWithPopup(provider);
+    const provider = new GoogleAuthProvider();
+    return signInWithPopup(this.auth, provider);
   }
 
   logout() {
-    return firebase.auth().signOut();
+    return signOut(this.auth);
   }
 
-  onAuthStateChanged(cb) {
-    firebase.auth().onAuthStateChanged(cb);
+  onAuthStateChanged(cb: (u: types.User) => void) {
+    onAuthStateChanged(this.auth, cb);
   }
 }
 
 // Some util functions
-export function thumbnailPath(userId, presentationId) {
+export function thumbnailPath(userId: string, presentationId: string) {
   return `/data/${userId}/${presentationId}/thumb.png`;
 }
 

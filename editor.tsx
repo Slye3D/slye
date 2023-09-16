@@ -10,7 +10,7 @@
  */
 
 import React, { Component } from "react";
-import * as screenfull from "screenfull";
+import screenfull from "screenfull";
 import { db } from "./fs";
 import { Player } from "./player";
 import { saveThumbnail } from "./thumbnail";
@@ -42,47 +42,47 @@ class Step extends Component<StepProps, {}> {
   render() {
     return (
       <div className="step">
-        <button className="delete" onClick={ this.handleDelete } />
+        <button className="delete" onClick={this.handleDelete} />
         <input
           type="text"
           placeholder="Text..."
-          defaultValue={ this.props.step.text }
-          onChange={ this.handleTextChange }/>
+          defaultValue={this.props.step.text}
+          onChange={this.handleTextChange} />
         Position:
         <div className="position">
           <input
             type="number"
             placeholder="X"
-            defaultValue={ this.props.step.position.x + "" }
-            onChange={ this.handleVec3Change.bind(this, "position", "x") } />
+            defaultValue={this.props.step.position.x + ""}
+            onChange={this.handleVec3Change.bind(this, "position", "x")} />
           <input
             type="number"
             placeholder="Y"
-            defaultValue={ this.props.step.position.y + "" }
-            onChange={ this.handleVec3Change.bind(this, "position", "y") } />
+            defaultValue={this.props.step.position.y + ""}
+            onChange={this.handleVec3Change.bind(this, "position", "y")} />
           <input
             type="number"
             placeholder="Z"
-            defaultValue={ this.props.step.position.z + "" }
-            onChange={ this.handleVec3Change.bind(this, "position", "z") } />
+            defaultValue={this.props.step.position.z + ""}
+            onChange={this.handleVec3Change.bind(this, "position", "z")} />
         </div>
         Orientation:
         <div className="orientation">
           <input
             type="number"
             placeholder="X"
-            defaultValue={ this.props.step.orientation.x + "" }
-            onChange={ this.handleVec3Change.bind(this, "orientation", "x") } />
+            defaultValue={this.props.step.orientation.x + ""}
+            onChange={this.handleVec3Change.bind(this, "orientation", "x")} />
           <input
             type="number"
             placeholder="Y"
-            defaultValue={ this.props.step.orientation.y + "" }
-            onChange={ this.handleVec3Change.bind(this, "orientation", "y") } />
+            defaultValue={this.props.step.orientation.y + ""}
+            onChange={this.handleVec3Change.bind(this, "orientation", "y")} />
           <input
             type="number"
             placeholder="Z"
-            defaultValue={ this.props.step.orientation.z + "" }
-            onChange={ this.handleVec3Change.bind(this, "orientation", "z") } />
+            defaultValue={this.props.step.orientation.z + ""}
+            onChange={this.handleVec3Change.bind(this, "orientation", "z")} />
         </div>
       </div>
     );
@@ -190,7 +190,7 @@ export class Editor extends Component<{}, EditorState> {
 
   handlePlayer = p => {
     if (!p) return;
-    if (screenfull.enabled) {
+    if (screenfull.isEnabled) {
       this.closePlayer = false;
       screenfull.request(p.playerDiv);
       p.iFrame.focus();
@@ -211,28 +211,28 @@ export class Editor extends Component<{}, EditorState> {
       return (
         <div id="editor">
           <Player
-            presentation={ this.data }
-            ref={ this.handlePlayer}
-            onClose={ this.togglePlayer } />
+            presentation={this.data}
+            ref={this.handlePlayer}
+            onClose={this.togglePlayer} />
         </div>
       );
     }
     return (
       <div id="editor">
         <div className="steps-list">
-          { [...this.state.order].map(id => (
+          {[...this.state.order].map(id => (
             <Step
-              key={ "step" + id }
-              step={ this.state.steps.get(id) }
-              onDelete={ this.handleStepDelete.bind(this, id) }
-              onChange={ this.handleStepChange.bind(this, id) } />
-          )) }
+              key={"step" + id}
+              step={this.state.steps.get(id)}
+              onDelete={this.handleStepDelete.bind(this, id)}
+              onChange={this.handleStepChange.bind(this, id)} />
+          ))}
           <button
             className="btn-icon new-step"
-            onClick={ this.handleNewStep } />
+            onClick={this.handleNewStep} />
           <button
             className="btn-icon play"
-            onClick={ this.togglePlayer } />
+            onClick={this.togglePlayer} />
         </div>
       </div>
     );

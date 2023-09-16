@@ -9,27 +9,27 @@
   "private": true,
   "devDependencies": {
     "@types/react": "^16.3.16",
-    "@types/three": "^0.92.3",
+    "@types/three": "^0.156.0",
     "liltest": "^0.0.5",
-    "mime": "^2.3.1",
-    "node-sass": "^4.9.0",
-    "parcel-bundler": "^1.8.1",
-    "puppeteer": "^1.5.0",
-    "rimraf": "^2.6.2",
-    "tslint": "^5.10.0",
-    "tslint-eslint-rules": "^5.3.1",
-    "tslint-no-circular-imports": "^0.5.0",
-    "typescript": "^2.9.1"
+    "mime": "^3.0.0",
+    "node-sass": "^9.0.0",
+    "parcel-bundler": "^1.12.5",
+    "puppeteer": "^21.2.1",
+    "rimraf": "^5.0.1",
+    "tslint": "^6.1.3",
+    "tslint-eslint-rules": "^5.4.0",
+    "tslint-no-circular-imports": "^0.7.0",
+    "typescript": "^5.2.2"
   },
   "dependencies": {
-    "@tweenjs/tween.js": "^17.2.0",
-    "firebase": "^5.0.4",
+    "@tweenjs/tween.js": "^21.0.0",
+    "firebase": "^10.4.0",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.3.1",
-    "screenfull": "^3.3.2",
-    "three": "^0.93.0"
+    "screenfull": "^5.2.0",
+    "three": "^0.156.1"
   },
   "browserslist": [
     "chrome 69"

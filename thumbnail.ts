@@ -18,7 +18,7 @@ import { db } from "./fs";
 import { Renderer } from "./renderer";
 import * as types from "./types";
 
-async function presentationToBlob(p: types.Presentation) {
+async function presentationToBlob(p: types.Presentation): Promise<Blob> {
   const renderer = new Renderer(p);
   await renderer.init();
   renderer.setSize(512, 288);
@@ -26,15 +26,15 @@ async function presentationToBlob(p: types.Presentation) {
     renderer.goTo(p.order[0], 0);
   }
   renderer.render(0);
-  let resolve;
-  const promise = new Promise(r => resolve = r);
+  let resolve: (_: Blob) => void;
+  const promise = new Promise<Blob>(r => resolve = r);
   renderer.canvas.toBlob(resolve);
   renderer.dispose();
   return await promise;
 }
 
-export async function saveThumbnail(id, p: types.Presentation) {
+export async function saveThumbnail(id: string, p: types.Presentation) {
   const blob = await presentationToBlob(p);
-  await db.uploadThumbnail(id, blob);
+  await db.uploadThumbnail({ id, data: p }, blob);
   console.log("uploaded thumbnail to server");
 }

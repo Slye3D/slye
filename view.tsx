@@ -10,7 +10,7 @@
  */
 
 import React, { Component } from "react";
-import * as screenfull from "screenfull";
+import screenfull from "screenfull";
 import { db } from "./fs";
 import { Player } from "./player";
 import * as types from "./types";
@@ -34,7 +34,7 @@ export class View extends Component<{}, ViewState> {
   }
 
   handleFullScreen = () => {
-    if (screenfull.enabled) {
+    if (screenfull.isEnabled) {
       screenfull.request(this.playerRef.playerDiv);
       this.playerRef.iFrame.focus();
     }
@@ -51,19 +51,19 @@ export class View extends Component<{}, ViewState> {
       <div id="view">
         <div className="player-wrapper">
           <Player
-            ref={ r => this.playerRef = r }
-            onClose={ () => null }
-            presentation={ this.state.presentation } />
+            ref={r => this.playerRef = r}
+            onClose={() => null}
+            presentation={this.state.presentation} />
           <div
             className="full-screen"
-            onClick={ this.handleFullScreen } />
+            onClick={this.handleFullScreen} />
         </div>
         <div className="author-info">
           <img
             className="avatar"
-            src={ this.state.presentation.owner.photoURL } />
-          <a className="name" href={ "#/profile/" + owner.uid }>
-            { owner.displayName }
+            src={this.state.presentation.owner.photoURL} />
+          <a className="name" href={"#/profile/" + owner.uid}>
+            {owner.displayName}
           </a>
         </div>
       </div>

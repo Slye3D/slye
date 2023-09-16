@@ -19,6 +19,7 @@
 
 import * as TWEEN from "@tweenjs/tween.js";
 import * as THREE from "three";
+import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import * as types from "./types";
 import * as util from "./util";
 
@@ -45,36 +46,42 @@ export class Renderer implements types.SlyeRenderer {
   private scene: THREE.Scene;
   private camera: THREE.PerspectiveCamera;
   private renderer: THREE.Renderer;
+  private tween: TWEEN.Group;
 
-  constructor(private presentation: types.Presentation) {}
+  constructor(private presentation: types.Presentation) { }
 
   private initThree() {
+    this.tween = new TWEEN.Group();
     this.scene = new THREE.Scene();
+
     const aspect = this.width / this.height;
     this.camera = new THREE.PerspectiveCamera(FOV, aspect, NEAR, FAR);
     this.camera.position.z = 30;
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(this.width, this.height);
     this.canvas = this.renderer.domElement;
-    // Lights
-    const lights = [];
-    lights[0] = new THREE.PointLight(0xffffff, 1, 0);
-    lights[1] = new THREE.PointLight(0xffffff, 1, 0);
-    lights[2] = new THREE.PointLight(0xffffff, 1, 0);
 
-    lights[0].position.set(0, 2000, 0);
-    lights[1].position.set(1000, 2000, 1000);
-    lights[2].position.set(-1000, -2000, - 1000);
+    const mainLight = new THREE.PointLight(0xe7e7e7, 2.5, 250, 0);
+    mainLight.position.y = 60;
+    this.scene.add(mainLight);
 
-    this.scene.add(lights[0]);
-    this.scene.add(lights[1]);
-    this.scene.add(lights[2]);
+    const greenLight = new THREE.PointLight(0x00ff00, 0.5, 1000, 0);
+    greenLight.position.set(550, 50, 0);
+    this.scene.add(greenLight);
+
+    const redLight = new THREE.PointLight(0xff0000, 0.5, 1000, 0);
+    redLight.position.set(- 550, 50, 0);
+    this.scene.add(redLight);
+
+    const blueLight = new THREE.PointLight(0xbbbbfe, 0.5, 1000, 0);
+    blueLight.position.set(0, 50, 550);
+    this.scene.add(blueLight);
   }
 
   private async drawStep(step: types.Step) {
     if (!step.text.trim()) return null;
     const font = await FONT;
-    const geometry = new THREE.TextGeometry(step.text, {
+    const geometry = new TextGeometry(step.text, {
       font,
       size: 10,
       height: 1,
@@ -141,19 +148,20 @@ export class Renderer implements types.SlyeRenderer {
     this.handleSizeChange();
   }
 
-  render(time) {
+  render(time: number) {
     this.renderer.render(this.scene, this.camera);
     this.camera.updateProjectionMatrix();
-    TWEEN.default.update(time);
+    this.tween.update(time);
   }
 
   goTo(id: string, duration = 1500) {
+    console.log("going to %s", id);
     if (!this.steps) return;
     this.active = id;
     const step = this.steps.get(id);
     const { x: ox, y: oy, z: oz } = step.orientation;
     // Find distance between camera and text.
-    const vFov = THREE.Math.degToRad(FOV);
+    const vFov = THREE.MathUtils.degToRad(FOV);
     const farHeight = 2 * Math.tan(vFov / 2) * FAR;
     const farWidth = farHeight * this.camera.aspect;
     let distance = (FAR * step.width / farWidth) / (2 / 3);
@@ -165,7 +173,7 @@ export class Renderer implements types.SlyeRenderer {
     const alignX = step.width / 2;
     const alighY = step.height / 2;
     const position = new THREE.Vector3(alignX, alighY, distance);
-    const e = new THREE.Euler(ox, oy, oz, "XYZ" );
+    const e = new THREE.Euler(ox, oy, oz, "XYZ");
     position.applyEuler(e);
     position.add(util.toThreeVec3(step.position));
 
@@ -179,12 +187,12 @@ export class Renderer implements types.SlyeRenderer {
       return;
     }
 
-    new TWEEN.Tween(this.camera.position)
+    new TWEEN.Tween(this.camera.position, this.tween)
       .to(position, duration)
       .easing(TWEEN.Easing.Quadratic.In)
       .start();
 
-    new TWEEN.Tween(this.camera.rotation)
+    new TWEEN.Tween(this.camera.rotation, this.tween)
       .to(step.orientation, duration)
       .easing(TWEEN.Easing.Quadratic.In)
       .start();
